@@ -1091,21 +1091,10 @@
   }
   .lead-status[data-state="ok"]{color:var(--accent);}
   .lead-status[data-state="err"]{color:var(--danger);}
-  .run-guide-form{margin-top:var(--space-5);max-width:34rem;}
-  .run-guide-recap{margin-top:var(--space-5);max-width:34rem;}
-  .run-guide-recap-note{
-    margin-top:1rem;
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.8rem;
-    color:var(--accent);
-  }
-
   /* ---------- install-command gate ---------- */
   [data-gate-content]{display:none;}
   html[data-cnd-unlocked="true"] [data-gate-cta]{display:none;}
   html[data-cnd-unlocked="true"] [data-gate-content]{display:block;}
-  html[data-cnd-unlocked="true"] .run-guide-form,
-  html[data-cnd-unlocked="true"] .run-guide-form + .lead-status{display:none;}
 
   .btn-cta{
     margin-top:2.1rem;
@@ -1529,50 +1518,6 @@
           </ul>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ============ GET CONDUCTOR ============ -->
-  <section id="run-guide" class="movement">
-    <div class="wrap">
-      <div class="section-head reveal" data-reveal>
-        <div class="movement-mark" aria-hidden="true"><svg class="staff-mini" viewBox="0 0 40 16"><line x1="0" y1="4" x2="40" y2="4"/><line x1="0" y1="8" x2="40" y2="8"/><line x1="0" y1="12" x2="40" y2="12"/></svg></div>
-        <p class="eyebrow">get conductor</p>
-        <h2>One email. Two things back.</h2>
-        <p data-gate-copy>Drop your email and the install command is right here, plus the run guide in your inbox: what to brief your first session on, how to read the usage split, and how to tell it's working. One note when a new skill ships. Nothing else, ever.</p>
-      </div>
-
-      <form class="lead-form run-guide-form reveal" data-reveal data-lead-form data-lead-source="section-gate" data-unlock-form novalidate>
-        <input class="hp-field" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" name="company_url" data-hp>
-        <div class="lead-field">
-          <label for="run-guide-name">Name <span class="mono" style="color:var(--text-faint);font-size:0.85em;">(optional)</span></label>
-          <input type="text" id="run-guide-name" name="name" autocomplete="given-name" placeholder="Your name">
-        </div>
-        <div class="lead-field">
-          <label for="run-guide-email">Email</label>
-          <input type="email" id="run-guide-email" name="email" autocomplete="email" inputmode="email" placeholder="you@company.com" data-lead-email required>
-        </div>
-        <button class="btn btn-solid lead-submit" type="submit">get conductor</button>
-      </form>
-      <p class="lead-status" data-lead-status role="status" aria-live="polite"></p>
-
-      <div class="run-guide-recap term reveal" data-reveal data-gate-recap hidden>
-        <div class="term-bar">
-          <div class="term-dots"><span></span><span></span><span></span></div>
-          <span class="term-label">install</span>
-        </div>
-        <div class="term-body">
-          <div class="term-cmd">
-            <span class="prompt-glyph">$</span>
-            <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash</span>
-            <button class="copy-btn" type="button" data-copy-btn data-copy-target="install-cmd-4">
-              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
-              <span data-copy-label>copy</span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <p class="run-guide-recap-note" data-gate-recap hidden>Run guide sent. Check your inbox.</p>
     </div>
   </section>
 
@@ -2243,9 +2188,6 @@
 
   function revealAll(){
     document.documentElement.setAttribute('data-cnd-unlocked', 'true');
-    var rgForm = document.querySelector('#run-guide [data-unlock-form]');
-    if (rgForm) rgForm.hidden = true;
-    document.querySelectorAll('#run-guide [data-gate-recap]').forEach(function(el){ el.hidden = false; });
   }
 
   if (isUnlocked()) revealAll();
@@ -2301,7 +2243,7 @@
     });
   }
 
-  /* ---------- gate: forms (modal + inline section-gate) ---------- */
+  /* ---------- gate: forms (modal) ---------- */
   document.querySelectorAll('[data-lead-form]').forEach(function(form){
     var statusEl = form.nextElementSibling;
     var emailEl = form.querySelector('[data-lead-email]');
