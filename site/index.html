@@ -29,7 +29,11 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script>window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}</script>
+<script defer data-domain="conductorskill.com" src="https://plausible.io/js/script.tagged-events.outbound-links.js"></script>
+<script>try{if(localStorage.getItem('cnd_unlocked'))document.documentElement.setAttribute('data-cnd-unlocked','true');}catch(e){}</script>
 
 <style>
   :root{
@@ -81,15 +85,63 @@
 
   img,svg{display:block;max-width:100%;}
 
-  h1,h2,h3{
-    font-family:'Space Grotesk',system-ui,sans-serif;
-    font-weight:600;
-    line-height:1.12;
-    letter-spacing:-0.01em;
+  h1,h2{
+    font-family:'Instrument Serif',Georgia,serif;
+    font-weight:400;
+    line-height:1.04;
+    letter-spacing:0;
     margin:0;
     color:var(--text);
     text-wrap:balance;
   }
+  h3{
+    font-family:'Inter',system-ui,sans-serif;
+    font-weight:600;
+    line-height:1.3;
+    letter-spacing:-0.005em;
+    margin:0;
+    color:var(--text);
+    text-wrap:balance;
+  }
+
+  /* ---------- score motif: movement marker ---------- */
+  main{counter-reset:movement;}
+  .movement{counter-increment:movement;}
+  .movement-mark{
+    display:flex;
+    align-items:center;
+    gap:0.65rem;
+    margin-bottom:0.9rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;
+    color:var(--text-faint);
+    letter-spacing:0.08em;
+  }
+  .movement-mark::before{
+    content:counter(movement,upper-roman);
+    color:var(--accent);
+    font-weight:600;
+  }
+  .movement-mark .staff-mini{width:36px;height:13px;flex:none;}
+  .movement-mark .staff-mini line{stroke:var(--line-strong);stroke-width:1;}
+
+  /* ---------- baton: page-progress line ---------- */
+  .baton{
+    position:fixed;
+    left:0;top:0;bottom:0;
+    width:2px;
+    background:var(--line);
+    z-index:150;
+    pointer-events:none;
+  }
+  .baton-fill{
+    width:100%;
+    height:0%;
+    background:var(--accent);
+    box-shadow:0 0 10px var(--accent-line);
+    transition:height 0.12s linear;
+  }
+  @media (max-width:600px){ .baton{display:none;} }
 
   code,.mono,kbd,pre{
     font-family:'JetBrains Mono',ui-monospace,monospace;
@@ -201,13 +253,27 @@
     display:flex;
     align-items:center;
     gap:0.55rem;
-    font-family:'Space Grotesk',sans-serif;
+    font-family:'JetBrains Mono',monospace;
     font-weight:600;
     font-size:1.05rem;
     letter-spacing:-0.01em;
     text-decoration:none;
     color:var(--text);
   }
+  .topbar-actions{display:flex;align-items:center;gap:0.9rem;}
+  .gh-link{
+    display:inline-flex;
+    align-items:center;
+    gap:0.4rem;
+    color:var(--text-dim);
+    text-decoration:none;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;
+    transition:color 0.2s var(--ease);
+  }
+  .gh-link:hover{color:var(--accent);}
+  .gh-link svg{width:19px;height:19px;flex:none;}
+  .gh-stars::before{content:'\2605';margin-right:0.2em;color:var(--accent);}
   .wordmark-glyph{
     width:22px;height:22px;
     flex:none;
@@ -292,20 +358,6 @@
     font-size:1.05rem;
     max-width:var(--measure);
   }
-  .grid-3{display:grid;gap:var(--space-4);grid-template-columns:1fr;}
-  @media (min-width:900px){.grid-3{grid-template-columns:repeat(3,1fr);}}
-  .grid-4{display:grid;gap:var(--space-4);grid-template-columns:1fr;}
-  @media (min-width:640px){.grid-4{grid-template-columns:repeat(2,1fr);}}
-  @media (min-width:1024px){.grid-4{grid-template-columns:repeat(4,1fr);}}
-  .card{
-    border:1px solid var(--line);
-    border-radius:var(--radius-lg);
-    background:var(--bg-panel);
-    padding:var(--space-4);
-    transition:border-color 0.25s var(--ease), transform 0.25s var(--ease);
-  }
-  .card-hover:hover{border-color:var(--line-strong);transform:translateY(-2px);}
-
   /* ---------- hero ---------- */
   .hero{
     padding-top:3.5rem;
@@ -403,7 +455,9 @@
      Percentage max-width cannot constrain intrinsic track sizing, so the
      single-column tracks must be minmax(0,1fr); desktop media rules override. */
   .term{min-width:0;max-width:100%;}
-  .hero-grid{grid-template-columns:minmax(0,1fr);}
+  @media (max-width:1023px){
+    .hero-grid{grid-template-columns:minmax(0,1fr);}
+  }
   .install-grid{grid-template-columns:minmax(0,1fr);}
   .term-cmd .prompt-glyph{color:var(--accent);flex:none;}
   .term-cmd .cmd-text{color:var(--text);}
@@ -554,6 +608,19 @@
     letter-spacing:0.01em;
   }
 
+  .noscript-note{
+    margin-top:1rem;
+    padding:0.75rem 0.9rem;
+    border:1px solid var(--accent-line);
+    border-radius:var(--radius-sm);
+    background:var(--accent-wash);
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;
+    line-height:1.5;
+    color:var(--accent);
+  }
+  .noscript-note a{color:inherit;text-decoration:underline;text-underline-offset:3px;}
+
   .script-link{
     color:var(--text-dim);
     text-decoration:underline;
@@ -606,10 +673,16 @@
   .problem-body strong{color:var(--text);font-weight:600;}
 
   /* ---------- how it works ---------- */
-  .how-list{counter-reset:step;list-style:none;margin:0;padding:0;}
+  .how-list{counter-reset:step;list-style:none;margin:0;padding:0;border-top:1px solid var(--line);}
+  @media (min-width:900px){.how-list{display:grid;grid-template-columns:repeat(3,1fr);border-top:none;}}
   .how-item{
     counter-increment:step;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent), var(--bg-panel);
+    border-bottom:1px solid var(--line);
+    padding:1.6rem 0;
+    background:none;
+  }
+  @media (min-width:900px){
+    .how-item{border-bottom:none;border-top:1px solid var(--line);padding:1.75rem 1.75rem 0 0;}
   }
   .how-item::before{
     content:counter(step, decimal-leading-zero);
@@ -622,6 +695,54 @@
   }
   .how-item h3{font-size:1.15rem;margin-bottom:var(--space-1);}
   .how-item p{color:var(--text-dim);font-size:0.95rem;margin:0;}
+
+  /* ---------- diagram legend + requirements emphasis ---------- */
+  .diagram-legend{
+    text-align:center;
+    margin-top:var(--space-2);
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;
+    color:var(--text-faint);
+  }
+  .diagram-legend .tier-name{color:var(--accent-dim);}
+
+  /* ---------- harness toggle ---------- */
+  .harness-toggle{
+    display:inline-flex;
+    gap:0.2rem;
+    padding:0.2rem;
+    border:1px solid var(--line-strong);
+    border-radius:999px;
+    background:var(--bg-panel);
+    margin-bottom:1.1rem;
+  }
+  .harness-tab{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;
+    font-weight:500;
+    padding:0.4rem 0.85rem;
+    border-radius:999px;
+    border:none;
+    background:transparent;
+    color:var(--text-dim);
+    cursor:pointer;
+    transition:background-color 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .harness-tab[aria-selected="true"]{
+    background:var(--accent-wash);
+    color:var(--accent);
+  }
+  .harness-tab:hover{color:var(--text);}
+  .harness-tab[aria-selected="true"]:hover{color:var(--accent);}
+
+  /* ---------- requirements emphasis ---------- */
+  .req-list li{
+    border-left:2px solid transparent;
+    padding-left:0.65rem;
+    transition:border-color 0.2s var(--ease), opacity 0.2s var(--ease);
+  }
+  .req-list li[data-req-active="true"]{border-color:var(--accent-line);}
+  .req-list li[data-req-active="false"]{opacity:0.62;}
 
   .diagram{
     margin-top:var(--space-6);
@@ -651,41 +772,71 @@
     color:var(--text-faint);
   }
 
-  /* ---------- crew cards ---------- */
-  .crew-card{background:var(--bg-raised);}
-  .crew-icon{
-    width:38px;height:38px;
-    border-radius:var(--radius-sm);
-    background:var(--accent-wash);
+  /* ---------- crew: score row (not cards) ---------- */
+  .score{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:2.5rem;
+    padding-top:2.75rem;
+    margin-top:0.5rem;
+  }
+  .score::before{
+    content:'';
+    position:absolute;
+    left:0;right:0;top:0;
+    border-top:1px solid var(--line-strong);
+    box-shadow:0 7px 0 -1px var(--line), 0 -7px 0 -1px var(--line);
+  }
+  .score-note{position:relative;display:flex;flex-direction:column;align-items:flex-start;min-width:0;}
+  .score .crew-icon{
+    width:34px;height:34px;
+    border-radius:50%;
+    background:var(--bg);
     border:1px solid var(--accent-line);
     display:flex;align-items:center;justify-content:center;
+    margin-top:-2.15rem;
     margin-bottom:var(--space-3);
+    flex:none;
   }
-  .crew-icon svg{width:18px;height:18px;color:var(--accent);}
+  .score .crew-icon svg{width:16px;height:16px;color:var(--accent);}
   .crew-name{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;color:var(--text);}
   .crew-tier{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent);margin-left:var(--space-1);}
-  .crew-desc{margin-top:var(--space-1);color:var(--text-dim);font-size:0.95rem;}
-  .crew-footnote{margin-top:var(--space-5);font-size:0.95rem;color:var(--text-faint);max-width:48rem;}
+  .crew-desc{margin-top:var(--space-1);color:var(--text-dim);font-size:0.9rem;}
+  .crew-footnote{margin-top:var(--space-6);font-size:0.95rem;color:var(--text-faint);max-width:48rem;}
   .crew-footnote code{color:var(--accent);font-size:0.85em;}
+  @media (max-width:760px){
+    .score{grid-template-columns:1fr;gap:2.25rem;padding-top:0.25rem;padding-left:1.6rem;}
+    .score::before{left:0;top:0;bottom:0;right:auto;border-top:none;border-left:1px solid var(--line-strong);box-shadow:7px 0 0 -1px var(--line), -7px 0 0 -1px var(--line);}
+    .score .crew-icon{margin-top:0;margin-left:-2.15rem;}
+  }
 
-  /* ---------- feature grid (plain card variant) ---------- */
-  .feature-item{background:transparent;border-color:var(--line);}
-  .feature-item h3{
-    font-size:1.05rem;
-    margin-bottom:var(--space-2);
-    display:flex;
-    align-items:baseline;
-    gap:0.55rem;
+  /* ---------- activation: timeline + diff visual ---------- */
+  .timeline{list-style:none;margin:0;padding:0;border-top:1px solid var(--line);}
+  .timeline-item{
+    display:grid;
+    grid-template-columns:2.75rem minmax(0,1fr);
+    gap:1rem;
+    padding:1.6rem 0;
+    border-bottom:1px solid var(--line);
+    align-items:start;
   }
-  .feature-item h3::before{
-    content:'';
-    width:6px;height:6px;
-    border-radius:50%;
-    background:var(--accent);
-    flex:none;
-    transform:translateY(-2px);
+  .timeline-num{font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.8rem;padding-top:0.2rem;}
+  .timeline-item h3{font-size:1.1rem;margin-bottom:0.4rem;}
+  .timeline-item p{color:var(--text-dim);font-size:0.95rem;margin:0;max-width:38rem;}
+  .activation-visual{margin-top:var(--space-6);max-width:38rem;}
+  .diff-pre{
+    margin:0;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.83rem;
+    line-height:1.75;
+    color:var(--text-faint);
+    white-space:pre-wrap;
   }
-  .feature-item p{color:var(--text-dim);font-size:0.95rem;margin:0;padding-left:1.15rem;}
+  .diff-add{color:var(--accent);display:block;}
+
+  /* ---------- oracle ---------- */
+  .oracle-body{max-width:44rem;}
 
   /* ---------- math (now opens install) ---------- */
   .math-panel{
@@ -697,12 +848,12 @@
   .math-panel p{color:var(--text-dim);font-size:1.05rem;max-width:48rem;margin:0;}
   .math-panel strong{color:var(--accent);font-weight:600;font-family:'JetBrains Mono',monospace;}
   .math-panel .math-big{
-    font-family:'Space Grotesk',sans-serif;
-    font-size:clamp(2.2rem, 1.7rem + 2vw, 3.2rem);
-    font-weight:600;
+    font-family:'Instrument Serif',Georgia,serif;
+    font-size:clamp(2.4rem, 1.8rem + 2.4vw, 3.6rem);
+    font-weight:400;
     color:var(--text);
     margin-bottom:var(--space-3);
-    letter-spacing:-0.01em;
+    letter-spacing:0;
   }
   .math-panel .math-big span{color:var(--accent);}
   .math-eyebrow{margin-bottom:var(--space-4);}
@@ -776,9 +927,9 @@
     background:none;
     border:none;
     color:var(--text);
-    font-family:'Space Grotesk',sans-serif;
+    font-family:'Inter',system-ui,sans-serif;
     font-size:1rem;
-    font-weight:500;
+    font-weight:600;
     text-align:left;
     cursor:pointer;
     transition:background-color 0.25s var(--ease), color 0.25s var(--ease);
@@ -827,7 +978,6 @@
     border-top:1px solid var(--line);
     border-bottom:1px solid var(--line);
   }
-  #crew .crew-card{background:var(--bg-panel);}
 
   /* ---------- closing cta ---------- */
   .closing-cta{padding-top:4rem;padding-bottom:4rem;}
@@ -891,6 +1041,146 @@
     max-width:60ch;
   }
 
+  /* ---------- lead capture forms ---------- */
+  .lead-form{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.6rem;
+    align-items:flex-start;
+  }
+  .lead-form .lead-field{
+    display:flex;
+    flex-direction:column;
+    gap:0.3rem;
+    flex:1 1 14rem;
+    min-width:0;
+  }
+  .lead-form label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;
+    color:var(--text-faint);
+    letter-spacing:0.04em;
+  }
+  .lead-form input[type="text"],
+  .lead-form input[type="email"]{
+    width:100%;
+    background:var(--bg-panel);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius-sm);
+    padding:0.6rem 0.75rem;
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:0.9rem;
+    transition:border-color 0.2s var(--ease);
+  }
+  .lead-form input[type="text"]:focus-visible,
+  .lead-form input[type="email"]:focus-visible{
+    border-color:var(--accent-line);
+    outline:2px solid var(--accent);
+    outline-offset:1px;
+  }
+  .lead-form .hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+  .lead-submit{
+    align-self:flex-end;
+    flex:none;
+  }
+  .lead-status{
+    margin-top:0.7rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.82rem;
+  }
+  .lead-status[data-state="ok"]{color:var(--accent);}
+  .lead-status[data-state="err"]{color:var(--danger);}
+  .run-guide-form{margin-top:var(--space-5);max-width:34rem;}
+  .run-guide-recap{margin-top:var(--space-5);max-width:34rem;}
+  .run-guide-recap-note{
+    margin-top:1rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;
+    color:var(--accent);
+  }
+
+  /* ---------- install-command gate ---------- */
+  [data-locked-term] .term-body{position:relative;}
+  [data-locked-term] .term-cmd{filter:blur(6px);user-select:none;}
+  [data-locked-term] .copy-btn{display:none;}
+  [data-locked-term] .term-lock{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0.75rem;
+    background:rgba(5,6,10,0.62);
+  }
+  .term-unlock-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.82rem;
+    font-weight:500;
+    padding:0.55rem 1rem;
+    border-radius:999px;
+    border:1px solid var(--accent-line);
+    background:var(--accent-wash);
+    color:var(--accent);
+    cursor:pointer;
+    transition:background-color 0.2s var(--ease), transform 0.15s var(--ease);
+  }
+  .term-unlock-btn:hover{background:rgba(110,231,160,0.18);}
+  .term-unlock-btn:active{transform:scale(0.97);}
+  html[data-cnd-unlocked="true"] [data-locked-term] .term-cmd{filter:none;user-select:auto;}
+  html[data-cnd-unlocked="true"] [data-locked-term] .copy-btn{display:inline-flex;}
+  html[data-cnd-unlocked="true"] [data-locked-term] .term-lock{display:none;}
+  html[data-cnd-unlocked="true"] .run-guide-form,
+  html[data-cnd-unlocked="true"] .run-guide-form + .lead-status{display:none;}
+
+  /* ---------- lead modal ---------- */
+  .lead-modal{
+    position:fixed;
+    inset:0;
+    z-index:300;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:1.5rem;
+  }
+  .lead-modal[hidden]{display:none;}
+  .lead-modal-scrim{
+    position:absolute;
+    inset:0;
+    background:rgba(5,6,10,0.72);
+    backdrop-filter:blur(4px);
+    -webkit-backdrop-filter:blur(4px);
+  }
+  .lead-modal-card{
+    position:relative;
+    width:100%;
+    max-width:26rem;
+    background:var(--bg-panel);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius-lg);
+    padding:var(--space-5);
+    box-shadow:0 24px 60px -20px rgba(0,0,0,0.7);
+  }
+  .lead-modal-x{
+    position:absolute;
+    top:0.9rem;right:0.9rem;
+    width:28px;height:28px;
+    display:flex;align-items:center;justify-content:center;
+    background:none;
+    border:none;
+    color:var(--text-faint);
+    font-size:1.3rem;
+    line-height:1;
+    cursor:pointer;
+    border-radius:50%;
+    transition:color 0.2s var(--ease), background-color 0.2s var(--ease);
+  }
+  .lead-modal-x:hover{color:var(--text);background:var(--accent-wash);}
+  .lead-modal-title{font-size:1.4rem;margin-bottom:0.5rem;max-width:none;}
+  .lead-modal-sub{color:var(--text-dim);font-size:0.92rem;margin:0 0 1.25rem;}
+  .lead-modal-trust{margin-top:1rem;font-size:0.78rem;color:var(--text-faint);}
+  .lead-modal .lead-submit{flex:1 1 100%;}
+
   /* ---------- reduced motion ---------- */
   @media (prefers-reduced-motion: reduce){
     *{
@@ -914,7 +1204,8 @@
   /* ---------- print ---------- */
   @media print{
     body{background:#fff;color:#111;}
-    .bg-fixed,.bg-grid,.topbar .btn,.diagram svg,.copy-btn,.readout{display:none !important;}
+    .bg-fixed,.bg-grid,.topbar .btn,.diagram svg,.copy-btn,.readout,.baton,.harness-toggle,.lead-form,.lead-status,.lead-modal,.term-lock{display:none !important;}
+    [data-locked-term] .term-cmd{filter:none !important;}
     a{color:#111;text-decoration:underline;}
     .script-link::after,footer a::after{content:" (" attr(href) ")";font-size:0.8em;color:#555;}
     .term{border:1px solid #999 !important;box-shadow:none !important;background:#fff !important;}
@@ -930,10 +1221,11 @@
   .faq-a{max-height:none !important;}
 </style></noscript>
 <a class="skip-link" href="#hero-command">Skip to install command</a>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="icon-copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M3.5 10.5H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v.5" stroke="currentColor" stroke-width="1.3" fill="none"/></symbol><symbol id="icon-check" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol><symbol id="icon-wordmark" viewBox="0 0 24 24" fill="#6ee7a0"><rect x="3" y="13" width="4" height="8" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></symbol></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="icon-copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M3.5 10.5H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v.5" stroke="currentColor" stroke-width="1.3" fill="none"/></symbol><symbol id="icon-check" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol><symbol id="icon-wordmark" viewBox="0 0 24 24" fill="#6ee7a0"><rect x="3" y="13" width="4" height="8" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></symbol><symbol id="icon-github" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C3.58 0 0 3.67 0 8.2c0 3.62 2.29 6.69 5.47 7.78.4.08.55-.18.55-.39 0-.19-.01-.83-.01-1.51-2.01.38-2.53-.5-2.69-.96-.09-.24-.48-.96-.82-1.16-.28-.15-.68-.53-.01-.54.63-.01 1.08.59 1.23.83.72 1.24 1.87.89 2.33.68.07-.53.28-.89.51-1.1-1.78-.2-3.64-.91-3.64-4.02 0-.89.31-1.62.82-2.19-.08-.2-.36-1.04.08-2.16 0 0 .67-.22 2.2.83.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.06 2.2-.83 2.2-.83.44 1.12.16 1.96.08 2.16.51.57.82 1.29.82 2.19 0 3.12-1.87 3.82-3.65 4.02.29.26.54.76.54 1.53 0 1.11-.01 1.99-.01 2.27 0 .21.15.47.55.39A8.21 8.21 0 0 0 16 8.2C16 3.67 12.42 0 8 0z"/></symbol></svg>
 
 <div class="bg-fixed" aria-hidden="true"></div>
 <div class="bg-grid" aria-hidden="true"></div>
+<div class="baton" aria-hidden="true"><div class="baton-fill" id="baton-fill"></div></div>
 
 <header class="topbar">
   <div class="wrap topbar-inner">
@@ -941,7 +1233,14 @@
       <svg class="wordmark-glyph" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-wordmark"/></svg>
       conductor
     </a>
-    <a class="btn btn-solid" href="#hero-command">install</a>
+    <div class="topbar-actions">
+      <a class="gh-link" href="https://github.com/akaCT/conductor" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><use href="#icon-github"/></svg>
+        <span class="visually-hidden">Conductor on GitHub</span>
+        <span class="gh-stars" data-gh-stars hidden></span>
+      </a>
+      <a class="btn btn-solid" href="#hero-command">install</a>
+    </div>
   </div>
 </header>
 
@@ -954,9 +1253,9 @@
         <div>
           <p class="eyebrow">for Claude Code + Codex</p>
           <h1>Same work. <span class="nowrap accent-num">Up to 80%</span> less plan usage.</h1>
-          <p class="hero-sub">Right now every grep and every test file burns your most expensive model. Conductor keeps it for judgment and routes the labor to cheaper tiers. Usually 60-80% less burn. No magic, just routing.</p>
+          <p class="hero-sub">It's Wednesday and your weekly limit is gone. Not on judgment: on greps, boilerplate, and test files that all ran at your primary model's rate. Conductor keeps your best model for the thinking and routes the labor to cheaper tiers. No magic, just routing.</p>
 
-          <div class="term" id="hero-command">
+          <div class="term" id="hero-command" data-locked-term>
             <div class="term-bar">
               <div class="term-dots"><span></span><span></span><span></span></div>
               <span class="term-label">install</span>
@@ -970,16 +1269,24 @@
                   <span data-copy-label>copy</span>
                 </button>
               </div>
+              <div class="term-lock">
+                <button class="term-unlock-btn" type="button" data-gate-open="hero-gate">unlock with email</button>
+              </div>
             </div>
           </div>
           <p class="readout-caption">Backs up everything it touches. Managed markers. One-command undo.</p>
+          <noscript><p class="noscript-note">JavaScript is off, so the unlock flow will not run here. The install command is in the README: <a href="https://github.com/akaCT/conductor" target="_blank" rel="noopener">github.com/akaCT/conductor</a></p></noscript>
 
-          <p class="next-step" id="hero-next-step" hidden>Crew recruited. Open a new session and run <kbd>/conductor</kbd>.</p>
+          <p class="next-step" id="hero-next-step" hidden>Crew recruited. Open a new session and just work; it conducts on its own.</p>
 
           <a class="hero-secondary" href="#how-it-works">how it works ↓</a>
         </div>
 
         <div class="hero-demo-col">
+          <div class="harness-toggle" role="tablist" aria-label="Harness">
+            <button type="button" class="harness-tab" role="tab" aria-selected="true" data-harness-tab="claude">Claude Code</button>
+            <button type="button" class="harness-tab" role="tab" aria-selected="false" data-harness-tab="codex">Codex</button>
+          </div>
           <div class="readout reveal" data-reveal>
             <button type="button" class="readout-bar" id="readout-replay" aria-label="Replay the usage-split demo" title="replay">
               <span class="dot" aria-hidden="true"></span>
@@ -987,7 +1294,7 @@
             </button>
             <div class="readout-body">
               <pre id="typewriter" aria-live="off"></pre>
-              <noscript><pre>> /conductor add pagination to the users API + tests
+              <noscript><pre>> add pagination to the users API + tests
 
   Planning on your primary model...
   Dispatching wave (parallel):
@@ -1001,134 +1308,176 @@
   Dispatched: 2 builder (sonnet), 1 scout (haiku), 2 critic (sonnet)</pre></noscript>
             </div>
           </div>
-          <p class="readout-caption">One expensive thinker. Five cheap pairs of hands.</p>
+          <p class="readout-caption">One expensive thinker. Five cheap pairs of hands on this one job.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============ PROBLEM ============ -->
-  <section id="problem">
+  <section id="problem" class="movement">
     <div class="wrap">
       <div class="problem-body reveal" data-reveal>
+        <div class="movement-mark" aria-hidden="true"><svg class="staff-mini" viewBox="0 0 40 16"><line x1="0" y1="4" x2="40" y2="4"/><line x1="0" y1="8" x2="40" y2="8"/><line x1="0" y1="12" x2="40" y2="12"/></svg></div>
         <p class="eyebrow">the problem</p>
         <h2>Your best model is doing your worst work.</h2>
-        <p>Every grep, every boilerplate edit, every test file runs on your most expensive model and counts against your weekly limit at the highest rate. You are paying top-tier prices to do bottom-tier work. The fix is not a cheaper model. <strong>It is the right model for each job.</strong> That is what Conductor does.</p>
+        <p>Fable 5 is the best model you can rent and the fastest way to torch a week's plan. Every grep, every boilerplate edit, every test file burns at your primary model's rate. Subagents make it worse: by default they inherit that same expensive model, which is how people lose half a weekly limit in one afternoon. The fix is not a cheaper model. <strong>It is the right model for each job.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ACTIVATION ============ -->
+  <section id="activation" class="movement">
+    <div class="wrap">
+      <div class="section-head reveal" data-reveal>
+        <div class="movement-mark" aria-hidden="true"><svg class="staff-mini" viewBox="0 0 40 16"><line x1="0" y1="4" x2="40" y2="4"/><line x1="0" y1="8" x2="40" y2="8"/><line x1="0" y1="12" x2="40" y2="12"/></svg></div>
+        <p class="eyebrow">what actually happens</p>
+        <h2>You don't run Conductor. Your next session becomes it.</h2>
+      </div>
+
+      <ol class="timeline reveal" data-reveal>
+        <li class="timeline-item">
+          <span class="timeline-num">01</span>
+          <div>
+            <h3>Install once.</h3>
+            <p>One command writes four pinned agents and one managed block into your CLAUDE.md (AGENTS.md on Codex).</p>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <span class="timeline-num">02</span>
+          <div>
+            <h3>Open a new session.</h3>
+            <p>It reads that block and takes the podium: from your first message it plans on your primary model and hands greps, builds, and reviews to the cheap tiers on its own. Nothing to remember, no new workflow.</p>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <span class="timeline-num">03</span>
+          <div>
+            <h3>Save /conductor for the big ones.</h3>
+            <p>Hand it a whole objective and it runs the full loop: recon, plan, parallel waves, verification rounds, synthesis. (Codex: <kbd>$conductor</kbd>.)</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="activation-visual term reveal" data-reveal>
+        <div class="term-bar">
+          <div class="term-dots"><span></span><span></span><span></span></div>
+          <span class="term-label" data-term-label-claude="CLAUDE.md" data-term-label-codex="AGENTS.md">CLAUDE.md</span>
+        </div>
+        <div class="term-body">
+          <pre class="diff-pre">  # ...your existing notes, untouched...
+<span class="diff-add">+ &lt;!-- conductor:start --&gt;</span>
+<span class="diff-add">+ Plan on your primary model.</span>
+<span class="diff-add" data-diff-line-claude="+ Route greps, builds, and reviews to sonnet and haiku." data-diff-line-codex="+ Route greps, builds, and reviews to gpt-5.4 and gpt-5.4-mini.">+ Route greps, builds, and reviews to sonnet and haiku.</span>
+<span class="diff-add">+ &lt;!-- conductor:end --&gt;</span>
+  # ...the rest of your CLAUDE.md, untouched...</pre>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ============ HOW IT WORKS ============ -->
-  <section id="how-it-works">
+  <section id="how-it-works" class="movement">
     <div class="wrap">
       <div class="section-head reveal" data-reveal>
+        <div class="movement-mark" aria-hidden="true"><svg class="staff-mini" viewBox="0 0 40 16"><line x1="0" y1="4" x2="40" y2="4"/><line x1="0" y1="8" x2="40" y2="8"/><line x1="0" y1="12" x2="40" y2="12"/></svg></div>
         <p class="eyebrow">how it works</p>
         <h2>You conduct. Cheaper models play.</h2>
       </div>
 
-      <ol class="how-list grid-3 reveal stagger" data-reveal>
-        <li class="card how-item">
+      <ol class="how-list reveal" data-reveal>
+        <li class="how-item">
           <h3>You conduct.</h3>
           <p>The session's primary model does only what expensive reasoning is for: intent, decomposition, routing, judgment, synthesis.</p>
         </li>
-        <li class="card how-item">
+        <li class="how-item">
           <h3>The crew plays.</h3>
-          <p>Builders (sonnet) write the code, scouts (haiku) gather facts, critics (sonnet) review, all in parallel.</p>
+          <p>Builders write the code, scouts gather facts, critics review, all in parallel, all at crew prices.</p>
         </li>
-        <li class="card how-item">
+        <li class="how-item">
           <h3>Your plan stretches.</h3>
           <p>Weekly limits weight usage by per-token cost, and the labor is the bulk of the tokens. Move the labor down a tier and the same plan does more work.</p>
         </li>
       </ol>
 
       <div class="diagram reveal" data-reveal>
-        <svg class="diagram-wide" viewBox="0 0 760 260" role="img" aria-labelledby="diagram-title"><title id="diagram-title">One conductor node fanning out to a builder, a scout, a critic, and an architect worker node</title><defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="rgba(110,231,160,.55)"/></marker></defs><line x1="150" y1="130" x2="290" y2="42" class="a1" marker-end="url(#arrow)"/><line x1="150" y1="130" x2="290" y2="106" class="a1" marker-end="url(#arrow)"/><line x1="150" y1="130" x2="290" y2="170" class="a1" marker-end="url(#arrow)"/><line x1="150" y1="130" x2="290" y2="234" class="a2" marker-end="url(#arrow)"/><g><rect x="20" y="95" width="130" height="70" rx="14" class="pri"/><text x="85" y="125" text-anchor="middle" class="t1">primary</text><text x="85" y="144" text-anchor="middle" class="t3">plan &#183; judge</text></g><g><rect x="300" y="7" width="150" height="60" rx="12" class="node"/><text x="375" y="32" text-anchor="middle" class="t1">builder</text><text x="375" y="50" text-anchor="middle" class="t2">sonnet</text></g><g><rect x="300" y="76" width="150" height="60" rx="12" class="node"/><text x="375" y="101" text-anchor="middle" class="t1">scout</text><text x="375" y="119" text-anchor="middle" class="t2">haiku</text></g><g><rect x="300" y="140" width="150" height="60" rx="12" class="node"/><text x="375" y="165" text-anchor="middle" class="t1">critic</text><text x="375" y="183" text-anchor="middle" class="t2">sonnet</text></g><g><rect x="300" y="204" width="150" height="60" rx="12" class="arc"/><text x="375" y="227" text-anchor="middle" class="t1">architect</text><text x="375" y="243" text-anchor="middle" class="t2">opus</text><text x="375" y="257" text-anchor="middle" class="t4">epics only</text></g><line x1="450" y1="42" x2="590" y2="130" class="lk"/><line x1="450" y1="106" x2="590" y2="130" class="lk"/><line x1="450" y1="170" x2="590" y2="130" class="lk"/><line x1="450" y1="234" x2="590" y2="130" class="lk2"/><g><rect x="600" y="95" width="140" height="70" rx="14" class="node"/><text x="670" y="125" text-anchor="middle" class="t1">synthesis</text><text x="670" y="144" text-anchor="middle" class="t3">back to you</text></g></svg>
+        <svg class="diagram-wide" viewBox="0 0 760 260" role="img" aria-labelledby="diagram-title"><title id="diagram-title">One conductor node fanning out to a builder, a scout, a critic, and an architect worker node</title><defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="rgba(110,231,160,.55)"/></marker></defs><line x1="150" y1="130" x2="290" y2="42" class="a1" marker-end="url(#arrow)"/><line x1="150" y1="130" x2="290" y2="106" class="a1" marker-end="url(#arrow)"/><line x1="150" y1="130" x2="290" y2="170" class="a1" marker-end="url(#arrow)"/><line x1="150" y1="130" x2="290" y2="234" class="a2" marker-end="url(#arrow)"/><g><rect x="20" y="95" width="130" height="70" rx="14" class="pri"/><text x="85" y="125" text-anchor="middle" class="t1">primary</text><text x="85" y="144" text-anchor="middle" class="t3">plan &#183; judge</text></g><g><rect x="300" y="7" width="150" height="60" rx="12" class="node"/><text x="375" y="32" text-anchor="middle" class="t1">builder</text><text x="375" y="50" text-anchor="middle" class="t2">mid tier</text></g><g><rect x="300" y="76" width="150" height="60" rx="12" class="node"/><text x="375" y="101" text-anchor="middle" class="t1">scout</text><text x="375" y="119" text-anchor="middle" class="t2">small tier</text></g><g><rect x="300" y="140" width="150" height="60" rx="12" class="node"/><text x="375" y="165" text-anchor="middle" class="t1">critic</text><text x="375" y="183" text-anchor="middle" class="t2">mid tier</text></g><g><rect x="300" y="204" width="150" height="60" rx="12" class="arc"/><text x="375" y="227" text-anchor="middle" class="t1">architect</text><text x="375" y="243" text-anchor="middle" class="t2">top tier</text><text x="375" y="257" text-anchor="middle" class="t4">epics only</text></g><line x1="450" y1="42" x2="590" y2="130" class="lk"/><line x1="450" y1="106" x2="590" y2="130" class="lk"/><line x1="450" y1="170" x2="590" y2="130" class="lk"/><line x1="450" y1="234" x2="590" y2="130" class="lk2"/><g><rect x="600" y="95" width="140" height="70" rx="14" class="node"/><text x="670" y="125" text-anchor="middle" class="t1">synthesis</text><text x="670" y="144" text-anchor="middle" class="t3">back to you</text></g></svg>
 
-        <svg class="diagram-stacked" viewBox="0 0 300 470" role="img" aria-labelledby="diagram-title-stacked"><title id="diagram-title-stacked">Conductor stacked above four workers, feeding down into synthesis</title><defs><marker id="arrow-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="rgba(110,231,160,.55)"/></marker></defs><g><rect x="75" y="10" width="150" height="56" rx="12" class="pri"/><text x="150" y="34" text-anchor="middle" class="t1">primary</text><text x="150" y="51" text-anchor="middle" class="t3">plan &#183; judge</text></g><line x1="150" y1="66" x2="150" y2="90" class="a1" marker-end="url(#arrow-s)"/><g><rect x="30" y="92" width="240" height="52" rx="10" class="node"/><text x="150" y="114" text-anchor="middle" class="t1">builder</text><text x="150" y="132" text-anchor="middle" class="t2">sonnet</text></g><line x1="150" y1="144" x2="150" y2="160" class="lk"/><g><rect x="30" y="162" width="240" height="52" rx="10" class="node"/><text x="150" y="184" text-anchor="middle" class="t1">scout</text><text x="150" y="202" text-anchor="middle" class="t2">haiku</text></g><line x1="150" y1="214" x2="150" y2="230" class="lk"/><g><rect x="30" y="232" width="240" height="52" rx="10" class="node"/><text x="150" y="254" text-anchor="middle" class="t1">critic</text><text x="150" y="272" text-anchor="middle" class="t2">sonnet</text></g><line x1="150" y1="284" x2="150" y2="300" class="lk2"/><g><rect x="30" y="302" width="240" height="52" rx="10" class="arc"/><text x="150" y="322" text-anchor="middle" class="t1">architect</text><text x="150" y="338" text-anchor="middle" class="t2">opus &#183; epics only</text></g><line x1="150" y1="354" x2="150" y2="378" class="a1" marker-end="url(#arrow-s)"/><g><rect x="55" y="380" width="190" height="56" rx="12" class="node"/><text x="150" y="404" text-anchor="middle" class="t1">synthesis</text><text x="150" y="421" text-anchor="middle" class="t3">back to you</text></g></svg>
+        <svg class="diagram-stacked" viewBox="0 0 300 470" role="img" aria-labelledby="diagram-title-stacked"><title id="diagram-title-stacked">Conductor stacked above four workers, feeding down into synthesis</title><defs><marker id="arrow-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="rgba(110,231,160,.55)"/></marker></defs><g><rect x="75" y="10" width="150" height="56" rx="12" class="pri"/><text x="150" y="34" text-anchor="middle" class="t1">primary</text><text x="150" y="51" text-anchor="middle" class="t3">plan &#183; judge</text></g><line x1="150" y1="66" x2="150" y2="90" class="a1" marker-end="url(#arrow-s)"/><g><rect x="30" y="92" width="240" height="52" rx="10" class="node"/><text x="150" y="114" text-anchor="middle" class="t1">builder</text><text x="150" y="132" text-anchor="middle" class="t2">mid tier</text></g><line x1="150" y1="144" x2="150" y2="160" class="lk"/><g><rect x="30" y="162" width="240" height="52" rx="10" class="node"/><text x="150" y="184" text-anchor="middle" class="t1">scout</text><text x="150" y="202" text-anchor="middle" class="t2">small tier</text></g><line x1="150" y1="214" x2="150" y2="230" class="lk"/><g><rect x="30" y="232" width="240" height="52" rx="10" class="node"/><text x="150" y="254" text-anchor="middle" class="t1">critic</text><text x="150" y="272" text-anchor="middle" class="t2">mid tier</text></g><line x1="150" y1="284" x2="150" y2="300" class="lk2"/><g><rect x="30" y="302" width="240" height="52" rx="10" class="arc"/><text x="150" y="322" text-anchor="middle" class="t1">architect</text><text x="150" y="338" text-anchor="middle" class="t2">top tier &#183; epics only</text></g><line x1="150" y1="354" x2="150" y2="378" class="a1" marker-end="url(#arrow-s)"/><g><rect x="55" y="380" width="190" height="56" rx="12" class="node"/><text x="150" y="404" text-anchor="middle" class="t1">synthesis</text><text x="150" y="421" text-anchor="middle" class="t3">back to you</text></g></svg>
         <p class="diagram-caption">one conductor, four workers, one verified result</p>
+        <p class="diagram-legend">mid tier = <span class="tier-name" data-tier-mid>sonnet</span> &middot; small tier = <span class="tier-name" data-tier-small>haiku</span> &middot; top tier = <span class="tier-name" data-tier-top>opus</span></p>
       </div>
     </div>
   </section>
 
   <!-- ============ THE CREW ============ -->
-  <section id="crew">
+  <section id="crew" class="movement">
     <div class="wrap">
       <div class="section-head reveal" data-reveal>
+        <div class="movement-mark" aria-hidden="true"><svg class="staff-mini" viewBox="0 0 40 16"><line x1="0" y1="4" x2="40" y2="4"/><line x1="0" y1="8" x2="40" y2="8"/><line x1="0" y1="12" x2="40" y2="12"/></svg></div>
         <p class="eyebrow">the crew</p>
         <h2>Four agents, pinned to a tier.</h2>
       </div>
 
-      <div class="grid-4 reveal stagger" data-reveal>
-        <div class="card card-hover crew-card">
+      <div class="score reveal" data-reveal>
+        <div class="score-note">
           <div class="crew-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10M12 20V4M20 20v-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           </div>
-          <div class="crew-name">builder<span class="crew-tier">sonnet</span></div>
+          <div class="crew-name">builder<span class="crew-tier" data-tier-claude="sonnet" data-tier-codex="gpt-5.4">sonnet</span></div>
           <p class="crew-desc">Features, fixes, refactors, tests, scripts, drafts.</p>
         </div>
-        <div class="card card-hover crew-card">
+        <div class="score-note">
           <div class="crew-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-4.3-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           </div>
-          <div class="crew-name">scout<span class="crew-tier">haiku</span></div>
+          <div class="crew-name">scout<span class="crew-tier" data-tier-claude="haiku" data-tier-codex="gpt-5.4-mini">haiku</span></div>
           <p class="crew-desc">Greps, inventories, config dumps, status checks. Read-only.</p>
         </div>
-        <div class="card card-hover crew-card">
+        <div class="score-note">
           <div class="crew-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 12l1.8 1.8L14.5 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <div class="crew-name">critic<span class="crew-tier">sonnet</span></div>
+          <div class="crew-name">critic<span class="crew-tier" data-tier-claude="sonnet" data-tier-codex="gpt-5.4">sonnet</span></div>
           <p class="crew-desc">Adversarial review panels that try to break the work.</p>
         </div>
-        <div class="card card-hover crew-card">
+        <div class="score-note">
           <div class="crew-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.6"/></svg>
           </div>
-          <div class="crew-name">architect<span class="crew-tier">opus</span></div>
+          <div class="crew-name">architect<span class="crew-tier" data-tier-claude="opus" data-tier-codex="gpt-5.5">opus</span></div>
           <p class="crew-desc">Deep design for epics. Used sparingly.</p>
         </div>
       </div>
 
-      <p class="crew-footnote reveal" data-reveal>Models are pinned per agent, in each agent's config file, on Claude Code and Codex alike. A dispatch can never silently burn your primary model. <code>sonnet</code> / <code>haiku</code> / <code>opus</code> resolve to whatever your plan provides.</p>
+      <p class="crew-footnote reveal" data-reveal>Every agent's model is pinned in its own config file, so a dispatch can never silently run at your primary's rate. That silent inheritance is exactly how subagent-heavy sessions eat weekly limits.</p>
     </div>
   </section>
 
-  <!-- ============ WHAT YOU GET ============ -->
-  <section id="features">
+  <!-- ============ THE ORACLE ============ -->
+  <section id="oracle" class="movement">
     <div class="wrap">
-      <div class="section-head reveal" data-reveal>
-        <p class="eyebrow">what you get</p>
-        <h2>Delegation, built into the session.</h2>
-      </div>
-
-      <div class="grid-3 reveal stagger" data-reveal>
-        <div class="card feature-item">
-          <h3>Every session delegates by default.</h3>
-          <p>A managed block in your CLAUDE.md, so it is always on, not a thing you have to remember.</p>
-        </div>
-        <div class="card feature-item">
-          <h3><kbd class="mono">/conductor</kbd> for the big jobs.</h3>
-          <p>The full loop: recon, plan, parallel dispatch, verification rounds, synthesis.</p>
-        </div>
-        <div class="card feature-item">
-          <h3>Safe installer.</h3>
-          <p>Backs up everything it touches, idempotent, one-command uninstall. It never clobbers a file without a recoverable backup.</p>
-        </div>
+      <div class="oracle-body reveal" data-reveal>
+        <div class="movement-mark" aria-hidden="true"><svg class="staff-mini" viewBox="0 0 40 16"><line x1="0" y1="4" x2="40" y2="4"/><line x1="0" y1="8" x2="40" y2="8"/><line x1="0" y1="12" x2="40" y2="12"/></svg></div>
+        <p class="eyebrow">the fable 5 era</p>
+        <h2 style="font-size:clamp(1.6rem, 1.2rem + 1.6vw, 2.2rem);margin-bottom:1.25rem;max-width:24ch;">Reserve your primary for the hardest 10%.</h2>
+        <p style="color:var(--text-dim);font-size:1.05rem;">You already run the pattern by hand: plan on the expensive model, hand the labor to Sonnet and Haiku, save the top tier for hard problems and review. Conductor is that pattern, installed. Your primary does judgment and synthesis only. The crew does everything else, at crew prices.</p>
       </div>
     </div>
   </section>
 
   <!-- ============ INSTALL (opens with the math) ============ -->
-  <section id="install">
+  <section id="install" class="movement">
     <div class="wrap">
       <div class="math-panel reveal" data-reveal>
+        <div class="movement-mark" aria-hidden="true"><svg class="staff-mini" viewBox="0 0 40 16"><line x1="0" y1="4" x2="40" y2="4"/><line x1="0" y1="8" x2="40" y2="8"/><line x1="0" y1="12" x2="40" y2="12"/></svg></div>
         <p class="eyebrow math-eyebrow">the math, honestly</p>
         <p class="math-big">Usually <span>60-80% less</span>. Sometimes more.</p>
-        <p>Weekly plan limits (or your API bill) weight usage by per-token cost. On build-heavy work the execution tokens dwarf the orchestration tokens, so routing the labor to cheaper tiers commonly burns <strong>60-80% less</strong>, the same fact as stretching a plan <strong>3-5x</strong> longer. Less if your session default is already a cheap model, more if you delegate aggressively. No magic, just routing.</p>
+        <p>Weekly plan limits (or your API bill) weight usage by per-token cost. On build-heavy work the execution tokens dwarf the orchestration tokens, so routing the labor to cheaper tiers commonly burns <strong>60-80% less</strong>, the same fact as stretching a plan up to <strong>5x</strong> longer. That range is measured against a top-tier metered primary. Less if your primary is already mid-tier, more if you delegate aggressively. No magic, just routing.</p>
         <svg class="range-strip" viewBox="0 0 560 64" width="100%" style="max-width:560px;margin-top:1.25rem;" role="img" aria-label="Typical savings: 60 to 80 percent less plan burn, less if your default is already cheap, more if you delegate aggressively.">
-          <rect x="118" y="18" width="128" height="14" fill="var(--accent-wash)" stroke="var(--accent-line)"/>
-          <g stroke="var(--line-strong)"><line x1="20" y1="25" x2="540" y2="25"/><line x1="20" y1="20" x2="20" y2="30"/><line x1="182" y1="20" x2="182" y2="30"/><line x1="246" y1="20" x2="246" y2="30"/><line x1="540" y1="20" x2="540" y2="30"/></g>
-          <g class="t4" text-anchor="middle"><text x="20" y="46">0%</text><text x="182" y="46">60%</text><text x="246" y="46">80%</text><text x="540" y="46">100%</text><text x="20" y="60" style="font-size:8px">already on a cheap default</text><text x="540" y="60" style="font-size:8px">delegating aggressively</text></g>
+          <rect x="332" y="18" width="104" height="14" fill="var(--accent-wash)" stroke="var(--accent-line)"/>
+          <g stroke="var(--line-strong)"><line x1="20" y1="25" x2="540" y2="25"/><line x1="20" y1="20" x2="20" y2="30"/><line x1="332" y1="20" x2="332" y2="30"/><line x1="436" y1="20" x2="436" y2="30"/><line x1="540" y1="20" x2="540" y2="30"/></g>
+          <g class="t4" text-anchor="middle"><text x="20" y="46">0%</text><text x="332" y="46">60%</text><text x="436" y="46">80%</text><text x="540" y="46">100%</text><text x="20" y="60" style="font-size:8px">already on a cheap default</text><text x="540" y="60" style="font-size:8px">delegating aggressively</text></g>
         </svg>
       </div>
 
@@ -1139,7 +1488,7 @@
 
       <div class="install-grid">
         <div class="reveal" data-reveal>
-          <div class="term">
+          <div class="term" data-locked-term>
             <div class="term-bar">
               <div class="term-dots"><span></span><span></span><span></span></div>
               <span class="term-label">install</span>
@@ -1153,9 +1502,12 @@
                   <span data-copy-label>copy</span>
                 </button>
               </div>
+              <div class="term-lock">
+                <button class="term-unlock-btn" type="button" data-gate-open="install-gate">unlock with email</button>
+              </div>
             </div>
           </div>
-          <p class="next-step">Then open a new session and run: <kbd>/conductor &lt;your objective&gt;</kbd> <span class="mono">(on Codex: <kbd>$conductor</kbd>)</span></p>
+          <p class="next-step">Then open a new session. It conducts from the first message. For a big objective, hand it <kbd>/conductor &lt;your objective&gt;</kbd> <span class="mono">(Codex: <kbd>$conductor</kbd>)</span>.</p>
 
           <p class="uninstall-note">Uninstall anytime:</p>
           <div class="term" style="margin-top:0.6rem;">
@@ -1179,11 +1531,11 @@
         <div class="reveal" data-reveal>
           <h3 style="font-size:1.05rem;margin-bottom:0.5rem;color:var(--text);">Requirements</h3>
           <ul class="req-list">
-            <li>
+            <li data-req="claude" data-req-active="true">
               <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-check"/></svg>
               <span><strong>Claude Code</strong>: the <code>sonnet</code> and <code>haiku</code> tiers (any paid plan). <code>opus</code> only for the architect.</span>
             </li>
-            <li>
+            <li data-req="codex" data-req-active="false">
               <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-check"/></svg>
               <span><strong>Codex CLI</strong>: GPT-5.4 and GPT-5.4-mini. GPT-5.5 only for the architect.</span>
             </li>
@@ -1193,10 +1545,55 @@
     </div>
   </section>
 
-  <!-- ============ FAQ ============ -->
-  <section id="faq">
+  <!-- ============ GET CONDUCTOR ============ -->
+  <section id="run-guide" class="movement">
     <div class="wrap">
       <div class="section-head reveal" data-reveal>
+        <div class="movement-mark" aria-hidden="true"><svg class="staff-mini" viewBox="0 0 40 16"><line x1="0" y1="4" x2="40" y2="4"/><line x1="0" y1="8" x2="40" y2="8"/><line x1="0" y1="12" x2="40" y2="12"/></svg></div>
+        <p class="eyebrow">get conductor</p>
+        <h2>One email. Two things back.</h2>
+        <p data-gate-copy>Drop your email and the install command unlocks right here, plus the run guide in your inbox: what to brief your first session on, how to read the usage split, and how to tell it's working. One note when a new skill ships. Nothing else, ever.</p>
+      </div>
+
+      <form class="lead-form run-guide-form reveal" data-reveal data-lead-form data-lead-source="section-gate" data-unlock-form novalidate>
+        <input class="hp-field" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" name="company_url" data-hp>
+        <div class="lead-field">
+          <label for="run-guide-name">Name <span class="mono" style="color:var(--text-faint);font-size:0.85em;">(optional)</span></label>
+          <input type="text" id="run-guide-name" name="name" autocomplete="given-name" placeholder="Your name">
+        </div>
+        <div class="lead-field">
+          <label for="run-guide-email">Email</label>
+          <input type="email" id="run-guide-email" name="email" autocomplete="email" inputmode="email" placeholder="you@company.com" data-lead-email required>
+        </div>
+        <button class="btn btn-solid lead-submit" type="submit">unlock the install command</button>
+      </form>
+      <p class="lead-status" data-lead-status role="status" aria-live="polite"></p>
+
+      <div class="run-guide-recap term reveal" data-reveal data-gate-recap hidden>
+        <div class="term-bar">
+          <div class="term-dots"><span></span><span></span><span></span></div>
+          <span class="term-label">install</span>
+        </div>
+        <div class="term-body">
+          <div class="term-cmd">
+            <span class="prompt-glyph">$</span>
+            <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash</span>
+            <button class="copy-btn" type="button" data-copy-btn data-copy-target="install-cmd-4">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
+              <span data-copy-label>copy</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <p class="run-guide-recap-note" data-gate-recap hidden>Run guide sent. Check your inbox.</p>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq" class="movement">
+    <div class="wrap">
+      <div class="section-head reveal" data-reveal>
+        <div class="movement-mark" aria-hidden="true"><svg class="staff-mini" viewBox="0 0 40 16"><line x1="0" y1="4" x2="40" y2="4"/><line x1="0" y1="8" x2="40" y2="8"/><line x1="0" y1="12" x2="40" y2="12"/></svg></div>
         <p class="eyebrow">faq</p>
         <h2>Ask the annoying questions.</h2>
       </div>
@@ -1244,7 +1641,7 @@
             <span class="faq-plus" aria-hidden="true"></span>
           </button>
           <div class="faq-a">
-            <div class="faq-a-inner">No. Install it and keep working. It delegates on its own. Use <kbd>/conductor</kbd> when you want the full loop on a big task.</div>
+            <div class="faq-a-inner">No. Open a new session after you install and it starts delegating from your first message, because the managed block in your CLAUDE.md tells it to. That's doctrine your session follows, not code that enforces it. Nothing to memorize. Save <kbd>/conductor</kbd> for the big ones.</div>
           </div>
         </div>
         <div class="faq-item" data-faq>
@@ -1256,6 +1653,24 @@
             <div class="faq-a-inner">Because then the cheap model does your thinking too. Conductor keeps the judgment expensive and the labor cheap: your primary model plans, routes, and verifies; the cheap tiers type. You could do this by hand with <code>/model</code>. You will not remember to.</div>
           </div>
         </div>
+        <div class="faq-item" data-faq>
+          <button class="faq-q" type="button" aria-expanded="false">
+            How is this different from a model router or gateway?
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">Routers put a proxy between you and the API and pick models with heuristics. Conductor doesn't sit in the traffic path. It's instructions plus four pinned agent files inside your harness: no keys, no gateway, no new dependency, and your primary model keeps deciding what to delegate. Uninstall removes the managed block and the agents and you are back to stock.</div>
+          </div>
+        </div>
+        <div class="faq-item" data-faq>
+          <button class="faq-q" type="button" aria-expanded="false">
+            What do you do with my email?
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">Send the run guide and, occasionally, a note when a new skill ships, via Resend. Stored in our own database. One-click unsubscribe. Never sold, never shared.</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1265,7 +1680,7 @@
     <div class="wrap">
       <div class="reveal" data-reveal>
         <h2>Your best model has better things to do.</h2>
-        <div class="term">
+        <div class="term" data-locked-term>
           <div class="term-bar">
             <div class="term-dots"><span></span><span></span><span></span></div>
             <span class="term-label">install</span>
@@ -1279,9 +1694,12 @@
                 <span data-copy-label>copy</span>
               </button>
             </div>
+            <div class="term-lock">
+              <button class="term-unlock-btn" type="button" data-gate-open="closing-gate">unlock with email</button>
+            </div>
           </div>
         </div>
-        <p class="closing-sub">One command. Every session after this one delegates on its own.</p>
+        <p class="closing-sub">One command. Every session after this one conducts on its own.</p>
       </div>
     </div>
   </section>
@@ -1301,6 +1719,7 @@
       <nav class="footer-links" aria-label="Footer links">
         <a href="#hero-command">Install</a>
         <a href="https://conductorskill.com/install.sh">read install.sh</a>
+        <a href="https://github.com/akaCT/conductor" target="_blank" rel="noopener">GitHub</a>
       </nav>
     </div>
     <p class="footer-fine">License: MIT (see LICENSE); third-party notices included. Not affiliated with Anthropic or OpenAI. Claude and Claude Code are trademarks of Anthropic. Codex is a trademark of OpenAI.</p>
@@ -1308,12 +1727,41 @@
 </footer>
 
 <div class="visually-hidden" role="status" aria-live="polite" id="copy-announcer"></div>
+<div class="visually-hidden" role="status" aria-live="polite" id="harness-announcer"></div>
+
+<div class="lead-modal" id="lead-modal" hidden>
+  <div class="lead-modal-scrim" data-modal-close></div>
+  <div class="lead-modal-card" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
+    <button class="lead-modal-x" type="button" data-modal-close aria-label="Close">&times;</button>
+    <h3 id="lead-modal-title" class="lead-modal-title">Get the install command</h3>
+    <p class="lead-modal-sub">Drop your email and it unlocks right here, plus the run guide in your inbox.</p>
+    <form class="lead-form" id="lead-modal-form" data-lead-form data-unlock-form novalidate>
+      <input class="hp-field" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" name="company_url" data-hp>
+      <div class="lead-field">
+        <label for="modal-name">Name <span class="mono" style="color:var(--text-faint);font-size:0.85em;">(optional)</span></label>
+        <input type="text" id="modal-name" name="name" autocomplete="given-name" placeholder="Your name">
+      </div>
+      <div class="lead-field">
+        <label for="modal-email">Email</label>
+        <input type="email" id="modal-email" name="email" autocomplete="email" inputmode="email" placeholder="you@company.com" data-lead-email required>
+      </div>
+      <button class="btn btn-solid lead-submit" type="submit">unlock the install command</button>
+    </form>
+    <p class="lead-status" data-lead-status role="status" aria-live="polite"></p>
+    <p class="lead-modal-trust">We'll never sell or share your info. One-click unsubscribe.</p>
+  </div>
+</div>
 
 <script>
 (function(){
   "use strict";
 
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- analytics: safe no-op wrapper ---------- */
+  function track(name, opts){
+    try { window.plausible(name, opts); } catch (e) { /* no-op */ }
+  }
 
   /* ---------- copy to clipboard ---------- */
   var announcer = document.getElementById('copy-announcer');
@@ -1365,7 +1813,7 @@
           if (iconUse) iconUse.setAttribute('href', '#icon-copy');
         }, 1600);
 
-        if (isInstallCopy) onInstallCopySuccess();
+        if (isInstallCopy) { onInstallCopySuccess(); track('CopyInstall'); }
       });
     });
   });
@@ -1399,20 +1847,97 @@
   /* ---------- hero typing animation ---------- */
   var typeTarget = document.getElementById('typewriter');
 
-  var lines = [
-    { text: '> /conductor add pagination to the users API + tests', cls: 't-user' },
-    { text: '', cls: '' },
-    { text: '  Planning on your primary model...', cls: 't-faint' },
-    { text: '  Dispatching wave (parallel):', cls: '' },
-    { text: '    builder  · sonnet   writing endpoint + tests', cls: 't-accent' },
-    { text: '    builder  · sonnet   updating the client', cls: 't-accent' },
-    { text: '    scout    · haiku    mapping call sites', cls: 't-accent' },
-    { text: '  Verifying: 2 critic · sonnet  (correctness, repro)', cls: '' },
-    { text: '  critic 2 flagged a missing edge case -> builder patched', cls: 't-faint' },
-    { text: '', cls: '' },
-    { text: '  Primary: plan + adjudication + synthesis', cls: 't-user' },
-    { text: '  Dispatched: 2 builder (sonnet), 1 scout (haiku), 2 critic (sonnet)', cls: 't-accent' }
-  ];
+  var linesByHarness = {
+    claude: [
+      { text: '> add pagination to the users API + tests', cls: 't-user' },
+      { text: '', cls: '' },
+      { text: '  Planning on your primary model...', cls: 't-faint' },
+      { text: '  Dispatching wave (parallel):', cls: '' },
+      { text: '    builder  · sonnet   writing endpoint + tests', cls: 't-accent' },
+      { text: '    builder  · sonnet   updating the client', cls: 't-accent' },
+      { text: '    scout    · haiku    mapping call sites', cls: 't-accent' },
+      { text: '  Verifying: 2 critic · sonnet  (correctness, repro)', cls: '' },
+      { text: '  critic 2 flagged a missing edge case -> builder patched', cls: 't-faint' },
+      { text: '', cls: '' },
+      { text: '  Primary: plan + adjudication + synthesis', cls: 't-user' },
+      { text: '  Dispatched: 2 builder (sonnet), 1 scout (haiku), 2 critic (sonnet)', cls: 't-accent' }
+    ],
+    codex: [
+      { text: '> add pagination to the users API + tests', cls: 't-user' },
+      { text: '', cls: '' },
+      { text: '  Planning on your primary model...', cls: 't-faint' },
+      { text: '  Dispatching wave (parallel):', cls: '' },
+      { text: '    builder  · gpt-5.4       writing endpoint + tests', cls: 't-accent' },
+      { text: '    builder  · gpt-5.4       updating the client', cls: 't-accent' },
+      { text: '    scout    · gpt-5.4-mini  mapping call sites', cls: 't-accent' },
+      { text: '  Verifying: 2 critic · gpt-5.4  (correctness, repro)', cls: '' },
+      { text: '  critic 2 flagged a missing edge case -> builder patched', cls: 't-faint' },
+      { text: '', cls: '' },
+      { text: '  Primary: plan + adjudication + synthesis', cls: 't-user' },
+      { text: '  Dispatched: 2 builder (gpt-5.4), 1 scout (gpt-5.4-mini), 2 critic (gpt-5.4)', cls: 't-accent' }
+    ]
+  };
+  var TIER_MAP = {
+    claude: { mid: 'sonnet', small: 'haiku', top: 'opus' },
+    codex:  { mid: 'gpt-5.4', small: 'gpt-5.4-mini', top: 'gpt-5.5' }
+  };
+  var currentHarness = 'claude';
+  var lines = linesByHarness[currentHarness];
+
+  /* ---------- harness toggle: claude code / codex ---------- */
+  function applyHarness(h, opts){
+    opts = opts || {};
+    if (linesByHarness[h] === undefined) h = 'claude';
+    currentHarness = h;
+    lines = linesByHarness[h];
+    try { localStorage.setItem('cnd_harness', h); } catch (e) { /* no-op */ }
+
+    document.querySelectorAll('[data-harness-tab]').forEach(function(tab){
+      tab.setAttribute('aria-selected', tab.getAttribute('data-harness-tab') === h ? 'true' : 'false');
+    });
+
+    document.querySelectorAll('.crew-tier[data-tier-claude]').forEach(function(el){
+      el.textContent = h === 'codex' ? el.getAttribute('data-tier-codex') : el.getAttribute('data-tier-claude');
+    });
+
+    var tm = TIER_MAP[h];
+    document.querySelectorAll('[data-tier-mid]').forEach(function(el){ el.textContent = tm.mid; });
+    document.querySelectorAll('[data-tier-small]').forEach(function(el){ el.textContent = tm.small; });
+    document.querySelectorAll('[data-tier-top]').forEach(function(el){ el.textContent = tm.top; });
+
+    document.querySelectorAll('[data-req]').forEach(function(li){
+      li.setAttribute('data-req-active', li.getAttribute('data-req') === h ? 'true' : 'false');
+    });
+
+    var termLabelEl = document.querySelector('[data-term-label-claude]');
+    if (termLabelEl) termLabelEl.textContent = h === 'codex' ? termLabelEl.getAttribute('data-term-label-codex') : termLabelEl.getAttribute('data-term-label-claude');
+
+    var diffLineEl = document.querySelector('[data-diff-line-claude]');
+    if (diffLineEl) diffLineEl.textContent = h === 'codex' ? diffLineEl.getAttribute('data-diff-line-codex') : diffLineEl.getAttribute('data-diff-line-claude');
+
+    if (opts.replay && typeTarget && !isTyping) {
+      typed = true;
+      var readoutRoot = typeTarget.closest('.readout');
+      if (readoutRoot) readoutRoot.classList.remove('demo-done');
+      if (prefersReducedMotion) { renderStatic(); } else { typeAnimation(); }
+    }
+
+    if (opts.track) track('HarnessToggle', { props: { to: h } });
+  }
+
+  var savedHarness = 'claude';
+  try { savedHarness = localStorage.getItem('cnd_harness') || 'claude'; } catch (e) { /* no-op */ }
+  applyHarness(savedHarness, {});
+
+  var harnessAnnouncer = document.getElementById('harness-announcer');
+  document.querySelectorAll('[data-harness-tab]').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var h = tab.getAttribute('data-harness-tab');
+      if (h === currentHarness) return;
+      applyHarness(h, { replay: true, track: true });
+      if (harnessAnnouncer) harnessAnnouncer.textContent = 'Examples now show ' + (h === 'codex' ? 'Codex' : 'Claude Code');
+    });
+  });
 
   var isTyping = false;
 
@@ -1642,6 +2167,219 @@
       });
     });
   }
+
+  /* ---------- github star count (topbar, only shown once >= 10) ---------- */
+  (function(){
+    var el = document.querySelector('[data-gh-stars]');
+    if (!el) return;
+    var cached = null;
+    try { cached = parseInt(localStorage.getItem('cnd_stars'), 10); } catch (e) { /* no-op */ }
+    if (cached && cached >= 10) { el.textContent = cached.toLocaleString(); el.hidden = false; }
+
+    fetch('https://api.github.com/repos/akaCT/conductor')
+      .then(function(r){ return r.ok ? r.json() : Promise.reject(new Error('gh')); })
+      .then(function(d){
+        if (typeof d.stargazers_count !== 'number') return;
+        try { localStorage.setItem('cnd_stars', String(d.stargazers_count)); } catch (e) { /* no-op */ }
+        if (d.stargazers_count >= 10) {
+          el.textContent = d.stargazers_count.toLocaleString();
+          el.hidden = false;
+        } else {
+          el.hidden = true;
+        }
+      })
+      .catch(function(){ /* offline / rate-limited; keep cached value or stay hidden */ });
+  })();
+
+  /* ---------- lead capture: attribution + postLead + forms ---------- */
+  var CAPTURE_URL = 'https://muguotipixphthfxjssu.supabase.co/functions/v1/conductor-capture';
+  var ATTR_KEY = 'cnd_attr';
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function readAttribution(){
+    var attr = {};
+    try {
+      var q = new URLSearchParams(location.search);
+      var via = q.get('via') || q.get('from') || q.get('by') || q.get('host') || q.get('ref');
+      if (via) attr.via = String(via).slice(0, 80);
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function(k){
+        var v = q.get(k);
+        if (v) attr[k] = String(v).slice(0, 120);
+      });
+      attr.landing = location.pathname;
+
+      var saved = null;
+      try { saved = JSON.parse(localStorage.getItem(ATTR_KEY) || 'null'); } catch (e) { /* no-op */ }
+
+      if (attr.via || Object.keys(attr).length > 1) {
+        try { localStorage.setItem(ATTR_KEY, JSON.stringify(attr)); } catch (e) { /* no-op */ }
+      } else if (saved) {
+        attr = saved;
+      }
+    } catch (e) { /* no-op */ }
+    return attr;
+  }
+
+  /* POST the lead. Resolves to true on success. Never throws, never fakes success. */
+  function postLead(input){
+    var attribution = readAttribution();
+    var payload = {
+      name: (input.name || '').trim().slice(0, 120),
+      email: input.email.trim().toLowerCase().slice(0, 200),
+      source: input.source,
+      via: attribution.via || null,
+      attribution: attribution,
+      page: location.pathname,
+      user_agent: navigator.userAgent.slice(0, 400),
+      referrer: document.referrer.slice(0, 400),
+      hp: input.hp || ''
+    };
+    return fetch(CAPTURE_URL, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function(res){
+      return res.json().catch(function(){ return {}; }).then(function(data){
+        return !!(res.ok && data && data.ok);
+      });
+    }).catch(function(){ return false; });
+  }
+
+  /* ---------- gate: unlock state ---------- */
+  var UNLOCK_KEY = 'cnd_unlocked';
+  function isUnlocked(){ try { return !!localStorage.getItem(UNLOCK_KEY); } catch (e) { return false; } }
+  function rememberUnlock(){ try { localStorage.setItem(UNLOCK_KEY, '1'); } catch (e) { /* no-op */ } }
+
+  function revealAll(){
+    document.documentElement.setAttribute('data-cnd-unlocked', 'true');
+    var rgForm = document.querySelector('#run-guide [data-unlock-form]');
+    if (rgForm) rgForm.hidden = true;
+    document.querySelectorAll('#run-guide [data-gate-recap]').forEach(function(el){ el.hidden = false; });
+  }
+
+  if (isUnlocked()) revealAll();
+
+  /* ---------- gate: modal open / close ---------- */
+  var modal = document.getElementById('lead-modal');
+  var modalLastFocused = null;
+  var modalSource = 'hero-gate';
+
+  function openGate(source){
+    if (!modal) return;
+    if (isUnlocked()) {
+      var target = document.getElementById(source === 'closing-gate' ? 'closing-cta' : 'install');
+      if (target) target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+      return;
+    }
+    track('LeadOpen', { props: { source: source } });
+    modalSource = source;
+    var modalForm = document.getElementById('lead-modal-form');
+    if (modalForm) modalForm.setAttribute('data-lead-source', source);
+    modalLastFocused = document.activeElement;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    var modalEmail = document.getElementById('modal-email');
+    setTimeout(function(){ if (modalEmail) modalEmail.focus(); }, 60);
+  }
+
+  function closeGate(){
+    if (!modal || modal.hidden) return;
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    if (modalLastFocused && typeof modalLastFocused.focus === 'function') modalLastFocused.focus();
+  }
+
+  document.querySelectorAll('[data-gate-open]').forEach(function(btn){
+    btn.addEventListener('click', function(){ openGate(btn.getAttribute('data-gate-open')); });
+  });
+  if (modal) {
+    modal.querySelectorAll('[data-modal-close]').forEach(function(el){
+      el.addEventListener('click', closeGate);
+    });
+    document.addEventListener('keydown', function(e){
+      if (modal.hidden) return;
+      if (e.key === 'Escape') { closeGate(); return; }
+      if (e.key === 'Tab') {
+        var focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (!focusable.length) return;
+        var first = focusable[0];
+        var last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+  }
+
+  /* ---------- gate: forms (modal + inline section-gate) ---------- */
+  document.querySelectorAll('[data-lead-form]').forEach(function(form){
+    var statusEl = form.nextElementSibling;
+    var emailEl = form.querySelector('[data-lead-email]');
+    var hpEl = form.querySelector('[data-hp]');
+    var nameEl = form.querySelector('input[name="name"]');
+    var submitBtn = form.querySelector('.lead-submit');
+    var originalLabel = submitBtn ? submitBtn.textContent : '';
+    var busy = false;
+    var isUnlockForm = form.hasAttribute('data-unlock-form');
+    var isModalForm = form.id === 'lead-modal-form';
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (busy) return;
+      var source = form.getAttribute('data-lead-source') || (isModalForm ? modalSource : 'unknown');
+      var email = (emailEl && emailEl.value || '').trim().toLowerCase();
+      if (!EMAIL_RE.test(email)) {
+        if (statusEl) { statusEl.textContent = 'Enter a valid email so we can send it.'; statusEl.setAttribute('data-state', 'err'); }
+        if (emailEl) emailEl.focus();
+        return;
+      }
+      busy = true;
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'sending...'; }
+      if (statusEl) { statusEl.textContent = ''; statusEl.removeAttribute('data-state'); }
+
+      postLead({
+        name: nameEl ? nameEl.value : '',
+        email: email,
+        source: source,
+        hp: hpEl ? hpEl.value : ''
+      }).then(function(ok){
+        busy = false;
+        if (ok) {
+          var msg = isUnlockForm ? 'Unlocked. Check your inbox for the run guide.' : 'Sent. Check your inbox.';
+          if (statusEl) { statusEl.textContent = msg; statusEl.setAttribute('data-state', 'ok'); }
+          form.reset();
+          form.hidden = true;
+          track('LeadCaptured', { props: { source: source } });
+          if (isUnlockForm) {
+            rememberUnlock();
+            revealAll();
+            if (isModalForm) setTimeout(closeGate, 900);
+          }
+        } else {
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalLabel; }
+          if (statusEl) { statusEl.textContent = "That didn't go through. Check your connection and try again."; statusEl.setAttribute('data-state', 'err'); }
+        }
+      });
+    });
+  });
+
+  /* ---------- baton (page-progress) + Scroll50/Scroll90 ---------- */
+  var batonFill = document.getElementById('baton-fill');
+  var scroll50Fired = false, scroll90Fired = false;
+  var progressTicking = false;
+  function updateProgress(){
+    var doc = document.documentElement;
+    var max = (doc.scrollHeight - doc.clientHeight) || 1;
+    var pct = Math.min(100, Math.max(0, (window.scrollY / max) * 100));
+    if (batonFill) batonFill.style.height = pct + '%';
+    if (!scroll50Fired && pct >= 50) { scroll50Fired = true; track('Scroll50'); }
+    if (!scroll90Fired && pct >= 90) { scroll90Fired = true; track('Scroll90'); }
+    progressTicking = false;
+  }
+  updateProgress();
+  window.addEventListener('scroll', function(){
+    if (!progressTicking) { progressTicking = true; requestAnimationFrame(updateProgress); }
+  }, { passive: true });
+  window.addEventListener('resize', updateProgress);
 
 })();
 </script>

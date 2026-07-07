@@ -1,5 +1,9 @@
 # Conductor
 
+[![Website](https://img.shields.io/badge/website-conductorskill.com-22ff88?style=flat-square)](https://conductorskill.com)
+[![GitHub stars](https://img.shields.io/github/stars/akaCT/conductor?style=social)](https://github.com/akaCT/conductor/stargazers)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](./LICENSE)
+
 Current version: 0.3.0. See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 **Every Claude Code or Codex session becomes an orchestrator. You conduct; cheaper models play.**
@@ -105,6 +109,16 @@ Two parts:
 Everything installed is tracked in `~/.claude/skills/conductor/.install-manifest`.
 Backups from an install run carry a `.bak.<timestamp>` suffix and are left in
 place after uninstall.
+
+## Wear the badge
+
+Conductor cutting your burn? Add the badge. It points people back here:
+
+[![Conducted with Conductor](https://img.shields.io/badge/conducted%20with-Conductor-22ff88?style=flat-square)](https://conductorskill.com)
+
+```markdown
+[![Conducted with Conductor](https://img.shields.io/badge/conducted%20with-Conductor-22ff88?style=flat-square)](https://conductorskill.com)
+```
 
 ## License
 

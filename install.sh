@@ -957,17 +957,23 @@ do_install() {
   say ""
   say "  ${B}Next:${RST}"
   local step=1
-  if [ "$do_claude" = 1 ]; then
-    say "    ${step}. Open a ${B}new${RST} Claude Code session (so it re-reads CLAUDE.md)."
+  if [ "$do_claude" = 1 ] && [ "$do_codex" = 1 ]; then
+    say "    ${step}. Open a ${B}new${RST} session. It re-reads CLAUDE.md (AGENTS.md on Codex) and conducts from the first message, delegating on its own."
     step=$((step + 1))
-    say "    ${step}. Hand it something substantial: ${CYN}/conductor <your objective>${RST}"
+    say "    ${step}. For a big objective, hand over the whole thing: ${CYN}/conductor <your objective>${RST} (${CYN}\$conductor${RST} on Codex)."
+    step=$((step + 1))
+  elif [ "$do_claude" = 1 ]; then
+    say "    ${step}. Open a ${B}new${RST} Claude Code session. It re-reads CLAUDE.md and conducts from the first message, delegating on its own."
+    step=$((step + 1))
+    say "    ${step}. For a big objective, hand over the whole thing: ${CYN}/conductor <your objective>${RST}"
+    step=$((step + 1))
+  elif [ "$do_codex" = 1 ]; then
+    say "    ${step}. Open a ${B}new${RST} Codex session. It re-reads AGENTS.md and conducts from the first message, delegating on its own."
+    step=$((step + 1))
+    say "    ${step}. For a big objective, hand over the whole thing: ${CYN}\$conductor <your objective>${RST} (or pick it from /skills)."
     step=$((step + 1))
   fi
-  if [ "$do_codex" = 1 ]; then
-    say "    ${step}. Open a Codex session and type ${CYN}\$conductor${RST} (or pick it from /skills)."
-    step=$((step + 1))
-  fi
-  say "    ${step}. Watch it plan on your primary model and dispatch the labor to cheaper workers."
+  say "    ${step}. Watch the hand-back usage split to see what ran where."
   say ""
   say "  ${DIM}Uninstall anytime:${RST} bash install.sh --uninstall"
   say "  ${DIM}Backups from this run carry the suffix .bak.$STAMP${RST}"
