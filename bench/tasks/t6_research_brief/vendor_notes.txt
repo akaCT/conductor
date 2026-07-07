@@ -1,0 +1,19 @@
+Vendor A (Northwind Supply):
+- Price: $42/unit
+- Lead time: 6 weeks
+- Quality complaints: 2 in the last year
+- Payment terms: net 30
+
+Vendor B (Cedarline Co):
+- Price: $39/unit
+- Lead time: 9 weeks
+- Quality complaints: 0 in the last year
+- Payment terms: net 60
+- Note: smaller company, single production facility, no backup site
+
+Vendor C (Ridgeport Industrial):
+- Price: $51/unit
+- Lead time: 3 weeks
+- Quality complaints: 1 in the last year
+- Payment terms: net 30
+- Note: two production facilities, can expedite rush orders

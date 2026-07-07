@@ -1,0 +1,6 @@
+{
+  "id": "t1_fizzbuzz_fix",
+  "category": "code_small",
+  "success_cmd": "python3 check.py",
+  "budget_note": "single-file bug fix, expect under 2k output tokens on a well-behaved run"
+}

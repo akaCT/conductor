@@ -1,0 +1,6 @@
+{
+  "id": "t4_shell_wordcount",
+  "category": "code_small",
+  "success_cmd": "bash check.sh",
+  "budget_note": "single shell script, expect under 1.5k output tokens on a well-behaved run"
+}

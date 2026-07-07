@@ -1,0 +1,14 @@
+v3.2.0
+- Added bulk export for reports (CSV and JSON).
+- Fixed a security issue where API tokens were logged in plaintext on error
+  (CVE-pending, patch applied to token middleware).
+- Deprecated the legacy /v1/reports endpoint; use /v2/reports instead.
+
+v3.1.0
+- Improved pagination performance for large accounts.
+- BREAKING CHANGE: renamed the `owner_id` field to `account_id` across all
+  API responses. Clients reading `owner_id` will need to update.
+
+v3.0.4
+- Minor bug fixes in the date-range picker.
+- Updated dependency versions for the PDF renderer.

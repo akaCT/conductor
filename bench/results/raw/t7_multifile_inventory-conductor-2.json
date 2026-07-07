@@ -1,0 +1,34 @@
+{
+  "total_cost_usd": 0.020641,
+  "duration_ms": 21107,
+  "num_turns": 7,
+  "usage": {
+    "input_tokens": 2834,
+    "output_tokens": 1550,
+    "cache_creation_input_tokens": 300,
+    "cache_read_input_tokens": 1749
+  },
+  "modelUsage": {
+    "claude-sonnet-5": {
+      "inputTokens": 1700,
+      "outputTokens": 930,
+      "cacheCreationInputTokens": 180,
+      "cacheReadInputTokens": 1049,
+      "costUSD": 0.01905
+    },
+    "claude-haiku-4-5": {
+      "inputTokens": 426,
+      "outputTokens": 233,
+      "cacheCreationInputTokens": 45,
+      "cacheReadInputTokens": 262,
+      "costUSD": 0.001591
+    }
+  },
+  "is_mock": true,
+  "task_id": "t7_multifile_inventory",
+  "arm": "conductor",
+  "run_n": 2,
+  "model": "claude-sonnet-5",
+  "success": true,
+  "final_text": "[mock] synthesized reply for t7_multifile_inventory/conductor/run2"
+}

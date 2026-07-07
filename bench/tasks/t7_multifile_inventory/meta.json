@@ -1,0 +1,6 @@
+{
+  "id": "t7_multifile_inventory",
+  "category": "multifile_delegation",
+  "success_cmd": "python3 check.py",
+  "budget_note": "4 fixture files to read and cross-reference; rewards splitting file reads across subagents; expect 2k-4k output tokens"
+}

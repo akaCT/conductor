@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:1200px;height:630px;overflow:hidden;}
+  body{
+    background:#05060a;
+    color:#e7e9ee;
+    font-family:'Space Grotesk',sans-serif;
+    position:relative;
+  }
+  .wash{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 800px 460px at 15% -10%, rgba(110,231,160,0.14), transparent 60%),
+      radial-gradient(ellipse 640px 420px at 105% 115%, rgba(110,231,160,0.08), transparent 55%);
+  }
+  .grid{
+    position:absolute;inset:0;opacity:0.4;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:linear-gradient(to bottom, black, transparent 80%);
+  }
+  .inner{
+    position:absolute;inset:0;
+    padding:72px 84px;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .brand{display:flex;align-items:center;gap:14px;font-weight:700;font-size:30px;letter-spacing:-0.01em;}
+  .glyph{display:flex;align-items:flex-end;gap:5px;height:30px;}
+  .glyph span{width:8px;border-radius:3px;background:#6ee7a0;display:block;}
+  .glyph span:nth-child(1){height:12px;}
+  .glyph span:nth-child(2){height:21px;}
+  .glyph span:nth-child(3){height:30px;}
+  h1{
+    font-size:82px;line-height:1.08;letter-spacing:-0.02em;font-weight:700;
+    max-width:17ch;
+  }
+  h1 .num{color:#6ee7a0;}
+  .harness{
+    font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:400;color:#7d8496;
+    letter-spacing:0.01em;margin-left:14px;
+  }
+  .term{
+    display:inline-flex;align-items:center;gap:18px;
+    background:#0e1119;
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:16px;
+    padding:22px 30px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:25px;
+    color:#e7e9ee;
+    box-shadow:0 0 90px rgba(110,231,160,0.12);
+    width:fit-content;
+  }
+  .dots{display:flex;gap:8px;}
+  .dots i{width:12px;height:12px;border-radius:50%;display:block;}
+  .dots i:nth-child(1){background:rgba(231,110,110,0.55);}
+  .dots i:nth-child(2){background:rgba(231,199,110,0.55);}
+  .dots i:nth-child(3){background:rgba(110,231,160,0.5);}
+  .cmd .p{color:#6ee7a0;}
+  .foot{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-family:'JetBrains Mono',monospace;font-size:21px;color:#7d8496;
+  }
+</style>
+</head>
+<body>
+  <div class="wash"></div>
+  <div class="grid"></div>
+  <div class="inner">
+    <div class="brand"><span class="glyph"><span></span><span></span><span></span></span>conductor<span class="harness">for Claude Code + Codex</span></div>
+    <h1>Same work. <span class="num">Up to 80%</span> less plan usage.</h1>
+    <div class="term">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="cmd"><span class="p">$</span> curl -fsSL https://conductorskill.com/install.sh | bash</span>
+    </div>
+    <div class="foot">
+      <span>you conduct. cheaper models play.</span>
+      <span>conductorskill.com</span>
+    </div>
+  </div>
+</body>
+</html>

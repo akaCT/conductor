@@ -1,0 +1,6 @@
+*.bak
+*.bak.*
+*.pre-*
+*.ebi-r*.bak
+*.v2-pre.bak
+.DS_Store

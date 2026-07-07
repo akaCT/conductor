@@ -1,0 +1,27 @@
+{
+  "total_cost_usd": 0.012684,
+  "duration_ms": 21457,
+  "num_turns": 4,
+  "usage": {
+    "input_tokens": 2078,
+    "output_tokens": 430,
+    "cache_creation_input_tokens": 489,
+    "cache_read_input_tokens": 66
+  },
+  "modelUsage": {
+    "claude-sonnet-5": {
+      "inputTokens": 2078,
+      "outputTokens": 430,
+      "cacheCreationInputTokens": 489,
+      "cacheReadInputTokens": 66,
+      "costUSD": 0.012684
+    }
+  },
+  "is_mock": true,
+  "task_id": "t3_regex_extract",
+  "arm": "baseline",
+  "run_n": 2,
+  "model": "claude-sonnet-5",
+  "success": true,
+  "final_text": "[mock] synthesized reply for t3_regex_extract/baseline/run2"
+}

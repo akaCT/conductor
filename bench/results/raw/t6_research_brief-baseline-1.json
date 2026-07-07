@@ -1,0 +1,27 @@
+{
+  "total_cost_usd": 0.018465,
+  "duration_ms": 38716,
+  "num_turns": 2,
+  "usage": {
+    "input_tokens": 1325,
+    "output_tokens": 966,
+    "cache_creation_input_tokens": 102,
+    "cache_read_input_tokens": 1809
+  },
+  "modelUsage": {
+    "claude-sonnet-5": {
+      "inputTokens": 1325,
+      "outputTokens": 966,
+      "cacheCreationInputTokens": 102,
+      "cacheReadInputTokens": 1809,
+      "costUSD": 0.018465
+    }
+  },
+  "is_mock": true,
+  "task_id": "t6_research_brief",
+  "arm": "baseline",
+  "run_n": 1,
+  "model": "claude-sonnet-5",
+  "success": true,
+  "final_text": "[mock] synthesized reply for t6_research_brief/baseline/run1"
+}

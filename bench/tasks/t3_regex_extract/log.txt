@@ -1,0 +1,8 @@
+2026-07-01 10:02:11 login attempt from user zed@example.com failed
+2026-07-01 10:02:45 login attempt from user Anna@Example.com succeeded
+2026-07-01 10:03:02 password reset requested by zed@example.com
+2026-07-01 10:05:19 new signup: mike.jones@example.org
+2026-07-01 10:06:00 support ticket opened by anna@example.com
+2026-07-01 10:07:33 unsubscribed: mike.jones@example.org
+2026-07-01 10:08:44 no email in this line, just noise
+2026-07-01 10:09:12 admin note added for zed@example.com by ops@internal.test

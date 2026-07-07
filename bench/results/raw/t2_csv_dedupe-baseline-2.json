@@ -1,0 +1,27 @@
+{
+  "total_cost_usd": 0.018213,
+  "duration_ms": 24617,
+  "num_turns": 5,
+  "usage": {
+    "input_tokens": 1241,
+    "output_tokens": 966,
+    "cache_creation_input_tokens": 218,
+    "cache_read_input_tokens": 596
+  },
+  "modelUsage": {
+    "claude-sonnet-5": {
+      "inputTokens": 1241,
+      "outputTokens": 966,
+      "cacheCreationInputTokens": 218,
+      "cacheReadInputTokens": 596,
+      "costUSD": 0.018213
+    }
+  },
+  "is_mock": true,
+  "task_id": "t2_csv_dedupe",
+  "arm": "baseline",
+  "run_n": 2,
+  "model": "claude-sonnet-5",
+  "success": true,
+  "final_text": "[mock] synthesized reply for t2_csv_dedupe/baseline/run2"
+}

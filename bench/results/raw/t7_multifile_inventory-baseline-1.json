@@ -1,0 +1,27 @@
+{
+  "total_cost_usd": 0.025263,
+  "duration_ms": 35807,
+  "num_turns": 5,
+  "usage": {
+    "input_tokens": 1471,
+    "output_tokens": 1390,
+    "cache_creation_input_tokens": 48,
+    "cache_read_input_tokens": 401
+  },
+  "modelUsage": {
+    "claude-sonnet-5": {
+      "inputTokens": 1471,
+      "outputTokens": 1390,
+      "cacheCreationInputTokens": 48,
+      "cacheReadInputTokens": 401,
+      "costUSD": 0.025263
+    }
+  },
+  "is_mock": true,
+  "task_id": "t7_multifile_inventory",
+  "arm": "baseline",
+  "run_n": 1,
+  "model": "claude-sonnet-5",
+  "success": true,
+  "final_text": "[mock] synthesized reply for t7_multifile_inventory/baseline/run1"
+}

@@ -1,0 +1,6 @@
+{
+  "id": "t8_multifile_rename",
+  "category": "multifile_delegation",
+  "success_cmd": "python3 check.py",
+  "budget_note": "same rename applied consistently across 4 fixture files; rewards splitting edits across subagents; expect 2k-4k output tokens"
+}

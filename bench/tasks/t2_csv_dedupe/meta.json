@@ -1,0 +1,6 @@
+{
+  "id": "t2_csv_dedupe",
+  "category": "code_small",
+  "success_cmd": "python3 check.py",
+  "budget_note": "single-file data transform, expect under 2k output tokens on a well-behaved run"
+}

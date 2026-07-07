@@ -1,0 +1,1641 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conductor - Same work. Up to 80% less plan usage.</title>
+<meta name="description" content="Conductor cuts your Claude Code or Codex plan burn by up to 80%. Your expensive model still plans and judges. Cheaper models do the labor. One command.">
+<meta name="theme-color" content="#05060a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Crect x='3' y='13' width='4' height='8' rx='1' fill='%236EE7A0'/%3E%3Crect x='10' y='7' width='4' height='14' rx='1' fill='%236EE7A0'/%3E%3Crect x='17' y='3' width='4' height='18' rx='1' fill='%236EE7A0'/%3E%3C/svg%3E">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Conductor - Same work. Up to 80% less plan usage.">
+<meta property="og:description" content="Conductor cuts your Claude Code or Codex plan burn by up to 80%. Your expensive model still plans and judges. Cheaper models do the labor. One command.">
+<meta property="og:image" content="/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Conductor: same work, up to 80% less plan usage. One command install.">
+<meta property="og:url" content="https://conductorskill.com/">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Conductor - Same work. Up to 80% less plan usage.">
+<meta name="twitter:description" content="Conductor cuts your Claude Code or Codex plan burn by up to 80%. Your expensive model still plans and judges. Cheaper models do the labor. One command.">
+<meta name="twitter:image" content="/og.png">
+
+<link rel="canonical" href="https://conductorskill.com/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Conductor","operatingSystem":"macOS, Linux","applicationCategory":"DeveloperApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Conductor cuts your Claude Code or Codex plan burn by up to 80%. Your expensive model still plans and judges. Cheaper models do the labor. One command.","url":"https://conductorskill.com/"}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#05060a;
+    --bg-raised:#0b0d14;
+    --bg-panel:#0e1119;
+    --line:rgba(255,255,255,0.08);
+    --line-strong:rgba(255,255,255,0.14);
+    --text:#e7e9ee;
+    --text-dim:#a3a9b8;
+    --text-faint:#7d8496;
+    --accent:#6ee7a0;
+    --accent-dim:#4fae7c;
+    --accent-wash:rgba(110,231,160,0.10);
+    --accent-line:rgba(110,231,160,0.28);
+    --danger:#e76e6e;
+    --radius-lg:20px;
+    --radius-md:14px;
+    --radius-sm:8px;
+    --radius-xs:5px;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+    --maxw:1180px;
+    --measure:42rem;
+    --space-1:0.5rem;
+    --space-2:0.75rem;
+    --space-3:1rem;
+    --space-4:1.5rem;
+    --space-5:2rem;
+    --space-6:3rem;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  html{scrollbar-width:thin;scrollbar-color:var(--line-strong) var(--bg);}
+  html::-webkit-scrollbar{width:8px;}
+  html::-webkit-scrollbar-track{background:var(--bg);}
+  html::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:999px;}
+  html,body{margin:0;padding:0;overflow-x:hidden;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    min-width:0;
+  }
+
+  img,svg{display:block;max-width:100%;}
+
+  h1,h2,h3{
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    font-weight:600;
+    line-height:1.12;
+    letter-spacing:-0.01em;
+    margin:0;
+    color:var(--text);
+    text-wrap:balance;
+  }
+
+  code,.mono,kbd,pre{
+    font-family:'JetBrains Mono',ui-monospace,monospace;
+  }
+
+  kbd{
+    background:var(--bg-panel);
+    border:1px solid var(--line-strong);
+    border-bottom:2px solid var(--line-strong);
+    border-radius:var(--radius-xs);
+    padding:0.1em 0.45em;
+  }
+
+  a{color:inherit;}
+
+  ::selection{background:var(--accent-wash);color:var(--text);}
+
+  .visually-hidden{
+    position:absolute;
+    width:1px;height:1px;
+    padding:0;margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
+
+  .skip-link{
+    position:absolute;
+    left:1rem;top:-3rem;
+    background:var(--accent);
+    color:#05170e;
+    padding:0.6rem 1rem;
+    border-radius:var(--radius-sm);
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.85rem;
+    font-weight:600;
+    z-index:200;
+    transition:top 0.2s var(--ease);
+  }
+  .skip-link:focus{top:1rem;}
+
+  :focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+    border-radius:4px;
+  }
+
+  .wrap{
+    width:100%;
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding-left:1.5rem;
+    padding-right:1.5rem;
+  }
+  @media (min-width:768px){
+    .wrap{padding-left:2.5rem;padding-right:2.5rem;}
+  }
+
+  /* ---------- background texture ---------- */
+  .bg-fixed{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background:
+      radial-gradient(ellipse 900px 520px at 18% -8%, rgba(110,231,160,0.09), transparent 60%),
+      radial-gradient(ellipse 700px 480px at 100% 12%, rgba(110,231,160,0.05), transparent 55%);
+  }
+  .bg-grid{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    opacity:0.35;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:linear-gradient(to bottom, black, transparent 70%);
+  }
+
+  main, header, footer{position:relative;z-index:1;}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(5,6,10,0.78);
+    backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid var(--line);
+    transition:border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  }
+  .topbar.scrolled{
+    border-bottom-color:var(--line-strong);
+    box-shadow:0 8px 24px rgba(0,0,0,0.35);
+  }
+  .topbar-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1rem;
+    padding-top:0.85rem;
+    padding-bottom:0.85rem;
+  }
+  .wordmark{
+    display:flex;
+    align-items:center;
+    gap:0.55rem;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:1.05rem;
+    letter-spacing:-0.01em;
+    text-decoration:none;
+    color:var(--text);
+  }
+  .wordmark-glyph{
+    width:22px;height:22px;
+    flex:none;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.85rem;
+    font-weight:500;
+    letter-spacing:0.01em;
+    padding:0.55rem 1.05rem;
+    border-radius:999px;
+    border:1px solid var(--line-strong);
+    background:transparent;
+    color:var(--text);
+    cursor:pointer;
+    text-decoration:none;
+    transition:background-color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.15s var(--ease);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn:hover{
+    border-color:var(--accent-line);
+    background:var(--accent-wash);
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-solid{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#05170e;
+    font-weight:600;
+  }
+  .btn-solid:hover{
+    background:#84edb0;
+    border-color:#84edb0;
+  }
+
+  /* ---------- section rhythm ---------- */
+  section{
+    padding-top:5rem;
+    padding-bottom:5rem;
+    border-bottom:1px solid var(--line);
+    scroll-margin-top:4.5rem;
+  }
+  @media (min-width:768px){
+    section{padding-top:7.5rem;padding-bottom:7.5rem;}
+  }
+  section:last-of-type{border-bottom:none;}
+  #top,#hero-command{scroll-margin-top:4.5rem;}
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    font-weight:500;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 1.1rem;
+  }
+  .eyebrow::before{
+    content:'';
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-wash);
+  }
+
+  .section-head{
+    max-width:44rem;
+    margin-bottom:2.75rem;
+  }
+  .section-head h2{
+    font-size:clamp(1.7rem, 1.2rem + 2vw, 2.6rem);
+    margin-bottom:0.9rem;
+  }
+  .section-head p{
+    color:var(--text-dim);
+    font-size:1.05rem;
+    max-width:var(--measure);
+  }
+  .grid-3{display:grid;gap:var(--space-4);grid-template-columns:1fr;}
+  @media (min-width:900px){.grid-3{grid-template-columns:repeat(3,1fr);}}
+  .grid-4{display:grid;gap:var(--space-4);grid-template-columns:1fr;}
+  @media (min-width:640px){.grid-4{grid-template-columns:repeat(2,1fr);}}
+  @media (min-width:1024px){.grid-4{grid-template-columns:repeat(4,1fr);}}
+  .card{
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    background:var(--bg-panel);
+    padding:var(--space-4);
+    transition:border-color 0.25s var(--ease), transform 0.25s var(--ease);
+  }
+  .card-hover:hover{border-color:var(--line-strong);transform:translateY(-2px);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding-top:3.5rem;
+    padding-bottom:4.5rem;
+  }
+  @media (min-width:768px){
+    .hero{padding-top:5rem;padding-bottom:6rem;}
+  }
+  .hero-grid{
+    display:grid;
+    gap:2.75rem;
+  }
+  .hero-grid > *{min-width:0;}
+  @media (min-width:1024px){
+    .hero-grid{
+      grid-template-columns:1.05fr 0.95fr;
+      gap:3.5rem;
+      align-items:start;
+    }
+  }
+  @media (min-width:768px) and (max-width:1023px){
+    .hero-demo-col{max-width:640px;margin:0 auto;}
+  }
+  .hero h1{
+    font-size:clamp(2.35rem, 1.65rem + 3.1vw, 4.4rem);
+    font-weight:700;
+    max-width:16ch;
+  }
+  .hero h1 .accent-num{color:var(--accent);}
+  .hero-sub{
+    margin-top:1.4rem;
+    font-size:1.15rem;
+    line-height:1.65;
+    color:var(--text-dim);
+    max-width:42ch;
+  }
+
+  .term{
+    margin-top:2.1rem;
+    border-radius:var(--radius-md);
+    border:1px solid var(--line-strong);
+    background:var(--bg-panel);
+    overflow:hidden;
+    box-shadow:0 1px 0 rgba(255,255,255,0.03) inset, 0 24px 60px -30px rgba(0,0,0,0.65);
+  }
+  .term-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:0.75rem;
+    padding:0.65rem 0.9rem;
+    border-bottom:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+  }
+  .term-dots{display:flex;gap:6px;}
+  .term-dots span{
+    width:9px;height:9px;border-radius:50%;
+    background:rgba(255,255,255,0.14);
+  }
+  .term-dots span:nth-child(1){background:rgba(231,110,110,0.5);}
+  .term-dots span:nth-child(2){background:rgba(231,199,110,0.5);}
+  .term-dots span:nth-child(3){background:rgba(110,231,160,0.45);}
+  .term-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    color:var(--text-faint);
+    letter-spacing:0.04em;
+  }
+  .term-body{
+    padding:1.05rem 1.1rem;
+    overflow-x:auto;
+    scrollbar-width:thin;
+    scrollbar-color:var(--accent-line) transparent;
+  }
+  .term-body::-webkit-scrollbar{height:5px;}
+  .term-body::-webkit-scrollbar-track{background:transparent;}
+  .term-body::-webkit-scrollbar-thumb{
+    background:var(--accent-line);
+    border-radius:999px;
+  }
+  .term-cmd{
+    display:flex;
+    align-items:center;
+    gap:0.65rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.95rem;
+    white-space:nowrap;
+    color:var(--text);
+  }
+  .term-cmd .prompt-glyph{color:var(--accent);flex:none;}
+  .term-cmd .cmd-text{color:var(--text);}
+
+  .copy-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:0.4rem;
+    margin-left:auto;
+    flex:none;
+    position:sticky;
+    right:0;
+    box-shadow:-10px 0 14px rgba(5,6,10,0.75);
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    font-weight:500;
+    padding:0.4rem 0.75rem;
+    border-radius:999px;
+    border:1px solid var(--line-strong);
+    background:var(--bg-panel);
+    color:var(--text-dim);
+    cursor:pointer;
+    transition:border-color 0.2s var(--ease), color 0.2s var(--ease), background-color 0.2s var(--ease), transform 0.15s var(--ease);
+  }
+  .copy-btn:hover{
+    border-color:var(--accent-line);
+    color:var(--accent);
+    background:var(--accent-wash);
+  }
+  .copy-btn:focus-visible{
+    border-color:var(--accent-line);
+    color:var(--accent);
+    background:var(--accent-wash);
+  }
+  .copy-btn:active{transform:scale(0.96);}
+  .copy-btn[data-copied="true"]{
+    border-color:var(--accent-line);
+    color:var(--accent);
+    background:var(--accent-wash);
+  }
+  .copy-btn svg{width:13px;height:13px;flex:none;}
+
+  .hero-secondary{
+    margin-top:1.35rem;
+    display:inline-flex;
+    align-items:center;
+    gap:0.4rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.85rem;
+    color:var(--text-dim);
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+    transition:color 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+  .hero-secondary:hover{color:var(--accent);border-color:var(--accent-line);}
+
+  /* ---------- usage split readout ---------- */
+  .readout{
+    border-radius:var(--radius-md);
+    border:1px solid var(--line-strong);
+    border-top:1px solid var(--accent-line);
+    background:var(--bg-panel);
+    box-shadow:0 1px 0 rgba(255,255,255,0.03) inset, 0 24px 60px -30px rgba(0,0,0,0.65), 0 0 80px rgba(110,231,160,0.10);
+    overflow:hidden;
+  }
+  .readout-bar{
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+    padding:0.65rem 0.9rem;
+    border-bottom:1px solid var(--line);
+    background:rgba(255,255,255,0.02);
+    width:100%;
+    border-left:none;
+    border-right:none;
+    border-top:none;
+    font:inherit;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .readout-bar .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-wash);
+  }
+  @keyframes dot-pulse{
+    0%{box-shadow:0 0 0 0 rgba(110,231,160,0.45);}
+    100%{box-shadow:0 0 0 6px transparent;}
+  }
+  .readout.demo-done .readout-bar .dot{
+    animation:dot-pulse 2.6s ease-in-out infinite;
+  }
+  .readout.copy-echo .readout-bar .dot{
+    animation:dot-pulse 2.6s ease-in-out 1;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .readout.copy-echo .readout-bar .dot{animation:none;}
+  }
+  .readout-title{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    color:var(--text-faint);
+    letter-spacing:0.04em;
+  }
+  .readout-body{
+    padding:1.15rem 1.15rem 1.3rem;
+    min-height:18.4rem;
+    overflow-x:auto;
+    scrollbar-width:thin;
+    scrollbar-color:var(--accent-line) transparent;
+  }
+  .readout-body::-webkit-scrollbar{height:5px;}
+  .readout-body::-webkit-scrollbar-track{background:transparent;}
+  .readout-body::-webkit-scrollbar-thumb{
+    background:var(--accent-line);
+    border-radius:999px;
+  }
+  .readout-body pre{
+    margin:0;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.85rem;
+    line-height:1.72;
+    white-space:pre;
+    color:var(--text-dim);
+    min-width:min-content;
+  }
+  .readout-body .t-user{color:var(--text);}
+  .readout-body .t-accent{color:var(--accent-dim);font-weight:500;transition:color 0.4s var(--ease);}
+  .readout-body .t-faint{color:var(--text-faint);}
+  .readout.demo-done .readout-body .t-accent:last-of-type{color:var(--accent);}
+  .cursor-blink{
+    display:inline-block;
+    width:0.5em;
+    background:var(--accent);
+    margin-left:1px;
+  }
+  @keyframes blink{
+    0%,49%{opacity:1;}
+    50%,100%{opacity:0;}
+  }
+  .cursor-blink.on{animation:blink 1s step-end infinite;}
+
+  .readout-caption{
+    margin-top:1rem;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    color:var(--text-faint);
+    letter-spacing:0.01em;
+  }
+
+  .script-link{
+    color:var(--text-dim);
+    text-decoration:underline;
+    text-underline-offset:3px;
+    transition:color 0.2s var(--ease);
+  }
+  .script-link:hover{color:var(--accent);}
+
+  .nowrap{white-space:nowrap;}
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity 0.45s var(--ease), transform 0.45s var(--ease);
+  }
+  .reveal.is-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* ---------- grid stagger (how-list, crew grid, features grid, faq list) ---------- */
+  .stagger[data-reveal] > *{
+    opacity:0;
+    transform:translateY(10px);
+    transition:opacity 0.4s var(--ease), transform 0.4s var(--ease);
+  }
+  .stagger[data-reveal].is-visible > *{opacity:1;transform:translateY(0);}
+  .stagger[data-reveal] > *:nth-child(1){transition-delay:0ms;}
+  .stagger[data-reveal] > *:nth-child(2){transition-delay:70ms;}
+  .stagger[data-reveal] > *:nth-child(3){transition-delay:140ms;}
+  .stagger[data-reveal] > *:nth-child(4){transition-delay:210ms;}
+  .stagger[data-reveal] > *:nth-child(5){transition-delay:280ms;}
+  .stagger[data-reveal] > *:nth-child(n+6){transition-delay:350ms;}
+
+  /* ---------- problem ---------- */
+  .problem-body{
+    max-width:52rem;
+  }
+  .problem-body h2{
+    font-size:clamp(1.6rem, 1.2rem + 1.6vw, 2.2rem);
+    margin-bottom:1.25rem;
+    max-width:22ch;
+  }
+  .problem-body p{
+    color:var(--text-dim);
+    font-size:1.05rem;
+    max-width:42rem;
+  }
+  .problem-body strong{color:var(--text);font-weight:600;}
+
+  /* ---------- how it works ---------- */
+  .how-list{counter-reset:step;list-style:none;margin:0;padding:0;}
+  .how-item{
+    counter-increment:step;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent), var(--bg-panel);
+  }
+  .how-item::before{
+    content:counter(step, decimal-leading-zero);
+    display:block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    color:var(--accent);
+    letter-spacing:0.08em;
+    margin-bottom:var(--space-2);
+  }
+  .how-item h3{font-size:1.15rem;margin-bottom:var(--space-1);}
+  .how-item p{color:var(--text-dim);font-size:0.95rem;margin:0;}
+
+  .diagram{
+    margin-top:var(--space-6);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:var(--space-5) var(--space-3);
+    background:rgba(255,255,255,0.015);
+    overflow-x:auto;
+    scrollbar-width:thin;
+    scrollbar-color:var(--accent-line) transparent;
+  }
+  .diagram::-webkit-scrollbar{height:5px;}
+  .diagram::-webkit-scrollbar-track{background:transparent;}
+  .diagram::-webkit-scrollbar-thumb{background:var(--accent-line);border-radius:999px;}
+  .diagram svg{display:block;margin:0 auto;width:100%;}
+  .diagram svg.diagram-wide{max-width:760px;}
+  .diagram svg.diagram-stacked{display:none;max-width:320px;}
+  @media (max-width:600px){
+    .diagram svg.diagram-wide{display:none;}
+    .diagram svg.diagram-stacked{display:block;}
+  }
+  .diagram-caption{
+    text-align:center;
+    margin-top:var(--space-3);
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    color:var(--text-faint);
+  }
+
+  /* ---------- crew cards ---------- */
+  .crew-card{background:var(--bg-raised);}
+  .crew-icon{
+    width:38px;height:38px;
+    border-radius:var(--radius-sm);
+    background:var(--accent-wash);
+    border:1px solid var(--accent-line);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:var(--space-3);
+  }
+  .crew-icon svg{width:18px;height:18px;color:var(--accent);}
+  .crew-name{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;color:var(--text);}
+  .crew-tier{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent);margin-left:var(--space-1);}
+  .crew-desc{margin-top:var(--space-1);color:var(--text-dim);font-size:0.95rem;}
+  .crew-footnote{margin-top:var(--space-5);font-size:0.95rem;color:var(--text-faint);max-width:48rem;}
+  .crew-footnote code{color:var(--accent);font-size:0.85em;}
+
+  /* ---------- feature grid (plain card variant) ---------- */
+  .feature-item{background:transparent;border-color:var(--line);}
+  .feature-item h3{
+    font-size:1.05rem;
+    margin-bottom:var(--space-2);
+    display:flex;
+    align-items:baseline;
+    gap:0.55rem;
+  }
+  .feature-item h3::before{
+    content:'';
+    width:6px;height:6px;
+    border-radius:50%;
+    background:var(--accent);
+    flex:none;
+    transform:translateY(-2px);
+  }
+  .feature-item p{color:var(--text-dim);font-size:0.95rem;margin:0;padding-left:1.15rem;}
+
+  /* ---------- math (now opens install) ---------- */
+  .math-panel{
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius-lg);
+    padding:var(--space-6) var(--space-5);
+    background:linear-gradient(160deg, var(--accent-wash), transparent 55%), var(--bg-raised);
+  }
+  .math-panel p{color:var(--text-dim);font-size:1.05rem;max-width:48rem;margin:0;}
+  .math-panel strong{color:var(--accent);font-weight:600;font-family:'JetBrains Mono',monospace;}
+  .math-panel .math-big{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:clamp(2.2rem, 1.7rem + 2vw, 3.2rem);
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:var(--space-3);
+    letter-spacing:-0.01em;
+  }
+  .math-panel .math-big span{color:var(--accent);}
+  .math-eyebrow{margin-bottom:var(--space-4);}
+  .install-lede{margin-top:var(--space-6);}
+
+  /* ---------- install section ---------- */
+  .install-grid{display:grid;gap:var(--space-5);}
+  @media (min-width:1024px){
+    .install-grid{grid-template-columns:1.05fr 0.95fr;gap:var(--space-6);align-items:start;}
+  }
+  .req-list{
+    list-style:none;
+    margin:var(--space-4) 0 0;
+    padding:0;
+    display:grid;
+    gap:var(--space-2);
+  }
+  .req-list li{
+    display:flex;
+    gap:0.65rem;
+    align-items:flex-start;
+    color:var(--text-dim);
+    font-size:0.95rem;
+  }
+  .req-list svg{
+    width:16px;height:16px;
+    flex:none;
+    margin-top:0.18rem;
+    color:var(--accent);
+  }
+  .req-list code{color:var(--text);font-size:0.88em;}
+
+  .uninstall-note{
+    margin-top:var(--space-4);
+    font-size:0.85rem;
+    color:var(--text-faint);
+  }
+
+  .next-step{
+    margin-top:var(--space-4);
+    font-size:0.95rem;
+    color:var(--text-dim);
+  }
+  .next-step kbd{
+    color:var(--accent);
+    background:var(--accent-wash);
+    padding:0.15rem 0.45rem;
+    border-radius:var(--radius-xs);
+    font-size:0.88em;
+  }
+
+  /* ---------- faq ---------- */
+  .faq-list{
+    display:grid;
+    gap:var(--space-2);
+    max-width:52rem;
+  }
+  .faq-item{
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    background:var(--bg-raised);
+    overflow:hidden;
+  }
+  .faq-q{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1rem;
+    padding:var(--space-4);
+    background:none;
+    border:none;
+    color:var(--text);
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1rem;
+    font-weight:500;
+    text-align:left;
+    cursor:pointer;
+    transition:background-color 0.25s var(--ease), color 0.25s var(--ease);
+  }
+  .faq-q:hover{color:var(--accent);background:var(--accent-wash);}
+  .faq-q:focus-visible{color:var(--accent);background:var(--accent-wash);}
+  .faq-plus{
+    flex:none;
+    width:20px;height:20px;
+    position:relative;
+  }
+  .faq-plus::before,.faq-plus::after{
+    content:'';
+    position:absolute;
+    background:var(--text-dim);
+    transition:transform 0.3s var(--ease), opacity 0.3s var(--ease);
+  }
+  .faq-plus::before{
+    left:0;top:50%;width:100%;height:1.5px;
+    transform:translateY(-50%);
+  }
+  .faq-plus::after{
+    top:0;left:50%;height:100%;width:1.5px;
+    transform:translateX(-50%);
+  }
+  .faq-item[data-open="true"] .faq-plus::after{
+    opacity:0;
+    transform:translateX(-50%) rotate(90deg);
+  }
+  .faq-item[data-open="true"] .faq-q{color:var(--accent);}
+  .faq-a{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.35s var(--ease);
+  }
+  .faq-a-inner{
+    padding:0 var(--space-4) var(--space-4);
+    color:var(--text-dim);
+    font-size:0.95rem;
+    max-width:42rem;
+  }
+
+  /* ---------- crew band ---------- */
+  #crew{
+    background:var(--bg-raised);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  #crew .crew-card{background:var(--bg-panel);}
+
+  /* ---------- closing cta ---------- */
+  .closing-cta{padding-top:4rem;padding-bottom:4rem;}
+  @media (min-width:768px){.closing-cta{padding-top:5.5rem;padding-bottom:5.5rem;}}
+  .closing-cta h2{
+    font-size:clamp(1.7rem, 1.2rem + 2vw, 2.4rem);
+    margin-bottom:var(--space-4);
+    max-width:20ch;
+  }
+  .closing-cta .term{max-width:36rem;}
+  .closing-sub{
+    margin-top:var(--space-3);
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.8rem;
+    color:var(--text-faint);
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    padding-top:3rem;
+    padding-bottom:3rem;
+  }
+  .footer-inner{
+    display:flex;
+    flex-direction:column;
+    gap:1.75rem;
+  }
+  @media (min-width:768px){
+    .footer-inner{
+      flex-direction:row;
+      justify-content:space-between;
+      align-items:flex-start;
+    }
+  }
+  .footer-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.95rem;
+    color:var(--text-dim);
+  }
+  .footer-tag .wordmark{margin-bottom:0.6rem;}
+  .footer-links{
+    display:flex;
+    gap:1.5rem;
+    flex-wrap:wrap;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.85rem;
+  }
+  .footer-links a{
+    color:var(--text-dim);
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+    transition:color 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+  .footer-links a:hover{color:var(--accent);border-color:var(--accent-line);}
+  .footer-fine{
+    margin-top:1.75rem;
+    padding-top:1.75rem;
+    border-top:1px solid var(--line);
+    font-size:0.75rem;
+    color:var(--text-faint);
+    max-width:60ch;
+  }
+
+  /* ---------- reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce){
+    *{
+      animation-duration:0.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:0.001ms !important;
+      scroll-behavior:auto !important;
+    }
+    .reveal{opacity:1;transform:none;}
+    .cursor-blink.on{animation:none;opacity:1;}
+    .readout-bar .dot{animation:none;}
+    [data-reveal] > *{opacity:1 !important;transform:none !important;transition:none !important;}
+  }
+
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+.diagram svg text{font-family:'JetBrains Mono',monospace}.diagram .t1{font-size:12px;font-weight:600;fill:#e7e9ee}.diagram .t2{font-size:10px;fill:#6ee7a0}.diagram .t3{font-size:10px;fill:#a3a9b8}.diagram .t4{font-size:10px;fill:#7d8496}.diagram .node{fill:#0b0d14;stroke:rgba(255,255,255,.14);stroke-width:1.3}.diagram .arc{fill:#0e1119;stroke:rgba(255,255,255,.35);stroke-width:1.5;stroke-dasharray:4 3}.diagram .pri{fill:#0b0d14;stroke:#6ee7a0;stroke-width:2}.diagram .a1{stroke:rgba(110,231,160,.4);stroke-width:1.5}.diagram .a2{stroke:rgba(110,231,160,.35);stroke-width:1.5;stroke-dasharray:2 3}.diagram .lk{stroke:rgba(255,255,255,.18);stroke-width:1.3;stroke-dasharray:3 4}.diagram .lk2{stroke:rgba(255,255,255,.14);stroke-width:1.3;stroke-dasharray:2 4}
+
+  /* ---------- print ---------- */
+  @media print{
+    body{background:#fff;color:#111;}
+    .bg-fixed,.bg-grid,.topbar .btn,.diagram svg,.copy-btn,.readout{display:none !important;}
+    a{color:#111;text-decoration:underline;}
+    .script-link::after,footer a::after{content:" (" attr(href) ")";font-size:0.8em;color:#555;}
+    .term{border:1px solid #999 !important;box-shadow:none !important;background:#fff !important;}
+    .term-body,.term-cmd,.cmd-text{color:#111 !important;}
+    section{border-color:#ccc;}
+  }
+</style>
+</head>
+<body>
+<!-- You opened the source. Good instinct. Always read the install script before you pipe it to bash: https://conductorskill.com/install.sh -->
+<noscript><style>
+  .reveal,[data-reveal],.stagger[data-reveal] > *{opacity:1 !important;transform:none !important;}
+  .faq-a{max-height:none !important;}
+</style></noscript>
+<a class="skip-link" href="#hero-command">Skip to install command</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="icon-copy" viewBox="0 0 16 16"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M3.5 10.5H3a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v.5" stroke="currentColor" stroke-width="1.3" fill="none"/></symbol><symbol id="icon-check" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol><symbol id="icon-wordmark" viewBox="0 0 24 24" fill="#6ee7a0"><rect x="3" y="13" width="4" height="8" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></symbol></svg>
+
+<div class="bg-fixed" aria-hidden="true"></div>
+<div class="bg-grid" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="wordmark" href="#top">
+      <svg class="wordmark-glyph" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-wordmark"/></svg>
+      conductor
+    </a>
+    <a class="btn btn-solid" href="#hero-command">install</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">for Claude Code + Codex</p>
+          <h1>Same work. <span class="nowrap accent-num">Up to 80%</span> less plan usage.</h1>
+          <p class="hero-sub">Right now every grep and every test file burns your most expensive model. Conductor keeps it for judgment and routes the labor to cheaper tiers. Usually 60-80% less burn. No magic, just routing.</p>
+
+          <div class="term" id="hero-command">
+            <div class="term-bar">
+              <div class="term-dots"><span></span><span></span><span></span></div>
+              <span class="term-label">install</span>
+            </div>
+            <div class="term-body">
+              <div class="term-cmd">
+                <span class="prompt-glyph">$</span>
+                <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash</span>
+                <button class="copy-btn" type="button" data-copy-btn data-copy-target="install-cmd-1">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
+                  <span data-copy-label>copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <p class="readout-caption">Backs up everything it touches. Managed markers. One-command undo. <a href="https://conductorskill.com/install.sh" class="script-link">Read the script before you run it.</a></p>
+
+          <p class="next-step" id="hero-next-step" hidden>Crew recruited. Open a new session and run <kbd>/conductor</kbd>.</p>
+
+          <a class="hero-secondary" href="#how-it-works">how it works ↓</a>
+        </div>
+
+        <div class="hero-demo-col">
+          <div class="readout reveal" data-reveal>
+            <button type="button" class="readout-bar" id="readout-replay" aria-label="Replay the usage-split demo" title="replay">
+              <span class="dot" aria-hidden="true"></span>
+              <span class="readout-title">usage split</span>
+            </button>
+            <div class="readout-body">
+              <pre id="typewriter" aria-live="off"></pre>
+              <noscript><pre>> /conductor add pagination to the users API + tests
+
+  Planning on your primary model...
+  Dispatching wave (parallel):
+    builder  · sonnet   writing endpoint + tests
+    builder  · sonnet   updating the client
+    scout    · haiku    mapping call sites
+  Verifying: 2 critic · sonnet  (correctness, repro)
+  critic 2 flagged a missing edge case -> builder patched
+
+  Primary: plan + adjudication + synthesis
+  Dispatched: 2 builder (sonnet), 1 scout (haiku), 2 critic (sonnet)</pre></noscript>
+            </div>
+          </div>
+          <p class="readout-caption">One expensive thinker. Five cheap pairs of hands.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROBLEM ============ -->
+  <section id="problem">
+    <div class="wrap">
+      <div class="problem-body reveal" data-reveal>
+        <p class="eyebrow">the problem</p>
+        <h2>Your best model is doing your worst work.</h2>
+        <p>Every grep, every boilerplate edit, every test file runs on your most expensive model and counts against your weekly limit at the highest rate. You are paying top-tier prices to do bottom-tier work. The fix is not a cheaper model. <strong>It is the right model for each job.</strong> That is what Conductor does.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section id="how-it-works">
+    <div class="wrap">
+      <div class="section-head reveal" data-reveal>
+        <p class="eyebrow">how it works</p>
+        <h2>You conduct. Cheaper models play.</h2>
+      </div>
+
+      <ol class="how-list grid-3 reveal stagger" data-reveal>
+        <li class="card how-item">
+          <h3>You conduct.</h3>
+          <p>The session's primary model does only what expensive reasoning is for: intent, decomposition, routing, judgment, synthesis.</p>
+        </li>
+        <li class="card how-item">
+          <h3>The crew plays.</h3>
+          <p>Builders (sonnet) write the code, scouts (haiku) gather facts, critics (sonnet) review, all in parallel.</p>
+        </li>
+        <li class="card how-item">
+          <h3>Your plan stretches.</h3>
+          <p>Weekly limits weight usage by per-token cost, and the labor is the bulk of the tokens. Move the labor down a tier and the same plan does more work.</p>
+        </li>
+      </ol>
+
+      <div class="diagram reveal" data-reveal>
+        <svg class="diagram-wide" viewBox="0 0 760 260" role="img" aria-labelledby="diagram-title"><title id="diagram-title">One conductor node fanning out to a builder, a scout, a critic, and an architect worker node</title><defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="rgba(110,231,160,.55)"/></marker></defs><line x1="150" y1="130" x2="290" y2="42" class="a1" marker-end="url(#arrow)"/><line x1="150" y1="130" x2="290" y2="106" class="a1" marker-end="url(#arrow)"/><line x1="150" y1="130" x2="290" y2="170" class="a1" marker-end="url(#arrow)"/><line x1="150" y1="130" x2="290" y2="234" class="a2" marker-end="url(#arrow)"/><g><rect x="20" y="95" width="130" height="70" rx="14" class="pri"/><text x="85" y="125" text-anchor="middle" class="t1">primary</text><text x="85" y="144" text-anchor="middle" class="t3">plan &#183; judge</text></g><g><rect x="300" y="7" width="150" height="60" rx="12" class="node"/><text x="375" y="32" text-anchor="middle" class="t1">builder</text><text x="375" y="50" text-anchor="middle" class="t2">sonnet</text></g><g><rect x="300" y="76" width="150" height="60" rx="12" class="node"/><text x="375" y="101" text-anchor="middle" class="t1">scout</text><text x="375" y="119" text-anchor="middle" class="t2">haiku</text></g><g><rect x="300" y="140" width="150" height="60" rx="12" class="node"/><text x="375" y="165" text-anchor="middle" class="t1">critic</text><text x="375" y="183" text-anchor="middle" class="t2">sonnet</text></g><g><rect x="300" y="204" width="150" height="60" rx="12" class="arc"/><text x="375" y="227" text-anchor="middle" class="t1">architect</text><text x="375" y="243" text-anchor="middle" class="t2">opus</text><text x="375" y="257" text-anchor="middle" class="t4">epics only</text></g><line x1="450" y1="42" x2="590" y2="130" class="lk"/><line x1="450" y1="106" x2="590" y2="130" class="lk"/><line x1="450" y1="170" x2="590" y2="130" class="lk"/><line x1="450" y1="234" x2="590" y2="130" class="lk2"/><g><rect x="600" y="95" width="140" height="70" rx="14" class="node"/><text x="670" y="125" text-anchor="middle" class="t1">synthesis</text><text x="670" y="144" text-anchor="middle" class="t3">back to you</text></g></svg>
+
+        <svg class="diagram-stacked" viewBox="0 0 300 470" role="img" aria-labelledby="diagram-title-stacked"><title id="diagram-title-stacked">Conductor stacked above four workers, feeding down into synthesis</title><defs><marker id="arrow-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="rgba(110,231,160,.55)"/></marker></defs><g><rect x="75" y="10" width="150" height="56" rx="12" class="pri"/><text x="150" y="34" text-anchor="middle" class="t1">primary</text><text x="150" y="51" text-anchor="middle" class="t3">plan &#183; judge</text></g><line x1="150" y1="66" x2="150" y2="90" class="a1" marker-end="url(#arrow-s)"/><g><rect x="30" y="92" width="240" height="52" rx="10" class="node"/><text x="150" y="114" text-anchor="middle" class="t1">builder</text><text x="150" y="132" text-anchor="middle" class="t2">sonnet</text></g><line x1="150" y1="144" x2="150" y2="160" class="lk"/><g><rect x="30" y="162" width="240" height="52" rx="10" class="node"/><text x="150" y="184" text-anchor="middle" class="t1">scout</text><text x="150" y="202" text-anchor="middle" class="t2">haiku</text></g><line x1="150" y1="214" x2="150" y2="230" class="lk"/><g><rect x="30" y="232" width="240" height="52" rx="10" class="node"/><text x="150" y="254" text-anchor="middle" class="t1">critic</text><text x="150" y="272" text-anchor="middle" class="t2">sonnet</text></g><line x1="150" y1="284" x2="150" y2="300" class="lk2"/><g><rect x="30" y="302" width="240" height="52" rx="10" class="arc"/><text x="150" y="322" text-anchor="middle" class="t1">architect</text><text x="150" y="338" text-anchor="middle" class="t2">opus &#183; epics only</text></g><line x1="150" y1="354" x2="150" y2="378" class="a1" marker-end="url(#arrow-s)"/><g><rect x="55" y="380" width="190" height="56" rx="12" class="node"/><text x="150" y="404" text-anchor="middle" class="t1">synthesis</text><text x="150" y="421" text-anchor="middle" class="t3">back to you</text></g></svg>
+        <p class="diagram-caption">one conductor, four workers, one verified result</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE CREW ============ -->
+  <section id="crew">
+    <div class="wrap">
+      <div class="section-head reveal" data-reveal>
+        <p class="eyebrow">the crew</p>
+        <h2>Four agents, pinned to a tier.</h2>
+      </div>
+
+      <div class="grid-4 reveal stagger" data-reveal>
+        <div class="card card-hover crew-card">
+          <div class="crew-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10M12 20V4M20 20v-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <div class="crew-name">builder<span class="crew-tier">sonnet</span></div>
+          <p class="crew-desc">Features, fixes, refactors, tests, scripts, drafts.</p>
+        </div>
+        <div class="card card-hover crew-card">
+          <div class="crew-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-4.3-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <div class="crew-name">scout<span class="crew-tier">haiku</span></div>
+          <p class="crew-desc">Greps, inventories, config dumps, status checks. Read-only.</p>
+        </div>
+        <div class="card card-hover crew-card">
+          <div class="crew-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.5 12l1.8 1.8L14.5 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="crew-name">critic<span class="crew-tier">sonnet</span></div>
+          <p class="crew-desc">Adversarial review panels that try to break the work.</p>
+        </div>
+        <div class="card card-hover crew-card">
+          <div class="crew-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.6"/></svg>
+          </div>
+          <div class="crew-name">architect<span class="crew-tier">opus</span></div>
+          <p class="crew-desc">Deep design for epics. Used sparingly.</p>
+        </div>
+      </div>
+
+      <p class="crew-footnote reveal" data-reveal>Models are pinned per agent, in each agent's config file, on Claude Code and Codex alike. A dispatch can never silently burn your primary model. <code>sonnet</code> / <code>haiku</code> / <code>opus</code> resolve to whatever your plan provides.</p>
+    </div>
+  </section>
+
+  <!-- ============ WHAT YOU GET ============ -->
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head reveal" data-reveal>
+        <p class="eyebrow">what you get</p>
+        <h2>Delegation, built into the session.</h2>
+      </div>
+
+      <div class="grid-3 reveal stagger" data-reveal>
+        <div class="card feature-item">
+          <h3>Every session delegates by default.</h3>
+          <p>A managed block in your CLAUDE.md, so it is always on, not a thing you have to remember.</p>
+        </div>
+        <div class="card feature-item">
+          <h3><kbd class="mono">/conductor</kbd> for the big jobs.</h3>
+          <p>The full loop: recon, plan, parallel dispatch, verification rounds, synthesis.</p>
+        </div>
+        <div class="card feature-item">
+          <h3>Safe installer.</h3>
+          <p>Backs up everything it touches, idempotent, one-command uninstall. It never clobbers a file without a recoverable backup.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INSTALL (opens with the math) ============ -->
+  <section id="install">
+    <div class="wrap">
+      <div class="math-panel reveal" data-reveal>
+        <p class="eyebrow math-eyebrow">the math, honestly</p>
+        <p class="math-big">Usually <span>60-80% less</span>. Sometimes more.</p>
+        <p>Weekly plan limits (or your API bill) weight usage by per-token cost. On build-heavy work the execution tokens dwarf the orchestration tokens, so routing the labor to cheaper tiers commonly burns <strong>60-80% less</strong>, the same fact as stretching a plan <strong>3-5x</strong> longer. Less if your session default is already a cheap model, more if you delegate aggressively. No magic, just routing.</p>
+        <svg class="range-strip" viewBox="0 0 560 64" width="100%" style="max-width:560px;margin-top:1.25rem;" role="img" aria-label="Typical savings: 60 to 80 percent less plan burn, less if your default is already cheap, more if you delegate aggressively.">
+          <rect x="118" y="18" width="128" height="14" fill="var(--accent-wash)" stroke="var(--accent-line)"/>
+          <g stroke="var(--line-strong)"><line x1="20" y1="25" x2="540" y2="25"/><line x1="20" y1="20" x2="20" y2="30"/><line x1="182" y1="20" x2="182" y2="30"/><line x1="246" y1="20" x2="246" y2="30"/><line x1="540" y1="20" x2="540" y2="30"/></g>
+          <g class="t4" text-anchor="middle"><text x="20" y="46">0%</text><text x="182" y="46">60%</text><text x="246" y="46">80%</text><text x="540" y="46">100%</text><text x="20" y="60" style="font-size:8px">already on a cheap default</text><text x="540" y="60" style="font-size:8px">delegating aggressively</text></g>
+        </svg>
+      </div>
+
+      <div class="section-head install-lede reveal" data-reveal>
+        <p class="eyebrow">install</p>
+        <h2>One command. Then forget it's there.</h2>
+      </div>
+
+      <div class="install-grid">
+        <div class="reveal" data-reveal>
+          <div class="term">
+            <div class="term-bar">
+              <div class="term-dots"><span></span><span></span><span></span></div>
+              <span class="term-label">install</span>
+            </div>
+            <div class="term-body">
+              <div class="term-cmd">
+                <span class="prompt-glyph">$</span>
+                <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash</span>
+                <button class="copy-btn" type="button" data-copy-btn data-copy-target="install-cmd-2">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
+                  <span data-copy-label>copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <p class="next-step">Then open a new session and run: <kbd>/conductor &lt;your objective&gt;</kbd> <span class="mono">(on Codex: <kbd>$conductor</kbd>)</span></p>
+          <p class="readout-caption"><a href="https://conductorskill.com/install.sh" class="script-link">Read the script before you run it.</a></p>
+
+          <p class="uninstall-note">Uninstall anytime:</p>
+          <div class="term" style="margin-top:0.6rem;">
+            <div class="term-bar">
+              <div class="term-dots"><span></span><span></span><span></span></div>
+              <span class="term-label">uninstall</span>
+            </div>
+            <div class="term-body">
+              <div class="term-cmd">
+                <span class="prompt-glyph">$</span>
+                <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash -s -- --uninstall</span>
+                <button class="copy-btn" type="button" data-copy-btn data-copy-target="uninstall-cmd">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
+                  <span data-copy-label>copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal" data-reveal>
+          <h3 style="font-size:1.05rem;margin-bottom:0.5rem;color:var(--text);">Requirements</h3>
+          <ul class="req-list">
+            <li>
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-check"/></svg>
+              <span><strong>Claude Code</strong>: the <code>sonnet</code> and <code>haiku</code> tiers (any paid plan). <code>opus</code> only for the architect.</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-check"/></svg>
+              <span><strong>Codex CLI</strong>: GPT-5.4 and GPT-5.4-mini. GPT-5.5 only for the architect.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head reveal" data-reveal>
+        <p class="eyebrow">faq</p>
+        <h2>Ask the annoying questions.</h2>
+      </div>
+
+      <div class="faq-list reveal stagger" data-reveal>
+        <div class="faq-item" data-faq>
+          <button class="faq-q" type="button" aria-expanded="false">
+            Is it safe to edit my CLAUDE.md?
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">Yes. Conductor writes its block between managed markers, backs the file up first, and <code>--uninstall</code> removes exactly that block and nothing else. If the markers ever look tampered with, it refuses to guess and tells you instead.</div>
+          </div>
+        </div>
+        <div class="faq-item" data-faq>
+          <button class="faq-q" type="button" aria-expanded="false">
+            What does the install script actually do?
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">All of it is visible in the script itself. For each harness it detects, it writes four agent files and one skill folder (under ~/.claude for Claude Code; under ~/.codex and ~/.agents for Codex), appends one clearly marked block to your CLAUDE.md or AGENTS.md, records a per-harness manifest of every file it created, and backs up anything it replaces with a timestamped copy. Only if you say yes when it asks: it can also set your Claude Code default model in settings.json, backed up first and flagged again at uninstall. It makes no network calls beyond fetching itself and never touches your code, your keys, or anything outside those folders.</div>
+          </div>
+        </div>
+        <div class="faq-item" data-faq>
+          <button class="faq-q" type="button" aria-expanded="false">
+            Will it change the quality of my results?
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">No. Your primary model still thinks, judges, and verifies. It just stops typing the boilerplate itself.</div>
+          </div>
+        </div>
+        <div class="faq-item" data-faq>
+          <button class="faq-q" type="button" aria-expanded="false">
+            Does it work on my plan?
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">Any paid Claude Code plan with sonnet and haiku. No Opus needed for the core. On Codex, the same routing applies: GPT-5.5 stays for judgment, GPT-5.4 and mini do the labor, and OpenAI's credit metering rewards it the same way.</div>
+          </div>
+        </div>
+        <div class="faq-item" data-faq>
+          <button class="faq-q" type="button" aria-expanded="false">
+            Do I have to learn a workflow?
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">No. Install it and keep working. It delegates on its own. Use <kbd>/conductor</kbd> when you want the full loop on a big task.</div>
+          </div>
+        </div>
+        <div class="faq-item" data-faq>
+          <button class="faq-q" type="button" aria-expanded="false">
+            Why not just switch to a cheaper model?
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">Because then the cheap model does your thinking too. Conductor keeps the judgment expensive and the labor cheap: your primary model plans, routes, and verifies; the cheap tiers type. You could do this by hand with <code>/model</code>. You will not remember to.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CLOSING CTA ============ -->
+  <section class="closing-cta" id="closing-cta">
+    <div class="wrap">
+      <div class="reveal" data-reveal>
+        <h2>Your best model has better things to do.</h2>
+        <div class="term">
+          <div class="term-bar">
+            <div class="term-dots"><span></span><span></span><span></span></div>
+            <span class="term-label">install</span>
+          </div>
+          <div class="term-body">
+            <div class="term-cmd">
+              <span class="prompt-glyph">$</span>
+              <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash</span>
+              <button class="copy-btn" type="button" data-copy-btn data-copy-target="install-cmd-3">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
+                <span data-copy-label>copy</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="closing-sub">One command. Every session after this one delegates on its own.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-tag">
+        <a class="wordmark" href="#top" style="margin-bottom:0.6rem;">
+          <svg class="wordmark-glyph" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-wordmark"/></svg>
+          conductor
+        </a>
+        <div>you conduct, cheaper models play.</div>
+      </div>
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="#hero-command">Install</a>
+        <a href="https://conductorskill.com/install.sh">read install.sh</a>
+      </nav>
+    </div>
+    <p class="footer-fine">License: MIT (see LICENSE); third-party notices included. Not affiliated with Anthropic or OpenAI. Claude and Claude Code are trademarks of Anthropic. Codex is a trademark of OpenAI.</p>
+  </div>
+</footer>
+
+<div class="visually-hidden" role="status" aria-live="polite" id="copy-announcer"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- copy to clipboard ---------- */
+  var announcer = document.getElementById('copy-announcer');
+
+  function fallbackCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* no-op */ }
+    document.body.removeChild(ta);
+  }
+
+  function copyText(text){
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(function(){ fallbackCopy(text); });
+    }
+    fallbackCopy(text);
+    return Promise.resolve();
+  }
+
+  var copyButtons = document.querySelectorAll('[data-copy-btn]');
+  copyButtons.forEach(function(btn){
+    var term = btn.closest('.term-body');
+    var source = term ? term.querySelector('[data-copy-source]') : null;
+    var label = btn.querySelector('[data-copy-label]');
+    var iconUse = btn.querySelector('svg use');
+    var resetTimer = null;
+
+    var isInstallCopy = btn.getAttribute('data-copy-target') !== 'uninstall-cmd';
+
+    btn.addEventListener('click', function(){
+      var text = source ? source.textContent.trim() : '';
+      if (!text) return;
+
+      copyText(text).then(function(){
+        btn.setAttribute('data-copied', 'true');
+        if (label) label.textContent = 'copied';
+        if (iconUse) iconUse.setAttribute('href', '#icon-check');
+        announcer.textContent = 'Command copied to clipboard';
+
+        if (resetTimer) clearTimeout(resetTimer);
+        resetTimer = setTimeout(function(){
+          btn.removeAttribute('data-copied');
+          if (label) label.textContent = 'copy';
+          if (iconUse) iconUse.setAttribute('href', '#icon-copy');
+        }, 1600);
+
+        if (isInstallCopy) onInstallCopySuccess();
+      });
+    });
+  });
+
+  /* ---------- copy-as-conversion beat ---------- */
+  var heroNextStep = document.getElementById('hero-next-step');
+  function onInstallCopySuccess(){
+    if (!prefersReducedMotion) {
+      var readoutRoot = document.querySelector('.readout');
+      if (readoutRoot) {
+        readoutRoot.classList.add('copy-echo');
+        setTimeout(function(){ readoutRoot.classList.remove('copy-echo'); }, 2600);
+      }
+    }
+    if (heroNextStep && heroNextStep.hasAttribute('hidden')) {
+      heroNextStep.removeAttribute('hidden');
+    }
+  }
+
+  /* ---------- topbar scroll state ---------- */
+  var topbarEl = document.querySelector('.topbar');
+  if (topbarEl) {
+    var topbarTicking = false;
+    var updateTopbar = function(){ topbarEl.classList.toggle('scrolled', window.scrollY > 24); topbarTicking = false; };
+    updateTopbar();
+    window.addEventListener('scroll', function(){
+      if (!topbarTicking) { topbarTicking = true; requestAnimationFrame(updateTopbar); }
+    }, { passive: true });
+  }
+
+  /* ---------- hero typing animation ---------- */
+  var typeTarget = document.getElementById('typewriter');
+
+  var lines = [
+    { text: '> /conductor add pagination to the users API + tests', cls: 't-user' },
+    { text: '', cls: '' },
+    { text: '  Planning on your primary model...', cls: 't-faint' },
+    { text: '  Dispatching wave (parallel):', cls: '' },
+    { text: '    builder  · sonnet   writing endpoint + tests', cls: 't-accent' },
+    { text: '    builder  · sonnet   updating the client', cls: 't-accent' },
+    { text: '    scout    · haiku    mapping call sites', cls: 't-accent' },
+    { text: '  Verifying: 2 critic · sonnet  (correctness, repro)', cls: '' },
+    { text: '  critic 2 flagged a missing edge case -> builder patched', cls: 't-faint' },
+    { text: '', cls: '' },
+    { text: '  Primary: plan + adjudication + synthesis', cls: 't-user' },
+    { text: '  Dispatched: 2 builder (sonnet), 1 scout (haiku), 2 critic (sonnet)', cls: 't-accent' }
+  ];
+
+  var isTyping = false;
+
+  function markDemoDone(){
+    var readoutRoot = typeTarget.closest('.readout');
+    if (readoutRoot) readoutRoot.classList.add('demo-done');
+  }
+
+  function renderStatic(){
+    var frag = document.createDocumentFragment();
+    lines.forEach(function(line, i){
+      var span = document.createElement('span');
+      if (line.cls) span.className = line.cls;
+      span.textContent = line.text;
+      frag.appendChild(span);
+      if (i < lines.length - 1) frag.appendChild(document.createTextNode('\n'));
+    });
+    typeTarget.innerHTML = '';
+    typeTarget.appendChild(frag);
+    markDemoDone();
+  }
+
+  // First of 3 consecutive worker lines after "Dispatching wave (parallel):"
+  var PARALLEL_START = 4;
+  var PARALLEL_COUNT = 3;
+
+  function typeAnimation(){
+    isTyping = true;
+    var lineIndex = 0;
+    var charIndex = 0;
+    typeTarget.innerHTML = '';
+    var cursor = document.createElement('span');
+    cursor.className = 'cursor-blink on';
+    cursor.textContent = ' ';
+
+    var container = document.createElement('span');
+    typeTarget.appendChild(container);
+    typeTarget.appendChild(cursor);
+
+    var currentLineSpan = null;
+
+    function typeChar(){
+      if (lineIndex >= lines.length) {
+        isTyping = false;
+        markDemoDone();
+        return; // done, leave cursor blinking at end
+      }
+      if (lineIndex === PARALLEL_START) {
+        runParallelBeat();
+        return;
+      }
+      var line = lines[lineIndex];
+
+      if (charIndex === 0) {
+        currentLineSpan = document.createElement('span');
+        if (line.cls) currentLineSpan.className = line.cls;
+        container.appendChild(currentLineSpan);
+      }
+
+      if (charIndex < line.text.length) {
+        var punct = /[.,:]/.test(line.text.charAt(charIndex));
+        currentLineSpan.textContent += line.text.charAt(charIndex);
+        charIndex++;
+        var base = line.cls === 't-accent' ? 6 : 10;
+        var delay = base + Math.random() * (line.cls === 't-accent' ? 16 : 28) + (punct ? 90 : 0);
+        setTimeout(typeChar, delay);
+      } else {
+        container.appendChild(document.createTextNode('\n'));
+        lineIndex++;
+        charIndex = 0;
+        var pause = line.text === '' ? 60 : 130;
+        setTimeout(typeChar, pause);
+      }
+    }
+
+    // Types the 3 worker lines at once; haiku line finishes first on purpose.
+    function runParallelBeat(){
+      cursor.style.visibility = 'hidden';
+      var parallelLines = lines.slice(PARALLEL_START, PARALLEL_START + PARALLEL_COUNT);
+      var bases = [9, 11, 5]; // builder, builder, scout/haiku
+      var doneCount = 0;
+      var total = parallelLines.length;
+
+      parallelLines.forEach(function(line, i){
+        var lineSpan = document.createElement('span');
+        if (line.cls) lineSpan.className = line.cls;
+        container.appendChild(lineSpan);
+        var lineCursor = document.createElement('span');
+        lineCursor.className = 'cursor-blink on';
+        lineCursor.textContent = ' ';
+        container.appendChild(lineCursor);
+        container.appendChild(document.createTextNode('\n'));
+        var ci = 0;
+        var base = bases[i];
+
+        function typeParallelChar(){
+          if (ci < line.text.length) {
+            var punct = /[.,:]/.test(line.text.charAt(ci));
+            lineSpan.textContent += line.text.charAt(ci);
+            ci++;
+            var delay = base + Math.random() * (base * 1.8) + (punct ? 90 : 0);
+            setTimeout(typeParallelChar, delay);
+          } else {
+            if (lineCursor.parentNode) lineCursor.parentNode.removeChild(lineCursor);
+            doneCount++;
+            if (doneCount === total) {
+              lineIndex = PARALLEL_START + PARALLEL_COUNT;
+              charIndex = 0;
+              cursor.style.visibility = 'visible';
+              setTimeout(typeChar, 200);
+            }
+          }
+        }
+
+        setTimeout(typeParallelChar, 400);
+      });
+    }
+
+    setTimeout(typeChar, 400);
+  }
+
+  var typed = false;
+  if (typeTarget) {
+    if (prefersReducedMotion) {
+      renderStatic();
+      typed = true;
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting && !typed) {
+            typed = true;
+            typeAnimation();
+            io.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+      io.observe(typeTarget.closest('.readout') || typeTarget);
+      // Failsafe (mirrors the reveal failsafe): if the observer never fires, type anyway.
+      setTimeout(function(){ if (!typed) { typed = true; typeAnimation(); io.disconnect(); } }, 2500);
+    }
+  }
+
+  /* ---------- replay the demo ---------- */
+  var replayBtn = document.getElementById('readout-replay');
+  if (replayBtn && typeTarget) {
+    replayBtn.addEventListener('click', function(){
+      if (isTyping) return; // isTyping spans the whole run, incl. the parallel beat
+      typed = true;
+      var readoutRoot = typeTarget.closest('.readout');
+      if (readoutRoot) readoutRoot.classList.remove('demo-done');
+      if (prefersReducedMotion) {
+        renderStatic();
+      } else {
+        typeAnimation();
+      }
+    });
+  }
+
+  /* ---------- scroll reveal ---------- */
+  var revealEls = document.querySelectorAll('[data-reveal]');
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  } else {
+    var revealObserver = new IntersectionObserver(function(entries, obs){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(function(el){ revealObserver.observe(el); });
+    // Failsafe: never leave content hidden if the observer does not fire.
+    setTimeout(function(){ revealEls.forEach(function(el){ el.classList.add('is-visible'); }); }, 2500);
+  }
+
+  /* ---------- FAQ accordion ---------- */
+  var faqItems = document.querySelectorAll('[data-faq]');
+
+  function openFaq(item){
+    var btn = item.querySelector('.faq-q');
+    var answer = item.querySelector('.faq-a');
+    var inner = item.querySelector('.faq-a-inner');
+    item.setAttribute('data-open', 'true');
+    btn.setAttribute('aria-expanded', 'true');
+    answer.style.maxHeight = inner.offsetHeight + 'px';
+  }
+
+  function closeFaq(item){
+    var btn = item.querySelector('.faq-q');
+    var answer = item.querySelector('.faq-a');
+    var inner = item.querySelector('.faq-a-inner');
+    item.setAttribute('data-open', 'false');
+    btn.setAttribute('aria-expanded', 'false');
+    answer.style.maxHeight = inner.offsetHeight + 'px';
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ answer.style.maxHeight = '0px'; });
+    });
+  }
+
+  faqItems.forEach(function(item){
+    var btn = item.querySelector('.faq-q');
+
+    btn.addEventListener('click', function(){
+      var isOpen = item.getAttribute('data-open') === 'true';
+
+      faqItems.forEach(function(other){
+        if (other !== item && other.getAttribute('data-open') === 'true') {
+          closeFaq(other);
+        }
+      });
+
+      if (isOpen) {
+        closeFaq(item);
+      } else {
+        openFaq(item);
+      }
+    });
+  });
+
+  /* re-measure any open FAQ answer once webfonts finish loading, so a
+     late font swap can't leave the answer clipped at fallback-font height */
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function(){
+      faqItems.forEach(function(item){
+        if (item.getAttribute('data-open') === 'true') openFaq(item);
+      });
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>

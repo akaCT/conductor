@@ -1,0 +1,7 @@
+{
+  "id": "t6_research_brief",
+  "category": "research_summarize",
+  "success_cmd": "bash check.sh",
+  "needs_reply_file": true,
+  "budget_note": "read one fixture file, produce a short brief in the final text reply; expect under 1k output tokens"
+}

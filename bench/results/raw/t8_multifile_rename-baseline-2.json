@@ -1,0 +1,27 @@
+{
+  "total_cost_usd": 0.026925,
+  "duration_ms": 9394,
+  "num_turns": 5,
+  "usage": {
+    "input_tokens": 1795,
+    "output_tokens": 1436,
+    "cache_creation_input_tokens": 20,
+    "cache_read_input_tokens": 1517
+  },
+  "modelUsage": {
+    "claude-sonnet-5": {
+      "inputTokens": 1795,
+      "outputTokens": 1436,
+      "cacheCreationInputTokens": 20,
+      "cacheReadInputTokens": 1517,
+      "costUSD": 0.026925
+    }
+  },
+  "is_mock": true,
+  "task_id": "t8_multifile_rename",
+  "arm": "baseline",
+  "run_n": 2,
+  "model": "claude-sonnet-5",
+  "success": true,
+  "final_text": "[mock] synthesized reply for t8_multifile_rename/baseline/run2"
+}

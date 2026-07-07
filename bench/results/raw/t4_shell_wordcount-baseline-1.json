@@ -1,0 +1,27 @@
+{
+  "total_cost_usd": 0.032661,
+  "duration_ms": 24766,
+  "num_turns": 3,
+  "usage": {
+    "input_tokens": 3157,
+    "output_tokens": 1546,
+    "cache_creation_input_tokens": 134,
+    "cache_read_input_tokens": 791
+  },
+  "modelUsage": {
+    "claude-sonnet-5": {
+      "inputTokens": 3157,
+      "outputTokens": 1546,
+      "cacheCreationInputTokens": 134,
+      "cacheReadInputTokens": 791,
+      "costUSD": 0.032661
+    }
+  },
+  "is_mock": true,
+  "task_id": "t4_shell_wordcount",
+  "arm": "baseline",
+  "run_n": 1,
+  "model": "claude-sonnet-5",
+  "success": true,
+  "final_text": "[mock] synthesized reply for t4_shell_wordcount/baseline/run1"
+}

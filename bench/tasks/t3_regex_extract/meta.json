@@ -1,0 +1,6 @@
+{
+  "id": "t3_regex_extract",
+  "category": "code_small",
+  "success_cmd": "python3 check.py",
+  "budget_note": "single-file text extraction, expect under 2k output tokens on a well-behaved run"
+}

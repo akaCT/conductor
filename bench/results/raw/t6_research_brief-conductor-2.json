@@ -1,0 +1,34 @@
+{
+  "total_cost_usd": 0.025282,
+  "duration_ms": 35903,
+  "num_turns": 7,
+  "usage": {
+    "input_tokens": 4547,
+    "output_tokens": 1684,
+    "cache_creation_input_tokens": 43,
+    "cache_read_input_tokens": 919
+  },
+  "modelUsage": {
+    "claude-sonnet-5": {
+      "inputTokens": 2728,
+      "outputTokens": 1010,
+      "cacheCreationInputTokens": 25,
+      "cacheReadInputTokens": 551,
+      "costUSD": 0.023334
+    },
+    "claude-haiku-4-5": {
+      "inputTokens": 683,
+      "outputTokens": 253,
+      "cacheCreationInputTokens": 6,
+      "cacheReadInputTokens": 137,
+      "costUSD": 0.001948
+    }
+  },
+  "is_mock": true,
+  "task_id": "t6_research_brief",
+  "arm": "conductor",
+  "run_n": 2,
+  "model": "claude-sonnet-5",
+  "success": true,
+  "final_text": "[mock] synthesized reply for t6_research_brief/conductor/run2"
+}
