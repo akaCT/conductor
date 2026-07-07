@@ -394,7 +394,17 @@
     font-size:0.95rem;
     white-space:nowrap;
     color:var(--text);
+    overflow-x:auto;
+    min-width:0;
   }
+  /* Contain the nowrap install command: its intrinsic width inflates any
+     content-sized (auto) grid track on narrow viewports and the page clips
+     (surfaced when the domain string got longer than the placeholder).
+     Percentage max-width cannot constrain intrinsic track sizing, so the
+     single-column tracks must be minmax(0,1fr); desktop media rules override. */
+  .term{min-width:0;max-width:100%;}
+  .hero-grid{grid-template-columns:minmax(0,1fr);}
+  .install-grid{grid-template-columns:minmax(0,1fr);}
   .term-cmd .prompt-glyph{color:var(--accent);flex:none;}
   .term-cmd .cmd-text{color:var(--text);}
 
