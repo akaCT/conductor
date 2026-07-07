@@ -1101,37 +1101,17 @@
   }
 
   /* ---------- install-command gate ---------- */
-  [data-locked-term] .term-body{position:relative;}
-  [data-locked-term] .term-cmd{filter:blur(6px);user-select:none;}
-  [data-locked-term] .copy-btn{display:none;}
-  [data-locked-term] .term-lock{
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:0.75rem;
-    background:rgba(5,6,10,0.62);
-  }
-  .term-unlock-btn{
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.82rem;
-    font-weight:500;
-    padding:0.55rem 1rem;
-    border-radius:999px;
-    border:1px solid var(--accent-line);
-    background:var(--accent-wash);
-    color:var(--accent);
-    cursor:pointer;
-    transition:background-color 0.2s var(--ease), transform 0.15s var(--ease);
-  }
-  .term-unlock-btn:hover{background:rgba(110,231,160,0.18);}
-  .term-unlock-btn:active{transform:scale(0.97);}
-  html[data-cnd-unlocked="true"] [data-locked-term] .term-cmd{filter:none;user-select:auto;}
-  html[data-cnd-unlocked="true"] [data-locked-term] .copy-btn{display:inline-flex;}
-  html[data-cnd-unlocked="true"] [data-locked-term] .term-lock{display:none;}
+  [data-gate-content]{display:none;}
+  html[data-cnd-unlocked="true"] [data-gate-cta]{display:none;}
+  html[data-cnd-unlocked="true"] [data-gate-content]{display:block;}
   html[data-cnd-unlocked="true"] .run-guide-form,
   html[data-cnd-unlocked="true"] .run-guide-form + .lead-status{display:none;}
+
+  .btn-cta{
+    margin-top:2.1rem;
+    font-size:1.05rem;
+    padding:0.9rem 1.9rem;
+  }
 
   /* ---------- lead modal ---------- */
   .lead-modal{
@@ -1204,8 +1184,8 @@
   /* ---------- print ---------- */
   @media print{
     body{background:#fff;color:#111;}
-    .bg-fixed,.bg-grid,.topbar .btn,.diagram svg,.copy-btn,.readout,.baton,.harness-toggle,.lead-form,.lead-status,.lead-modal,.term-lock{display:none !important;}
-    [data-locked-term] .term-cmd{filter:none !important;}
+    .bg-fixed,.bg-grid,.topbar .btn,.diagram svg,.copy-btn,.readout,.baton,.harness-toggle,.lead-form,.lead-status,.lead-modal,[data-gate-cta]{display:none !important;}
+    [data-gate-content]{display:block !important;}
     a{color:#111;text-decoration:underline;}
     .script-link::after,footer a::after{content:" (" attr(href) ")";font-size:0.8em;color:#555;}
     .term{border:1px solid #999 !important;box-shadow:none !important;background:#fff !important;}
@@ -1255,29 +1235,32 @@
           <h1>Same work. <span class="nowrap accent-num">Up to 80%</span> less plan usage.</h1>
           <p class="hero-sub">It's Wednesday and your weekly limit is gone. Not on judgment: on greps, boilerplate, and test files that all ran at your primary model's rate. Conductor keeps your best model for the thinking and routes the labor to cheaper tiers. No magic, just routing.</p>
 
-          <div class="term" id="hero-command" data-locked-term>
-            <div class="term-bar">
-              <div class="term-dots"><span></span><span></span><span></span></div>
-              <span class="term-label">install</span>
+          <div id="hero-command" data-gate>
+            <div data-gate-cta>
+              <button type="button" class="btn btn-solid btn-cta" aria-haspopup="dialog" aria-controls="lead-modal" data-gate-open="hero-gate">install conductor</button>
             </div>
-            <div class="term-body">
-              <div class="term-cmd">
-                <span class="prompt-glyph">$</span>
-                <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash</span>
-                <button class="copy-btn" type="button" data-copy-btn data-copy-target="install-cmd-1">
-                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
-                  <span data-copy-label>copy</span>
-                </button>
+            <p class="readout-caption">Backs up everything it touches. Managed markers. One-command undo.</p>
+            <div data-gate-content>
+              <div class="term">
+                <div class="term-bar">
+                  <div class="term-dots"><span></span><span></span><span></span></div>
+                  <span class="term-label">install</span>
+                </div>
+                <div class="term-body">
+                  <div class="term-cmd">
+                    <span class="prompt-glyph">$</span>
+                    <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash</span>
+                    <button class="copy-btn" type="button" data-copy-btn data-copy-target="install-cmd-1">
+                      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
+                      <span data-copy-label>copy</span>
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div class="term-lock">
-                <button class="term-unlock-btn" type="button" data-gate-open="hero-gate">unlock with email</button>
-              </div>
+              <p class="next-step" id="hero-next-step" hidden>Crew recruited. Open a new session and just work; it conducts on its own.</p>
             </div>
           </div>
-          <p class="readout-caption">Backs up everything it touches. Managed markers. One-command undo.</p>
-          <noscript><p class="noscript-note">JavaScript is off, so the unlock flow will not run here. The install command is in the README: <a href="https://github.com/akaCT/conductor" target="_blank" rel="noopener">github.com/akaCT/conductor</a></p></noscript>
-
-          <p class="next-step" id="hero-next-step" hidden>Crew recruited. Open a new session and just work; it conducts on its own.</p>
+          <noscript><p class="noscript-note">JavaScript is off, so this page can't reveal the install command. Grab it from the README: <a href="https://github.com/akaCT/conductor" target="_blank" rel="noopener">github.com/akaCT/conductor</a></p></noscript>
 
           <a class="hero-secondary" href="#how-it-works">how it works ↓</a>
         </div>
@@ -1488,41 +1471,45 @@
 
       <div class="install-grid">
         <div class="reveal" data-reveal>
-          <div class="term" data-locked-term>
-            <div class="term-bar">
-              <div class="term-dots"><span></span><span></span><span></span></div>
-              <span class="term-label">install</span>
+          <div data-gate>
+            <div data-gate-cta>
+              <button type="button" class="btn btn-solid btn-cta" aria-haspopup="dialog" aria-controls="lead-modal" data-gate-open="install-gate">install conductor</button>
             </div>
-            <div class="term-body">
-              <div class="term-cmd">
-                <span class="prompt-glyph">$</span>
-                <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash</span>
-                <button class="copy-btn" type="button" data-copy-btn data-copy-target="install-cmd-2">
-                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
-                  <span data-copy-label>copy</span>
-                </button>
+            <div data-gate-content>
+              <div class="term">
+                <div class="term-bar">
+                  <div class="term-dots"><span></span><span></span><span></span></div>
+                  <span class="term-label">install</span>
+                </div>
+                <div class="term-body">
+                  <div class="term-cmd">
+                    <span class="prompt-glyph">$</span>
+                    <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash</span>
+                    <button class="copy-btn" type="button" data-copy-btn data-copy-target="install-cmd-2">
+                      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
+                      <span data-copy-label>copy</span>
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div class="term-lock">
-                <button class="term-unlock-btn" type="button" data-gate-open="install-gate">unlock with email</button>
-              </div>
-            </div>
-          </div>
-          <p class="next-step">Then open a new session. It conducts from the first message. For a big objective, hand it <kbd>/conductor &lt;your objective&gt;</kbd> <span class="mono">(Codex: <kbd>$conductor</kbd>)</span>.</p>
+              <p class="next-step">Then open a new session. It conducts from the first message. For a big objective, hand it <kbd>/conductor &lt;your objective&gt;</kbd> <span class="mono">(Codex: <kbd>$conductor</kbd>)</span>.</p>
 
-          <p class="uninstall-note">Uninstall anytime:</p>
-          <div class="term" style="margin-top:0.6rem;">
-            <div class="term-bar">
-              <div class="term-dots"><span></span><span></span><span></span></div>
-              <span class="term-label">uninstall</span>
-            </div>
-            <div class="term-body">
-              <div class="term-cmd">
-                <span class="prompt-glyph">$</span>
-                <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash -s -- --uninstall</span>
-                <button class="copy-btn" type="button" data-copy-btn data-copy-target="uninstall-cmd">
-                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
-                  <span data-copy-label>copy</span>
-                </button>
+              <p class="uninstall-note">Uninstall anytime:</p>
+              <div class="term" style="margin-top:0.6rem;">
+                <div class="term-bar">
+                  <div class="term-dots"><span></span><span></span><span></span></div>
+                  <span class="term-label">uninstall</span>
+                </div>
+                <div class="term-body">
+                  <div class="term-cmd">
+                    <span class="prompt-glyph">$</span>
+                    <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash -s -- --uninstall</span>
+                    <button class="copy-btn" type="button" data-copy-btn data-copy-target="uninstall-cmd">
+                      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
+                      <span data-copy-label>copy</span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1552,7 +1539,7 @@
         <div class="movement-mark" aria-hidden="true"><svg class="staff-mini" viewBox="0 0 40 16"><line x1="0" y1="4" x2="40" y2="4"/><line x1="0" y1="8" x2="40" y2="8"/><line x1="0" y1="12" x2="40" y2="12"/></svg></div>
         <p class="eyebrow">get conductor</p>
         <h2>One email. Two things back.</h2>
-        <p data-gate-copy>Drop your email and the install command unlocks right here, plus the run guide in your inbox: what to brief your first session on, how to read the usage split, and how to tell it's working. One note when a new skill ships. Nothing else, ever.</p>
+        <p data-gate-copy>Drop your email and the install command is right here, plus the run guide in your inbox: what to brief your first session on, how to read the usage split, and how to tell it's working. One note when a new skill ships. Nothing else, ever.</p>
       </div>
 
       <form class="lead-form run-guide-form reveal" data-reveal data-lead-form data-lead-source="section-gate" data-unlock-form novalidate>
@@ -1565,7 +1552,7 @@
           <label for="run-guide-email">Email</label>
           <input type="email" id="run-guide-email" name="email" autocomplete="email" inputmode="email" placeholder="you@company.com" data-lead-email required>
         </div>
-        <button class="btn btn-solid lead-submit" type="submit">unlock the install command</button>
+        <button class="btn btn-solid lead-submit" type="submit">get conductor</button>
       </form>
       <p class="lead-status" data-lead-status role="status" aria-live="polite"></p>
 
@@ -1680,22 +1667,26 @@
     <div class="wrap">
       <div class="reveal" data-reveal>
         <h2>Your best model has better things to do.</h2>
-        <div class="term" data-locked-term>
-          <div class="term-bar">
-            <div class="term-dots"><span></span><span></span><span></span></div>
-            <span class="term-label">install</span>
+        <div data-gate>
+          <div data-gate-cta>
+            <button type="button" class="btn btn-solid btn-cta" aria-haspopup="dialog" aria-controls="lead-modal" data-gate-open="closing-gate">install conductor</button>
           </div>
-          <div class="term-body">
-            <div class="term-cmd">
-              <span class="prompt-glyph">$</span>
-              <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash</span>
-              <button class="copy-btn" type="button" data-copy-btn data-copy-target="install-cmd-3">
-                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
-                <span data-copy-label>copy</span>
-              </button>
-            </div>
-            <div class="term-lock">
-              <button class="term-unlock-btn" type="button" data-gate-open="closing-gate">unlock with email</button>
+          <div data-gate-content>
+            <div class="term">
+              <div class="term-bar">
+                <div class="term-dots"><span></span><span></span><span></span></div>
+                <span class="term-label">install</span>
+              </div>
+              <div class="term-body">
+                <div class="term-cmd">
+                  <span class="prompt-glyph">$</span>
+                  <span class="cmd-text" data-copy-source>curl -fsSL https://conductorskill.com/install.sh | bash</span>
+                  <button class="copy-btn" type="button" data-copy-btn data-copy-target="install-cmd-3">
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="#icon-copy"/></svg>
+                    <span data-copy-label>copy</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1733,8 +1724,8 @@
   <div class="lead-modal-scrim" data-modal-close></div>
   <div class="lead-modal-card" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
     <button class="lead-modal-x" type="button" data-modal-close aria-label="Close">&times;</button>
-    <h3 id="lead-modal-title" class="lead-modal-title">Get the install command</h3>
-    <p class="lead-modal-sub">Drop your email and it unlocks right here, plus the run guide in your inbox.</p>
+    <h3 id="lead-modal-title" class="lead-modal-title">Get Conductor</h3>
+    <p class="lead-modal-sub">Drop your email and it's yours right here, plus the run guide in your inbox.</p>
     <form class="lead-form" id="lead-modal-form" data-lead-form data-unlock-form novalidate>
       <input class="hp-field" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" name="company_url" data-hp>
       <div class="lead-field">
@@ -1745,7 +1736,7 @@
         <label for="modal-email">Email</label>
         <input type="email" id="modal-email" name="email" autocomplete="email" inputmode="email" placeholder="you@company.com" data-lead-email required>
       </div>
-      <button class="btn btn-solid lead-submit" type="submit">unlock the install command</button>
+      <button class="btn btn-solid lead-submit" type="submit">get conductor</button>
     </form>
     <p class="lead-status" data-lead-status role="status" aria-live="polite"></p>
     <p class="lead-modal-trust">We'll never sell or share your info. One-click unsubscribe.</p>
@@ -2344,7 +2335,7 @@
       }).then(function(ok){
         busy = false;
         if (ok) {
-          var msg = isUnlockForm ? 'Unlocked. Check your inbox for the run guide.' : 'Sent. Check your inbox.';
+          var msg = isUnlockForm ? "You're in. Check your inbox for the run guide." : 'Sent. Check your inbox.';
           if (statusEl) { statusEl.textContent = msg; statusEl.setAttribute('data-state', 'ok'); }
           form.reset();
           form.hidden = true;
