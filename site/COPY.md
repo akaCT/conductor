@@ -1,4 +1,4 @@
-> NOTE (2026-07-03): superseded by the live index.html. v2 reframed the hero to "Same work. Up to 80% less plan usage." and added Codex positioning; this file is the original v1 copy brief, kept for history.
+> NOTE (2026-07-03): superseded by the live index.html. the live page later reframed the hero and added Codex positioning; this file is the original v1 copy brief, kept for history.
 
 # Conductor landing page - canonical copy + direction
 
@@ -18,7 +18,7 @@ tasteful motion idea done well, fast, responsive, accessible.
 
 Eyebrow: `for Claude Code`
 
-H1: **Your Claude plan, 3-5x longer.**
+H1: **Conductor for Claude Code and Codex.**
 
 Subhead: Conductor turns every session into an orchestrator. Your expensive model
 plans and judges. Cheaper models do the labor. One command, and every session
@@ -26,7 +26,7 @@ starts delegating.
 
 Primary CTA (the hero visual is this, live-styled terminal with a copy button):
 ```
-curl -fsSL https://conductorskill.com/install.sh | bash
+curl --proto '=https' --tlsv1.2 -fsSL https://conductorskill.com/install.sh | bash
 ```
 Copy button label: `copy`  ->  on click: `copied`
 
@@ -102,16 +102,15 @@ primary model. `sonnet`/`haiku`/`opus` resolve to whatever your plan provides.
 
 Short block. Weekly plan limits (or your API bill) weight usage by per-token cost.
 On build-heavy work the execution tokens dwarf the orchestration tokens, so routing
-the labor to cheaper tiers commonly stretches a plan 3-5x. Less if your session
-default is already a cheap model, more if you delegate aggressively. No magic, just
-routing.
+the labor to pinned workers keeps your main session on judgment. No figure is
+claimed until a measured run backs it. No magic, just routing.
 
 ---
 
 ## INSTALL (repeat CTA + requirements)
 
 ```
-curl -fsSL https://conductorskill.com/install.sh | bash
+curl --proto '=https' --tlsv1.2 -fsSL https://conductorskill.com/install.sh | bash
 ```
 Then open a new session and run: `/conductor <your objective>`
 
@@ -119,7 +118,7 @@ Requirements: Claude Code with the `sonnet` and `haiku` tiers (any paid plan).
 `opus` is used only by the architect agent for epics; no Opus, skip it, the rest
 works. Uninstall anytime:
 ```
-curl -fsSL https://conductorskill.com/install.sh | bash -s -- --uninstall
+curl --proto '=https' --tlsv1.2 -fsSL https://conductorskill.com/install.sh | bash -s -- --uninstall
 ```
 
 ---
