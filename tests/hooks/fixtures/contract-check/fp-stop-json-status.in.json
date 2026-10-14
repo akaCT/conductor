@@ -1,0 +1,1 @@
+{"hook_event_name":"SubagentStop","agent_type":"builder","session_id":"sess-c1","cwd":"__CWD__","transcript_path":"__TX__","last_assistant_message":"{\"status\": \"done\", \"files\": 3}"}

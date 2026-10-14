@@ -1,0 +1,7 @@
+name = "builder"
+description = "Fixture codex agent."
+model = "fixture-model"
+model_reasoning_effort = "high"
+developer_instructions = """
+Fixture body.
+"""

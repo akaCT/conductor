@@ -1,0 +1,64 @@
+[
+  {
+    "id": 1,
+    "email": "a@example.com",
+    "age": 34,
+    "tags": [
+      "x",
+      "y"
+    ]
+  },
+  {
+    "id": 2,
+    "email": "no-at-sign.example.com",
+    "age": 20,
+    "tags": []
+  },
+  {
+    "id": 3,
+    "email": "c@example.com",
+    "age": 131,
+    "tags": [
+      "z"
+    ]
+  },
+  {
+    "id": -4,
+    "email": "d@example.com",
+    "age": 40,
+    "tags": [
+      "z"
+    ]
+  },
+  {
+    "id": 5,
+    "email": "e@example.com",
+    "age": 29,
+    "tags": "not-a-list"
+  },
+  {
+    "id": 6,
+    "email": "f@localhost",
+    "age": 51,
+    "tags": [
+      "q"
+    ]
+  },
+  {
+    "id": 7,
+    "email": "g@example.com",
+    "age": 0,
+    "tags": [
+      "a",
+      3
+    ]
+  },
+  {
+    "id": 8,
+    "email": "h@example.org",
+    "age": 130,
+    "tags": [
+      "ok"
+    ]
+  }
+]

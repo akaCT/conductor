@@ -1,0 +1,6 @@
+{
+  "id": "t16_schema_validate",
+  "category": "code_small",
+  "success_cmd": "python3 check.py",
+  "budget_note": "single script that validates records against 4 rules, expect under 2k output tokens on a well-behaved run"
+}

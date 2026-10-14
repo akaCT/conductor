@@ -1,7 +1,7 @@
 # Third-Party Notices
 
-Conductor reimplements ideas, in its own words, from the two projects below. No
-source code from either project was copied into the installed kit (the
+Conductor reimplements ideas, in its own words, from the 2 projects below, and
+credits 1 method in the Thinking Partner method section. No source code from either project was copied into the installed kit (the
 payload that install.sh ships), and reimplementing an idea in different
 prose does not by itself trigger any license or copyright obligation. The
 repo-side `bench/` benchmark harness, which is never shipped by the
@@ -36,6 +36,23 @@ kit, since no code was copied there) and as credit for the ideas.
 Honey also ships carbon and energy estimation components (MPL-2.0,
 EcoLogits-derived). Conductor did not use, copy, or derive any code, data, or
 method from those components.
+
+## Original work in 0.4.0
+
+- `payload/claude/conductor/templates/review-ladder.workflow.js`, the review-ladder
+  Workflow template, is original work written for Conductor. It is not vendored from
+  any upstream, so it has no upstream, pinned commit or license of its own; it is
+  covered by this repository's MIT license.
+- The runbooks, the `/conductor` and `$conductor` skills, the doctrine blocks and the
+  defaults file were written for Conductor in its own words.
+
+## Thinking Partner method
+
+- Thinking-partner mode in the `/conductor` and `$conductor` skills is derived from
+  Gonzalo Paternoster's Thinking Partner method: listen first, reflect it back until it
+  is right, name the real question, offer the forks, land on a first step. This is
+  credit for the method. Conductor's steps are written in its own words, and no text
+  from his materials was copied.
 
 ## MIT License
 

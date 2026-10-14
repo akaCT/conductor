@@ -1,0 +1,12 @@
+{"model": "claude-sonnet-5-5", "session_id": "fx-none", "subtype": "init", "type": "system"}
+{"message": {"content": [{"id": "toolu_n0", "input": {}, "name": "Read", "type": "tool_use"}], "id": "msg_toolu_n0", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-none", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_n0", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-none", "type": "user"}
+{"message": {"content": [{"id": "toolu_n1", "input": {}, "name": "Read", "type": "tool_use"}], "id": "msg_toolu_n1", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-none", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_n1", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-none", "type": "user"}
+{"message": {"content": [{"id": "toolu_n2", "input": {}, "name": "Grep", "type": "tool_use"}], "id": "msg_toolu_n2", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-none", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_n2", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-none", "type": "user"}
+{"message": {"content": [{"id": "toolu_n3", "input": {}, "name": "Edit", "type": "tool_use"}], "id": "msg_toolu_n3", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-none", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_n3", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-none", "type": "user"}
+{"message": {"content": [{"id": "toolu_n4", "input": {}, "name": "Bash", "type": "tool_use"}], "id": "msg_toolu_n4", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-none", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_n4", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-none", "type": "user"}
+{"duration_ms": 1000, "is_error": false, "modelUsage": {"claude-sonnet-5-5": {"cacheCreationInputTokens": 0, "cacheReadInputTokens": 0, "costUSD": 0.0007, "inputTokens": 100, "outputTokens": 50}}, "num_turns": 3, "result": "done", "session_id": "fx-none", "subtype": "success", "total_cost_usd": 0.0007, "type": "result"}

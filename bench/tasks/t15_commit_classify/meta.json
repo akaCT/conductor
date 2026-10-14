@@ -1,0 +1,6 @@
+{
+  "id": "t15_commit_classify",
+  "category": "code_small",
+  "success_cmd": "python3 check.py",
+  "budget_note": "single script that groups commit subjects into a changelog, expect under 2k output tokens on a well-behaved run"
+}

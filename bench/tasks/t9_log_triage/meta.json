@@ -1,0 +1,6 @@
+{
+  "id": "t9_log_triage",
+  "category": "multifile_delegation",
+  "success_cmd": "python3 check.py",
+  "budget_note": "4 log files to read and tally independently; rewards splitting the reads across subagents; expect 2k-4k output tokens"
+}

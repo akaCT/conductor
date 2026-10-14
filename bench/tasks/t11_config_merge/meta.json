@@ -1,0 +1,6 @@
+{
+  "id": "t11_config_merge",
+  "category": "multifile_delegation",
+  "success_cmd": "python3 check.py",
+  "budget_note": "4 JSON service configs to read and merge into 1 report; rewards splitting the reads across subagents; expect 2k-4k output tokens"
+}

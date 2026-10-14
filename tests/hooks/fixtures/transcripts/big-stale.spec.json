@@ -1,0 +1,5 @@
+[{"type":"user","ago":"3h","text":"start"},
+ {"type":"repeat","n":15,"item":{"type":"assistant","ago":"30m","tools":[{"name":"Bash","input":{"command":"ls"}}]}},
+ {"type":"pad","bytes":8000000},
+ {"type":"repeat","n":5,"item":{"type":"assistant","ago":"20m","tools":[{"name":"Bash","input":{"command":"ls"}}]}},
+ {"type":"assistant","ago":"5m","usage":[1000,0,178000,1000],"text":"ok"}]

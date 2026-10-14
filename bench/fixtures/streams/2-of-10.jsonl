@@ -1,0 +1,23 @@
+{"model": "claude-sonnet-5-5", "session_id": "fx-two", "subtype": "init", "type": "system"}
+{"message": {"content": [{"id": "toolu_t0", "input": {}, "name": "Read", "type": "tool_use"}], "id": "msg_toolu_t0", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_t0", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "user"}
+{"message": {"content": [{"id": "toolu_t1", "input": {}, "name": "Agent", "type": "tool_use"}], "id": "msg_toolu_t1", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "assistant"}
+{"message": {"content": [{"id": "toolu_t1", "input": {}, "name": "Agent", "type": "tool_use"}], "id": "msg_toolu_t1", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_t1", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "user"}
+{"message": {"content": [{"id": "toolu_t2", "input": {}, "name": "Grep", "type": "tool_use"}], "id": "msg_toolu_t2", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_t2", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "user"}
+{"message": {"content": [{"id": "toolu_t3", "input": {}, "name": "Read", "type": "tool_use"}], "id": "msg_toolu_t3", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_t3", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "user"}
+{"message": {"content": [{"id": "toolu_t4", "input": {}, "name": "Edit", "type": "tool_use"}], "id": "msg_toolu_t4", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_t4", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "user"}
+{"message": {"content": [{"id": "toolu_t5", "input": {}, "name": "Task", "type": "tool_use"}], "id": "msg_toolu_t5", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_t5", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "user"}
+{"message": {"content": [{"id": "toolu_t6", "input": {}, "name": "Bash", "type": "tool_use"}], "id": "msg_toolu_t6", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_t6", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "user"}
+{"message": {"content": [{"id": "toolu_t7", "input": {}, "name": "Read", "type": "tool_use"}], "id": "msg_toolu_t7", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_t7", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "user"}
+{"message": {"content": [{"id": "toolu_t8", "input": {}, "name": "Edit", "type": "tool_use"}], "id": "msg_toolu_t8", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_t8", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "user"}
+{"message": {"content": [{"id": "toolu_t9", "input": {}, "name": "Bash", "type": "tool_use"}], "id": "msg_toolu_t9", "role": "assistant"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "assistant"}
+{"message": {"content": [{"content": "ok", "tool_use_id": "toolu_t9", "type": "tool_result"}], "role": "user"}, "parent_tool_use_id": null, "session_id": "fx-two", "type": "user"}
+{"duration_ms": 1000, "is_error": false, "modelUsage": {"claude-sonnet-5-5": {"cacheCreationInputTokens": 5, "cacheReadInputTokens": 10, "costUSD": 0.003, "inputTokens": 400, "outputTokens": 120}}, "num_turns": 3, "result": "done", "session_id": "fx-two", "subtype": "success", "total_cost_usd": 0.003, "type": "result"}

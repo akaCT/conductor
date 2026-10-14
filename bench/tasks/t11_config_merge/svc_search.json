@@ -1,0 +1,9 @@
+{
+  "service": "search",
+  "port": 9003,
+  "timeout_s": 8,
+  "features": [
+    "index",
+    "suggest"
+  ]
+}

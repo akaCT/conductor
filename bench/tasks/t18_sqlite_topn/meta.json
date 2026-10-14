@@ -1,0 +1,6 @@
+{
+  "id": "t18_sqlite_topn",
+  "category": "code_small",
+  "success_cmd": "python3 check.py",
+  "budget_note": "single script using sqlite3 from the standard library, expect under 2k output tokens on a well-behaved run"
+}

@@ -1,0 +1,2 @@
+[{"type":"user","ago":"10m","text":"how would you split this"},
+ {"type":"assistant","ago":"3m","text":"I would use the Agent tool with a Sonnet worker for the tests, but I will do it directly."}]

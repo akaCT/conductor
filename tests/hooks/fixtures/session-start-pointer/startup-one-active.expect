@@ -1,0 +1,3 @@
+has: Checkpoint: handoffs/CURRENT.md
+has: origin unverified
+lacks: CANARYBODY-7731

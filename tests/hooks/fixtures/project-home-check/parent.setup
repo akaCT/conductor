@@ -1,0 +1,3 @@
+mkdir -p "$PROJ/work/alpha"
+put_homes "$PROJ/work/alpha"
+CASE_CWD="$PROJ/work"

@@ -1,0 +1,2 @@
+[{"type":"user","ago":"20m","text":"start"},
+ {"type":"assistant","ago":"10m","usage":[1000,0,78000,1000],"text":"working"}]

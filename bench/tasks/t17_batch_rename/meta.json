@@ -1,0 +1,6 @@
+{
+  "id": "t17_batch_rename",
+  "category": "code_small",
+  "success_cmd": "bash check.sh",
+  "budget_note": "single shell script that renames files into a new folder, expect under 1.5k output tokens on a well-behaved run"
+}

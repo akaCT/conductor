@@ -1,0 +1,3 @@
+[{"type":"user","ago":"10m","text":"list files"},
+ {"type":"assistant","ago":"5m","tools":[{"name":"Bash","input":{"command":"ls"}}]},
+ {"type":"assistant","ago":"3m","text":"Here are the files."}]

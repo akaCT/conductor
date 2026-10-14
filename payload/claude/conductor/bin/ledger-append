@@ -1,0 +1,264 @@
+#!/usr/bin/env bash
+# ledger-append: add 1 row to the deferred-findings ledger of a project.
+#
+#   ledger-append --disposition ASK|DO-NEXT|WONTFIX|BLOCKED --text "finding" [--project DIR] [--ledger PATH]
+#   ledger-append --close ID --evidence "proof" [--project DIR] [--ledger PATH]
+#
+# The ledger defaults to DEFERRED-FINDINGS.md in the project folder (the current
+# folder unless --project is given) and is created from the template on the first
+# row. Rows are only ever appended. A portable lock folder (mkdir) lets 2 sessions
+# write at the same time. A ledger that is a symbolic link, is not a regular file,
+# has a name that does not end in LEDGER.md or FINDINGS.md, has a .git folder anywhere
+# in its real path, has a config folder in its real path (.claude, any name that
+# starts .claude-, .codex or .agents; the project folder itself included) that is not
+# directly followed by worktrees/<name>/ (Claude Code's own worktree layout), or
+# resolves outside the project is refused and left unchanged. This guards against a
+# mistaken session, not a sandbox: it judges the real path by folder name, so a config
+# folder reached through a symbolic link or given a custom name is not recognized, and
+# only symbolic links are refused, not hard links. The ledger is
+# opened without following a link: with python3 the row is written through a file opened
+# with O_NOFOLLOW; without it the link test is repeated just before the write. The text of a row loses control characters and the common invisible
+# characters that reorder or hide text (zero width marks, bidirectional controls,
+# tag characters), the same set the installer strips from text it prints. Rows are
+# dated with the local date.
+#
+# Exit codes: 0 done, 2 no disposition or bad arguments, 3 ledger refused,
+# 4 lock not taken in time, 5 missing text or evidence.
+# bash 3.2 compatible.
+set -u
+export LC_ALL=C
+
+SELF_DIR="$(cd "$(dirname "$0")" && pwd)"
+TEMPLATE="$SELF_DIR/../ledger/LEDGER-TEMPLATE.md"
+
+die() { # $1=exit code $2=feedback code $3=message
+  printf 'ledger-append: %s\ncode %s\n' "$3" "$2" >&2
+  exit "$1"
+}
+
+PROJECT=""
+LEDGER=""
+DISPOSITION=""
+TEXT=""
+CLOSE_ID=""
+EVIDENCE=""
+HAVE_TEXT=0
+HAVE_EVIDENCE=0
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --project|--ledger|--disposition|--text|--close|--evidence)
+      [ "$#" -ge 2 ] || die 2 L001 "$1 needs a value"
+      case "$1" in
+        --project) PROJECT="$2" ;;
+        --ledger) LEDGER="$2" ;;
+        --disposition) DISPOSITION="$2" ;;
+        --text) TEXT="$2"; HAVE_TEXT=1 ;;
+        --close) CLOSE_ID="$2" ;;
+        --evidence) EVIDENCE="$2"; HAVE_EVIDENCE=1 ;;
+      esac
+      shift 2
+      ;;
+    *) die 2 L001 "unknown argument: $1" ;;
+  esac
+done
+
+if [ -z "$CLOSE_ID" ]; then
+  case "$DISPOSITION" in
+    ASK|DO-NEXT|WONTFIX|BLOCKED) ;;
+    "") die 2 L001 "a disposition is required: ASK, DO-NEXT, WONTFIX or BLOCKED" ;;
+    *) die 2 L001 "the disposition must be ASK, DO-NEXT, WONTFIX or BLOCKED" ;;
+  esac
+  [ "$HAVE_TEXT" = 1 ] && [ -n "$TEXT" ] || die 5 L004 "the finding text is required (--text)"
+else
+  case "$CLOSE_ID" in
+    D-[0-9][0-9][0-9]*) ;;
+    *) die 2 L001 "--close takes a row id such as D-003" ;;
+  esac
+  [ "$HAVE_EVIDENCE" = 1 ] && [ -n "$EVIDENCE" ] || die 5 L004 "closing a row needs evidence (--evidence)"
+fi
+
+# clean TEXT: a single line, no pipes, control characters, C1 controls (U+0080 to
+# U+009F), the Arabic letter mark (U+061C), zero width marks (U+200B to U+200F),
+# bidirectional controls and separators (U+2028 to U+202E, U+2060 to U+2069), byte
+# order mark or tag characters (U+E0000 to U+E007F), at most 1000 bytes
+# (this script runs under LC_ALL=C, so the cut counts bytes). The cut can land in
+# the middle of a character; a trailing part of a UTF-8 sequence is dropped so the
+# ledger stays valid UTF-8. The invisible set is the one sanitize_text strips in the
+# installer.
+clean() {
+  printf '%s' "$1" | tr '\n\r\t' '   ' | tr -d '\000-\010\013\014\016-\037\177' | tr '|' '/' \
+    | sed -e $'s/\xc2[\x80-\x9f]//g' -e $'s/\xe2\x80[\x8b-\x8f\xa8-\xae]//g' -e $'s/\xe2\x81[\xa0-\xa9]//g' -e $'s/\xef\xbb\xbf//g' \
+      -e $'s/\xd8\x9c//g' -e $'s/\xf3\xa0[\x80\x81][\x80-\xbf]//g' \
+    | cut -c1-1000 \
+    | sed -e $'s/[\xf0-\xf4][\x80-\xbf][\x80-\xbf]$//' -e $'s/[\xe0-\xf4][\x80-\xbf]$//' -e $'s/[\xc2-\xf4]$//'
+}
+
+[ -n "$PROJECT" ] || PROJECT="$(pwd)"
+PROJ_PHYS="$(cd "$PROJECT" 2>/dev/null && pwd -P)" || die 3 L002 "the project folder does not exist"
+[ -n "$LEDGER" ] || LEDGER="$PROJ_PHYS/DEFERRED-FINDINGS.md"
+case "$LEDGER" in
+  /*) ;;
+  *) LEDGER="$PROJ_PHYS/$LEDGER" ;;
+esac
+LDIR="$(dirname "$LEDGER")"
+LBASE="$(basename "$LEDGER")"
+LDIR_PHYS="$(cd "$LDIR" 2>/dev/null && pwd -P)" || die 3 L002 "the ledger folder does not exist; refused"
+case "$LDIR_PHYS" in
+  "$PROJ_PHYS"|"$PROJ_PHYS"/*) ;;
+  *) die 3 L002 "the ledger resolves outside the project; refused, nothing was changed" ;;
+esac
+FILE="$LDIR_PHYS/$LBASE"
+case "$LBASE" in
+  *LEDGER.md|*FINDINGS.md) ;;
+  *) die 3 L002 "the ledger file name must end in LEDGER.md or FINDINGS.md; refused, nothing was changed" ;;
+esac
+# Every folder in the real path of the ledger (the folder the file sits in, up to the
+# top) is looked at, in lower case. A .git folder is refused wherever it is. A config
+# folder (.claude, .claude-NAME, .codex, .agents) is refused unless worktrees/<name>
+# comes right after it: that is where Claude Code puts a worktree, and a project there
+# is an ordinary project.
+check_ledger_place() {
+  local rest seg
+  rest="$(printf '%s' "$LDIR_PHYS" | tr 'A-Z' 'a-z')"
+  rest="${rest#/}"
+  while [ -n "$rest" ]; do
+    seg="${rest%%/*}"
+    if [ "$seg" = "$rest" ]; then rest=""; else rest="${rest#*/}"; fi
+    case "$seg" in
+      .git)
+        die 3 L002 "the ledger is inside a .git folder; refused, nothing was changed"
+        ;;
+      .claude|.claude-*|.codex|.agents)
+        case "$rest" in
+          worktrees/?*) ;;
+          *) die 3 L002 "the ledger is inside a $seg folder; refused, nothing was changed" ;;
+        esac
+        ;;
+    esac
+  done
+}
+check_ledger_place
+
+check_ledger() {
+  if [ -L "$FILE" ]; then
+    die 3 L002 "the ledger is a symbolic link; refused, nothing was changed"
+  fi
+  if [ -e "$FILE" ] && [ ! -f "$FILE" ]; then
+    die 3 L002 "the ledger is not a regular file; refused, nothing was changed"
+  fi
+}
+check_ledger
+
+# nofollow_write MODE TEXT: write to the ledger through a file opened without following a link.
+# MODE create makes the file from the text on stdin (and fails if anything is there already);
+# MODE append adds TEXT and a line feed to the end, after a line feed the file lacks. The python
+# below needs python3; the same tests are made in shell where python3 is missing.
+PY3="$(command -v python3 2>/dev/null || true)"
+nofollow_write() {
+  local rc
+  if [ -n "$PY3" ]; then
+    "$PY3" -I -B -c '
+import errno, os, stat, sys
+mode, path = sys.argv[1], sys.argv[2]
+try:
+    if mode == "create":
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o644)
+        data = sys.stdin.buffer.read()
+    else:
+        fd = os.open(path, os.O_RDWR | os.O_APPEND | os.O_NOFOLLOW)
+        data = os.fsencode(sys.argv[3]) + b"\n"
+except OSError as exc:
+    sys.exit(3 if exc.errno == errno.ELOOP else 5 if exc.errno == errno.EEXIST else 4)
+try:
+    if not stat.S_ISREG(os.fstat(fd).st_mode):
+        sys.exit(3)
+    size = os.fstat(fd).st_size
+    if mode == "append" and size and os.pread(fd, 1, size - 1) != b"\n":
+        data = b"\n" + data
+    view = memoryview(data)
+    while view:
+        view = view[os.write(fd, view):]
+finally:
+    os.close(fd)
+' "$1" "$FILE" "${2:-}"
+    rc=$?
+    case "$rc" in
+      0) return 0 ;;
+      3) die 3 L002 "the ledger is a symbolic link or not a regular file; refused, nothing was changed" ;;
+      5) die 3 L002 "the ledger appeared while it was being created; refused, nothing was changed" ;;
+      *) die 3 L002 "could not write the ledger" ;;
+    esac
+  fi
+  check_ledger
+  if [ "$1" = create ]; then
+    [ ! -e "$FILE" ] || die 3 L002 "the ledger appeared while it was being created; refused"
+    cat > "$FILE" || die 3 L002 "could not create the ledger"
+  else
+    if [ -n "$(tail -c 1 "$FILE" 2>/dev/null)" ]; then printf '\n' >> "$FILE"; fi
+    printf '%s\n' "$2" >> "$FILE" || die 3 L002 "could not write the row"
+  fi
+}
+
+LOCK="$FILE.lock"
+tries=0
+while ! mkdir "$LOCK" 2>/dev/null; do
+  if [ -f "$LOCK/pid" ]; then
+    opid="$(cat "$LOCK/pid" 2>/dev/null || true)"
+    case "$opid" in
+      ''|*[!0-9]*) ;;
+      *)
+        # The lock belongs to a writer that is gone. Only the waiter that wins
+        # the election below removes it, and only if the pid file still names
+        # that dead writer, so a lock another writer has just taken is never
+        # removed by a waiter that read the old pid.
+        if ! kill -0 "$opid" 2>/dev/null; then
+          if mkdir "$LOCK.reclaim" 2>/dev/null; then
+            if [ "$(cat "$LOCK/pid" 2>/dev/null || true)" = "$opid" ]; then rm -rf "$LOCK"; fi
+            rmdir "$LOCK.reclaim" 2>/dev/null || true
+            continue
+          fi
+        fi
+        ;;
+    esac
+  fi
+  tries=$((tries + 1))
+  if [ "$tries" -gt 150 ]; then
+    die 4 L003 "the ledger is locked by another writer; if no writer is running, remove the folders $LOCK and $LOCK.reclaim"
+  fi
+  sleep 0.1 2>/dev/null || sleep 1
+done
+printf '%s\n' "$$" > "$LOCK/pid"
+trap 'rm -rf "$LOCK"' EXIT
+trap 'exit 130' INT TERM
+
+check_ledger
+if [ ! -e "$FILE" ]; then
+  if [ -f "$TEMPLATE" ]; then
+    nofollow_write create < "$TEMPLATE"
+  else
+    nofollow_write create <<'HEADER_EOF'
+# Deferred findings ledger
+
+| Id | Date | Disposition | Status | Finding | Evidence |
+|---|---|---|---|---|---|
+HEADER_EOF
+  fi
+fi
+
+n="$(grep -c '^| D-[0-9]' "$FILE" 2>/dev/null || true)"
+n=$((${n:-0} + 1))
+ROWID="$(printf 'D-%03d' "$n")"
+TODAY="$(date +%Y-%m-%d)"
+
+if [ -n "$CLOSE_ID" ]; then
+  orig="$(awk -F'|' -v id="$CLOSE_ID" '{ k=$2; gsub(/ /,"",k); if (k==id) { d=$4; gsub(/ /,"",d); print d; exit } }' "$FILE")"
+  [ -n "$orig" ] || die 5 L004 "no row $CLOSE_ID in the ledger"
+  row="| $ROWID | $TODAY | $orig | closes $CLOSE_ID | see $CLOSE_ID | $(clean "$EVIDENCE") |"
+else
+  row="| $ROWID | $TODAY | $DISPOSITION | open | $(clean "$TEXT") | |"
+fi
+
+nofollow_write append "$row"
+printf 'added %s\n' "$ROWID"
+exit 0

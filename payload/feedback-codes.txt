@@ -1,0 +1,18 @@
+H001	hook input was empty, too large or not valid JSON
+H002	hook input named an event outside the known set
+H003	the hook raised an error and failed open
+H004	the hook ran past its time limit and failed open
+H005	the transcript could not be read
+H006	a state file could not be read or written
+H007	git did not answer or was not available
+H008	the defaults file could not be read
+H009	the checkpoint write record could not be read or written
+C001	checkpoint-record: a link, a non-regular file or a path outside the project was refused
+C002	checkpoint-record: the draft headers were missing or invalid
+C003	checkpoint-record: the draft holds a secret-shaped string
+C004	checkpoint-record: the session id or file name was not valid
+C005	checkpoint-record: another session's checkpoint was not overwritten
+L001	ledger-append: no disposition was given
+L002	ledger-append: the ledger was refused (link, not a regular file, a name that does not end in LEDGER.md or FINDINGS.md, inside .git or .claude, or outside the project)
+L003	ledger-append: the ledger lock could not be taken in time
+L004	ledger-append: the row text was missing or a close had no evidence

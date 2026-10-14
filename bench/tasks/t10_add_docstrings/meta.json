@@ -1,0 +1,6 @@
+{
+  "id": "t10_add_docstrings",
+  "category": "multifile_delegation",
+  "success_cmd": "python3 check.py",
+  "budget_note": "5 small modules, 2 functions each, add a docstring to every function; rewards splitting edits across subagents; expect 2k-4k output tokens"
+}

@@ -1,0 +1,6 @@
+{
+  "id": "t13_regional_totals",
+  "category": "multifile_delegation",
+  "success_cmd": "python3 check.py",
+  "budget_note": "4 regional CSV files to total independently then combine; rewards splitting the reads across subagents; expect 2k-4k output tokens"
+}

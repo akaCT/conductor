@@ -1,0 +1,4 @@
+[{"type":"user","ago":"10m","text":"delegate"},
+ {"type":"assistant","ago":"5m","tools":[{"name":"Agent","input":{"model":"sonnet","prompt":"CANARY-DISPATCH-PROMPT-5521","description":"d"}},{"name":"Agent","input":{"model":"sonnet","prompt":"second"}}]},
+ {"type":"tool_result","ago":"4m"},
+ {"type":"assistant","ago":"3m","text":"All done."}]

@@ -1,0 +1,5 @@
+# conductor install manifest v0.3.0 - 20260704-120000
+/home/fixture/.claude/agents/builder.md
+/home/fixture/.claude/agents/scout.md
+CLAUDE_MD_PATCHED
+SETTINGS_MODEL_SET:opus

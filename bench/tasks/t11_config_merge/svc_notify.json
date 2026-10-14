@@ -1,0 +1,10 @@
+{
+  "service": "notify",
+  "port": 9002,
+  "timeout_s": 12,
+  "features": [
+    "email",
+    "sms",
+    "audit"
+  ]
+}
