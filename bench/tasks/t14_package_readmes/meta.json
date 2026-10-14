@@ -1,0 +1,6 @@
+{
+  "id": "t14_package_readmes",
+  "category": "multifile_delegation",
+  "success_cmd": "python3 check.py",
+  "budget_note": "4 package folders, write a README for each from its source; rewards splitting the work across subagents; expect 3k-5k output tokens"
+}

@@ -1,0 +1,522 @@
+#!/usr/bin/env bash
+# conductor: the Conductor launcher. bash 3.2 compatible.
+#
+#   conductor doctor             check this install; reads files and the environment
+#                                and asks claude and codex for their version numbers
+#   conductor update [--check]   fetch the newest installer, show it, ask first
+#   conductor report             build a bug report you read and send yourself
+#   conductor version            print the installed version
+#   conductor help               this message
+#
+# The doctor and the report need python3 3.9 or later. update needs it too, to
+# read the fetched installer without running it. Where python3 is missing,
+# update fetches nothing and prints the reinstall command instead.
+set -u
+
+HOME_URL="https://conductorskill.com"
+# The update address is fixed here, in the launcher. facts.json carries the same values
+# for display and the build tests compare them with these; no data file moves the fetch.
+UPDATE_HOST="raw.githubusercontent.com"
+UPDATE_PATH="/akaCT/conductor/main/install.sh"
+REINSTALL_CMD="curl --proto '=https' --tlsv1.2 -fsSL $HOME_URL/install.sh | bash"
+PLUGIN_UPDATE_CMD="claude plugin update conductor"
+MAX_INSTALLER_BYTES=5242880
+
+say() { printf '%s\n' "$*"; }
+err() { printf '%s\n' "$*" >&2; }
+
+usage() {
+  cat <<'USAGE'
+Conductor launcher
+
+  conductor doctor             check this install: reads files and the environment,
+                               asks claude and codex for their version numbers,
+                               sends nothing
+  conductor update [--check]   fetch the newest installer, show it, ask first
+  conductor report             build a bug report you read and send yourself
+  conductor version            print the installed version
+  conductor help               this message
+USAGE
+}
+
+usage_error() {
+  err "conductor: $*"
+  err "Run: conductor help"
+  exit 2
+}
+
+# resolve_link PATH: follow symbolic links on PATH itself, without readlink -f.
+resolve_link() {
+  local p="$1" n=0 t d
+  while [ -L "$p" ]; do
+    n=$((n + 1))
+    [ "$n" -le 40 ] || return 1
+    t="$(readlink "$p")" || return 1
+    case "$t" in
+      /*) p="$t" ;;
+      *) d="$(dirname "$p")"; p="$d/$t" ;;
+    esac
+  done
+  printf '%s\n' "$p"
+}
+
+locate_self() {
+  local me d
+  me="$(resolve_link "$0")" || me="$0"
+  d="$(cd "$(dirname "$me")" 2>/dev/null && pwd -P)" || d=""
+  SELF_BINDIR="$d"
+  SELF_CONDUCTOR=""
+  SELF_ROOT=""
+  LIBDIR=""
+  if [ -n "$d" ]; then
+    SELF_CONDUCTOR="$(dirname "$d")"
+    LIBDIR="$SELF_CONDUCTOR/lib"
+    if [ "$(basename "$d")" = "bin" ] && [ "$(basename "$SELF_CONDUCTOR")" = "conductor" ]; then
+      SELF_ROOT="$(dirname "$SELF_CONDUCTOR")"
+    fi
+  fi
+}
+
+# A usable python3 is on PATH, runs, reports 3.9 or later and, on macOS, is not
+# the Command Line Tools stub. The stub is never executed: running it opens a
+# system install dialog.
+find_python() {
+  PY=""
+  PY_REASON=""
+  local cand real ver major rest minor
+  cand="$(command -v python3 2>/dev/null || true)"
+  case "$cand" in
+    /*) ;;
+    ./*) cand="$PWD/${cand#./}" ;;
+    */*) cand="$PWD/$cand" ;;
+    *) PY_REASON="python3 was not found on your PATH"; return 0 ;;
+  esac
+  if [ "$(uname -s 2>/dev/null || true)" = "Darwin" ]; then
+    real="$(resolve_link "$cand" 2>/dev/null || printf '%s' "$cand")"
+    if [ "$real" = "/usr/bin/python3" ] && ! xcode-select -p >/dev/null 2>&1; then
+      PY_REASON="/usr/bin/python3 is the macOS stub (run: xcode-select --install)"
+      return 0
+    fi
+  fi
+  ver="$("$cand" -c 'import sys; print("%d.%d.%d" % sys.version_info[:3])' 2>/dev/null || true)"
+  case "$ver" in
+    ""|*[!0-9.]*|*.*.*.*) PY_REASON="python3 at $cand did not run"; return 0 ;;
+    *.*) ;;
+    *) PY_REASON="python3 at $cand did not run"; return 0 ;;
+  esac
+  major="${ver%%.*}"
+  rest="${ver#*.}"
+  minor="${rest%%.*}"
+  if [ -z "$major" ] || [ -z "$minor" ]; then
+    PY_REASON="python3 at $cand did not run"
+    return 0
+  fi
+  if [ "$major" -lt 3 ] || { [ "$major" -eq 3 ] && [ "$minor" -lt 9 ]; }; then
+    PY_REASON="python3 at $cand is version $ver"
+    return 0
+  fi
+  PY="$cand"
+}
+
+need_python_message() {
+  say "The $1 needs python3 3.9 or later."
+  [ -z "$PY_REASON" ] || say "  $PY_REASON"
+}
+
+# ---------------------------------------------------------------- doctor, report
+
+run_lib() { # $1=doctor|report, then arguments for the python module
+  local mod="$1"
+  shift
+  find_python
+  if [ -z "$PY" ]; then
+    need_python_message "$mod"
+    return 0
+  fi
+  if [ ! -f "$LIBDIR/$mod.py" ]; then
+    say "Conductor's own file is missing: $mod.py. Run the installer again:"
+    say "  $REINSTALL_CMD"
+    return 1
+  fi
+  # The doctor's command word is fixed here: a typed word is an extra argument and is
+  # refused, so the doctor cannot be steered into the record helpers it shares a file with.
+  case "$mod" in
+    doctor) "$PY" "$LIBDIR/doctor.py" doctor "$@" --self-root "$SELF_ROOT" --facts "$LIBDIR/facts.json" ;;
+    *) "$PY" "$LIBDIR/$mod.py" "$@" --self-root "$SELF_ROOT" --facts "$LIBDIR/facts.json" ;;
+  esac
+}
+
+# ---------------------------------------------------------------- update
+
+UPDATE_TMP=""
+
+update_cleanup() {
+  case "$UPDATE_TMP" in
+    */conductor-update.*) [ -d "$UPDATE_TMP" ] && rm -rf "$UPDATE_TMP" ;;
+  esac
+  UPDATE_TMP=""
+}
+
+sha256_file() {
+  local out=""
+  [ -f "$1" ] || return 1
+  if command -v sha256sum >/dev/null 2>&1; then
+    out="$(sha256sum "$1" 2>/dev/null | awk '{print $1}')"
+  elif command -v shasum >/dev/null 2>&1; then
+    out="$(shasum -a 256 "$1" 2>/dev/null | awk '{print $1}')"
+  elif command -v openssl >/dev/null 2>&1; then
+    out="$(openssl dgst -sha256 "$1" 2>/dev/null | awk '{print $NF}')"
+  fi
+  [ -n "$out" ] || return 1
+  printf '%s\n' "$out"
+}
+
+# ver_cmp A B: prints -1, 0 or 1 comparing X.Y.Z versions part by part.
+ver_cmp() {
+  local a="$1" b="$2" i x y
+  for i in 1 2 3; do
+    x="$(printf '%s' "$a" | cut -d. -f"$i")"
+    y="$(printf '%s' "$b" | cut -d. -f"$i")"
+    x="${x:-0}"
+    y="${y:-0}"
+    if [ "$x" -lt "$y" ]; then printf '%s' -1; return 0; fi
+    if [ "$x" -gt "$y" ]; then printf '%s' 1; return 0; fi
+  done
+  printf '%s' 0
+}
+
+refuse() {
+  printf '%s\n' "Update refused: $1. Nothing was changed." | fold -s -w 78 >&2
+  return 1
+}
+
+# ask_yes_no QUESTION: default no. Reads the terminal (stdin when it is one, else
+# /dev/tty). Returns 2 when there is no terminal or CONDUCTOR_YES is set: the
+# safe default for running a fetched file is no.
+ask_yes_no() {
+  local ans=""
+  if [ "${CONDUCTOR_YES:-}" = "1" ]; then return 2; fi
+  if [ -t 0 ]; then
+    printf '%s [y/N]: ' "$1"
+    read -r ans || ans=""
+  elif ( : < /dev/tty ) 2>/dev/null; then
+    printf '%s [y/N]: ' "$1" > /dev/tty
+    read -r ans < /dev/tty || ans=""
+  else
+    return 2
+  fi
+  case "$ans" in [Yy]|[Yy][Ee][Ss]) return 0 ;; *) return 1 ;; esac
+}
+
+# Sets FETCH_URL, FETCH_SCHEME, FETCH_AUTH (what the effective address must equal),
+# FETCH_PATH (the path a redirect must lead to) and FETCH_PROTO. The only exception to
+# https and the fixed host is a loopback address named by CONDUCTOR_TEST_UPDATE_URL,
+# for the test suite; its redirects must lead to /install.sh, the fixture's own path.
+choose_fetch_target() {
+  FETCH_PROTO="=https"
+  FETCH_SCHEME="https"
+  FETCH_AUTH="$(printf '%s' "$UPDATE_HOST" | tr 'A-Z' 'a-z')"
+  FETCH_PATH="$UPDATE_PATH"
+  FETCH_URL="https://$UPDATE_HOST$UPDATE_PATH"
+  local t="${CONDUCTOR_TEST_UPDATE_URL:-}" scheme rest auth host
+  [ -n "$t" ] || return 0
+  scheme="${t%%://*}"
+  rest="${t#*://}"
+  auth="${rest%%[/?#]*}"
+  host="${auth%%:*}"
+  case "$scheme" in http|https) ;; *) return 0 ;; esac
+  case "$host" in 127.0.0.1|localhost) ;; *) return 0 ;; esac
+  case "$auth" in *@*) return 0 ;; esac
+  FETCH_URL="$t"
+  FETCH_PATH="/install.sh"
+  FETCH_SCHEME="$scheme"
+  FETCH_AUTH="$(printf '%s' "$auth" | tr 'A-Z' 'a-z')"
+  if [ "$scheme" = "http" ]; then FETCH_PROTO="=http,https"; fi
+  return 0
+}
+
+fetch_installer() {
+  UPDATE_TMP="$(mktemp -d "${TMPDIR:-/tmp}/conductor-update.XXXXXX")" || { refuse "could not make a temporary folder"; return 1; }
+  chmod 700 "$UPDATE_TMP" || { refuse "could not protect the temporary folder"; return 1; }
+  FETCHED="$UPDATE_TMP/installer.sh"
+  ( umask 077; : > "$FETCHED" ) || { refuse "could not make the temporary file"; return 1; }
+  chmod 600 "$FETCHED" || { refuse "could not protect the temporary file"; return 1; }
+  if ! command -v curl >/dev/null 2>&1; then
+    refuse "curl was not found on your PATH"
+    return 1
+  fi
+  # Redirects are followed here, 1 hop at a time, and each target is checked before
+  # it is requested: the same host, the update path itself, and https unless the test
+  # address is in use. A redirect to another host or another path is refused without a
+  # single request reaching it.
+  local errf="$UPDATE_TMP/curl.err" out rc msg url="$FETCH_URL" hops=0 code redir r_scheme r_rest r_auth r_path
+  while :; do
+    out="$(curl -q --proto "$FETCH_PROTO" --proto-redir "$FETCH_PROTO" --tlsv1.2 --max-time 30 \
+      --max-redirs 0 --max-filesize "$MAX_INSTALLER_BYTES" --fail --silent --show-error \
+      -o "$FETCHED" -w '%{http_code} %{redirect_url}' "$url" 2>"$errf")"
+    rc=$?
+    if [ "$rc" -ne 0 ]; then
+      msg="$(head -n 1 "$errf" 2>/dev/null | LC_ALL=C tr -d '\000-\037\177' | cut -c1-60)"
+      refuse "the fetch failed (curl exit $rc${msg:+: $msg})"
+      return 1
+    fi
+    code="${out%% *}"
+    case "$code" in
+      301|302|303|307|308) ;;
+      2??) return 0 ;;
+      *) refuse "the fetch failed (the server answered $(printf '%s' "$code" | LC_ALL=C tr -cd '0-9' | cut -c1-3))"; return 1 ;;
+    esac
+    hops=$((hops + 1))
+    if [ "$hops" -gt 5 ]; then refuse "the fetch was redirected too many times"; return 1; fi
+    redir="${out#* }"
+    case "$redir" in *://*) ;; *) refuse "the fetch was redirected without a usable address"; return 1 ;; esac
+    r_scheme="$(printf '%s' "${redir%%://*}" | tr 'A-Z' 'a-z')"
+    r_rest="${redir#*://}"
+    r_auth="$(printf '%s' "${r_rest%%[/?#]*}" | tr 'A-Z' 'a-z')"
+    if [ "$FETCH_SCHEME" = "https" ] && [ "$r_scheme" != "https" ]; then
+      refuse "the fetch failed (the redirect leads to a non-https address)"
+      return 1
+    fi
+    if [ "$r_auth" != "$FETCH_AUTH" ]; then
+      refuse "the fetch was redirected to another host"
+      return 1
+    fi
+    r_path="${r_rest#"${r_rest%%[/?#]*}"}"
+    r_path="${r_path%%[?#]*}"
+    if [ "$r_path" != "$FETCH_PATH" ]; then
+      refuse "the fetch was redirected to another path on the same host"
+      return 1
+    fi
+    url="$redir"
+  done
+}
+
+# Form check on the fetched file: not authentication, only a guard against the
+# wrong file. Sets FETCHED_VERSION.
+form_check() {
+  local f="$1" size first vlines v n
+  size="$(wc -c < "$f" | tr -d ' ')"
+  case "$size" in ""|*[!0-9]*) refuse "the fetched file could not be measured"; return 1 ;; esac
+  if [ "$size" -eq 0 ] || [ "$size" -gt "$MAX_INSTALLER_BYTES" ]; then
+    refuse "the fetched file is not a Conductor installer (size)"
+    return 1
+  fi
+  if [ "$(LC_ALL=C tr -d '\000' < "$f" | wc -c | tr -d ' ')" != "$size" ]; then
+    refuse "the fetched file is not a Conductor installer (binary data)"
+    return 1
+  fi
+  first="$(head -n 1 "$f")"
+  if [ "$first" != "#!/usr/bin/env bash" ]; then
+    refuse "the fetched file is not a Conductor installer (first line)"
+    return 1
+  fi
+  vlines="$(grep -c '^CONDUCTOR_VERSION="[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*"$' "$f")"
+  if [ "$vlines" != "1" ]; then
+    refuse "the fetched file is not a Conductor installer (version line)"
+    return 1
+  fi
+  for n in '#@@FILES-BEGIN' '#@@FILES-END' '#@@CHANGELOG-BEGIN' '#@@CHANGELOG-END'; do
+    if [ "$(grep -c -x -F "$n" "$f")" != "1" ]; then
+      refuse "the fetched file is not a Conductor installer (missing $n)"
+      return 1
+    fi
+  done
+  if [ "$(grep -v '^[[:space:]]*$' "$f" | tail -n 1)" != 'main "$@"' ]; then
+    refuse "the fetched file is not a Conductor installer (last line)"
+    return 1
+  fi
+  v="$(grep '^CONDUCTOR_VERSION=' "$f" | sed 's/^CONDUCTOR_VERSION="\(.*\)"$/\1/')"
+  FETCHED_VERSION="$v"
+  return 0
+}
+
+cmd_update() {
+  local check=0
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --check) check=1 ;;
+      *) usage_error "unknown argument for update: $1 (allowed: --check)" ;;
+    esac
+    shift
+  done
+  if [ -z "$LIBDIR" ] || [ ! -f "$LIBDIR/facts.json" ]; then
+    err "Conductor's facts file is missing. Run the installer again:"
+    err "  $REINSTALL_CMD"
+    return 1
+  fi
+  find_python
+  if [ -z "$PY" ] || [ ! -f "$LIBDIR/doctor.py" ]; then
+    need_python_message "update"
+    say "It reads the fetched installer without running it. Nothing was fetched."
+    say "To install the newest release, run:"
+    say "  $REINSTALL_CMD"
+    return 1
+  fi
+  local info k v
+  INFO_STATE=""; INFO_VERSION=""; INFO_METHOD=""; INFO_SOURCE_HOST=""; INFO_COMPONENTS=""; INFO_SELF=""
+  info="$("$PY" "$LIBDIR/doctor.py" record-info --self-root "$SELF_ROOT" --facts "$LIBDIR/facts.json" 2>/dev/null)"
+  while IFS='=' read -r k v; do
+    case "$k" in
+      state) INFO_STATE="$v" ;;
+      version) INFO_VERSION="$v" ;;
+      method) INFO_METHOD="$v" ;;
+      source_host) INFO_SOURCE_HOST="$v" ;;
+      components) INFO_COMPONENTS="$v" ;;
+      self_harness) INFO_SELF="$v" ;;
+    esac
+  done <<EOF
+$info
+EOF
+  case "$INFO_STATE" in
+    none|"")
+      say "No Conductor install found."
+      say "To install it, run:"
+      say "  $REINSTALL_CMD"
+      return 0
+      ;;
+    old)
+      say "This is a Conductor 0.3.0 install. The new installer upgrades it:"
+      say "  $REINSTALL_CMD"
+      return 0
+      ;;
+    unreadable)
+      err "The install record could not be read. Nothing was fetched."
+      err "Run the installer again to repair it:"
+      err "  $REINSTALL_CMD"
+      return 1
+      ;;
+  esac
+  case "$INFO_METHOD" in
+    plugin)
+      say "This install came through the plugin channel. Update it there:"
+      say "  $PLUGIN_UPDATE_CMD"
+      return 0
+      ;;
+    installer) ;;
+    *)
+      say "This install was recorded as manual. Run the installer to update it:"
+      say "  $REINSTALL_CMD"
+      return 0
+      ;;
+  esac
+  if [ -n "$INFO_SOURCE_HOST" ] && [ "$INFO_SOURCE_HOST" != "$UPDATE_HOST" ]; then
+    refuse "the install record names a different host than this launcher uses"
+    return 1
+  fi
+  case "$INFO_VERSION" in
+    [0-9]*.[0-9]*.[0-9]*) ;;
+    *) refuse "the installed version could not be read"; return 1 ;;
+  esac
+
+  choose_fetch_target
+  trap update_cleanup EXIT
+  trap 'update_cleanup; exit 130' INT TERM
+  FETCHED=""; FETCHED_VERSION=""
+  fetch_installer || return 1
+  form_check "$FETCHED" || return 1
+  local cmp sha
+  cmp="$(ver_cmp "$FETCHED_VERSION" "$INFO_VERSION")"
+  if [ "$cmp" = "-1" ]; then
+    refuse "the fetched installer is version $FETCHED_VERSION, older than the installed $INFO_VERSION"
+    return 1
+  fi
+  if [ "$cmp" = "0" ]; then
+    say "Conductor $INFO_VERSION is up to date."
+    return 0
+  fi
+  if [ "$check" = "1" ]; then
+    say "A newer Conductor is available: $FETCHED_VERSION (installed: $INFO_VERSION)."
+    say "To update, run: conductor update"
+    return 0
+  fi
+  sha="$(sha256_file "$FETCHED")" || { refuse "the fetched file could not be hashed"; return 1; }
+
+  say "Update preview"
+  say "  Installed version: $INFO_VERSION"
+  say "  Available version: $FETCHED_VERSION"
+  say "  sha256 of the fetched file:"
+  say "    $sha"
+  "$PY" "$LIBDIR/doctor.py" update-preview --installer "$FETCHED" --installed "$INFO_VERSION" \
+    --available "$FETCHED_VERSION" --self-root "$SELF_ROOT" --facts "$LIBDIR/facts.json" \
+    || { refuse "the fetched file could not be read as an installer"; return 1; }
+  say ""
+  say "The fetched installer has not been run. The check above only confirms it"
+  say "has the shape of a Conductor installer; it does not prove who wrote it."
+  say "Compare the sha256 with the one published for this release if you can."
+  say ""
+  ask_yes_no "Apply this update?"
+  case $? in
+    0) ;;
+    2)
+      say "No terminal to ask on (or CONDUCTOR_YES is set): the answer is no."
+      say "Nothing was changed. Run this again in a terminal to apply the update."
+      return 0
+      ;;
+    *)
+      say "Nothing was changed."
+      return 0
+      ;;
+  esac
+  # The yes covers the bytes shown, and only those.
+  if [ "$(sha256_file "$FETCHED")" != "$sha" ]; then
+    refuse "the fetched file changed after the preview"
+    return 1
+  fi
+  local rc=0 newv
+  say ""
+  say "Running the installer with sha256:"
+  say "  $sha"
+  # The update goes into the folder this launcher belongs to, not into whatever the
+  # default folder is: a person with more than 1 Claude folder runs each profile's own
+  # launcher. The preview above read that same folder.
+  local own_env=""
+  case "$INFO_SELF" in
+    claude) own_env="CLAUDE_DIR=$SELF_ROOT" ;;
+    codex) own_env="CODEX_DIR=$SELF_ROOT" ;;
+  esac
+  # The recorded components ride along by name; nothing new is named here, so a
+  # new hook or option is asked for by the installer and never enabled silently.
+  if [ -n "$INFO_COMPONENTS" ] && [ -z "${CONDUCTOR_COMPONENTS:-}" ]; then
+    env ${own_env:+"$own_env"} CONDUCTOR_INSTALLER_SHA256="$sha" CONDUCTOR_COMPONENTS="$INFO_COMPONENTS" /bin/bash "$FETCHED" < /dev/null || rc=$?
+  else
+    env ${own_env:+"$own_env"} CONDUCTOR_INSTALLER_SHA256="$sha" /bin/bash "$FETCHED" < /dev/null || rc=$?
+  fi
+  if [ "$rc" -ne 0 ]; then
+    err "The installer stopped with status $rc. Backups remain."
+    err "Run: conductor update   to finish the update."
+    return "$rc"
+  fi
+  "$PY" "$LIBDIR/doctor.py" record-sha --sha "$sha" --self-root "$SELF_ROOT" --facts "$LIBDIR/facts.json" \
+    || err "The installer sha256 could not be recorded in the install record."
+  newv="$("$PY" "$LIBDIR/doctor.py" record-info --self-root "$SELF_ROOT" --facts "$LIBDIR/facts.json" 2>/dev/null | sed -n 's/^version=//p')"
+  # The installer exiting 0 is not the proof: the install record of the folder the
+  # update was meant for has to say the new version.
+  if [ "$newv" != "$FETCHED_VERSION" ]; then
+    err "The update did not take effect: the install record says ${newv:-no version}, not $FETCHED_VERSION."
+    err "Nothing is finished. Read the installer's lines above, then run: conductor update"
+    return 1
+  fi
+  say "Update finished. Installed version: $newv"
+  return 0
+}
+
+# ---------------------------------------------------------------- main
+
+locate_self
+cmd="${1:-help}"
+[ "$#" -eq 0 ] || shift
+case "$cmd" in
+  doctor) run_lib doctor "$@"; exit $? ;;
+  report) run_lib report "$@"; exit $? ;;
+  update) cmd_update "$@"; exit $? ;;
+  version|--version|-V)
+    if [ -n "$LIBDIR" ] && [ -f "$LIBDIR/facts.json" ]; then
+      v="$(sed -n 's/^  "version": "\(.*\)"$/\1/p' "$LIBDIR/facts.json" | head -n 1)"
+      say "Conductor ${v:-unknown}"
+    else
+      say "Conductor (version unknown)"
+    fi
+    ;;
+  help|--help|-h) usage ;;
+  *) usage_error "unknown command: $cmd" ;;
+esac

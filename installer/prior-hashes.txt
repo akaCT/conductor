@@ -1,0 +1,14 @@
+30f90dd636d4147774912e00572ad07d1afb127561f165743a525b6f9abf1556  0.3.0  claude:agents/builder.md
+517c2ee0d27463e3ec913051f80f9c19b4eab3a9e8633bd436182bdec3cd9013  0.3.0  claude:agents/scout.md
+a43f8c2b97d4e1c30c31b205c9fa333e740d4c6bd13223cd69204b61f260ce1c  0.3.0  claude:agents/critic.md
+9a41927c52163392a8da9046eeee96825795e2499f8fec4c7419b79fb11fabf9  0.3.0  claude:agents/architect.md
+7e389b76ce4c2d5a0bfa3e303bab9ce4a81554428d1af0a3e11e0b6fbc3ee99d  0.3.0  claude:skills/conductor/SKILL.md
+d915cc95d6ca8f47ae297713ed46d4e5c5d99ddd29fc3c61e263bdf305f2b5b0  0.3.0  claude:skills/conductor/VERSION
+014334be5316628dead3c9cd89e6f9b2f301ce86fbec5c2c5d2d592d38d9782b  0.3.0  claude:CLAUDE.md
+41d4b5b3832a84cfe9a5e713a49b32b2eb09f388312bb7ce269133a4bb5b7474  0.3.0  codex:agents/builder.toml
+72ee9b859ec8958da6a5d62ceecd5d65cf7a07316ca34d9e1b079fb4c1ff8161  0.3.0  codex:agents/scout.toml
+4a54d16d4c763cf4770fb0e04d8838a76bd6cdd42fcff2df46556a2224a9c788  0.3.0  codex:agents/critic.toml
+fe56a1b5de149d3a546bd8e0c611bcb4ebc06ff31248c1bbd4647f04b76a93d2  0.3.0  codex:agents/architect.toml
+03dfecae98ae99812b366a1cdbfe19d1c0bf897a1000eef329fc37d3d16e8fa7  0.3.0  codex:skills/conductor/SKILL.md
+d915cc95d6ca8f47ae297713ed46d4e5c5d99ddd29fc3c61e263bdf305f2b5b0  0.3.0  codex:skills/conductor/VERSION
+1ca3b7749fa841f4200bc6cc41edec803a1d5fbbf048690293f8d9a9e90a9788  0.3.0  codex:AGENTS.md

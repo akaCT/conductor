@@ -1,0 +1,10 @@
+feat: add export to csv
+fix: handle empty input in parser
+chore: bump build tools
+feat: dark mode toggle
+fix: off by 1 in pagination
+refactor: split settings module
+docs: explain install steps
+fix: crash when config is missing
+feat: keyboard shortcuts
+chore: tidy imports

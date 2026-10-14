@@ -1,0 +1,5 @@
+Plan: Plus
+Monthly fee: $9
+One-time setup fee: $60
+Included storage: 400 GB
+Contract: month to month

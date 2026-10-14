@@ -1,0 +1,7 @@
+{
+  "id": "t19_plan_compare",
+  "category": "research_summarize",
+  "success_cmd": "bash check.sh",
+  "needs_reply_file": true,
+  "budget_note": "read 3 fixture files, compute a 24 month total and name the cheapest plan in the final text reply; expect under 1k output tokens"
+}

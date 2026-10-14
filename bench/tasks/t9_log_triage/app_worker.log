@@ -1,0 +1,8 @@
+2026-03-01 08:00:03 INFO worker 1 online
+2026-03-01 08:00:04 INFO worker 2 online
+2026-03-01 08:01:30 ERROR job 4411 failed: disk full
+2026-03-01 08:02:01 ERROR job 4412 failed: disk full
+2026-03-01 08:02:30 WARN queue depth 900
+2026-03-01 08:03:00 ERROR job 4413 failed: bad payload
+2026-03-01 08:03:30 INFO job 4414 done
+2026-03-01 08:04:00 INFO job 4415 done

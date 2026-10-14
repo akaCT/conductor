@@ -1,0 +1,7 @@
+name = "scout"
+description = "Fixture codex agent."
+model = "fixture-model"
+sandbox_mode = "read-only"
+developer_instructions = """
+Fixture body.
+"""

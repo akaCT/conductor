@@ -1,0 +1,6 @@
+{
+  "id": "t12_unit_tests",
+  "category": "multifile_delegation",
+  "success_cmd": "python3 check.py",
+  "budget_note": "4 small modules, write a unittest file for each; rewards splitting the test writing across subagents; expect 3k-5k output tokens"
+}

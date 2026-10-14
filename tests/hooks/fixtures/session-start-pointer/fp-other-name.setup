@@ -1,0 +1,2 @@
+mkdir -p "$PROJ/handoffs"
+printf "Status: ACTIVE\nSession: sess-aaa\nPinned commit: none\nUpdated: now\n" > "$PROJ/handoffs/notes.md"

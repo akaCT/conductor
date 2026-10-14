@@ -1,0 +1,6 @@
+{
+  "id": "t20_dependency_conflicts",
+  "category": "multifile_delegation",
+  "success_cmd": "python3 check.py",
+  "budget_note": "5 requirements files to compare for conflicting pins; rewards splitting the reads across subagents; expect 2k-4k output tokens"
+}

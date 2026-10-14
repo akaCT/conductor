@@ -1,0 +1,7 @@
+2026-03-01 08:00:01 INFO server started on port 8080
+2026-03-01 08:00:05 WARN slow response for /home (1200 ms)
+2026-03-01 08:01:10 INFO GET /home 200
+2026-03-01 08:02:44 ERROR upstream timeout calling api
+2026-03-01 08:03:12 WARN cache miss rate above 40 percent
+2026-03-01 08:05:30 ERROR template render failed for /account
+2026-03-01 08:06:00 INFO GET /account 500

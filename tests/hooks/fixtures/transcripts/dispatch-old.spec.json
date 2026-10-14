@@ -1,0 +1,6 @@
+[{"type":"user","ago":"1h","text":"delegate"},
+ {"type":"assistant","ago":"50m","tools":[{"name":"Agent","input":{"model":"sonnet","prompt":"a"}}]},
+ {"type":"assistant","ago":"45m","text":"done earlier"},
+ {"type":"user","ago":"10m","text":"new question"},
+ {"type":"assistant","ago":"5m","tools":[{"name":"Bash","input":{"command":"ls"}}]},
+ {"type":"assistant","ago":"3m","text":"Answer without workers."}]

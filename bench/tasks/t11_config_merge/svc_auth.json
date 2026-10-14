@@ -1,0 +1,10 @@
+{
+  "service": "auth",
+  "port": 9001,
+  "timeout_s": 5,
+  "features": [
+    "login",
+    "mfa",
+    "audit"
+  ]
+}

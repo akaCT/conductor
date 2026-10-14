@@ -1,0 +1,3 @@
+[{"type":"user","ago":"10m","text":"delegate"},
+ {"type":"assistant","ago":"5m","tools":[{"name":"Agent","input":{"model":"claude-haiku-5-5","prompt":"a"}},{"name":"Task","input":{"subagent_type":"builder","prompt":"b"}},{"name":"Agent","input":{"prompt":"c"}}]},
+ {"type":"assistant","ago":"3m","text":"All done."}]

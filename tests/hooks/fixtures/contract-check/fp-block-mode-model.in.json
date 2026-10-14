@@ -1,0 +1,1 @@
+{"hook_event_name":"PreToolUse","tool_name":"Agent","tool_use_id":"toolu_1","session_id":"sess-c1","cwd":"__CWD__","transcript_path":"__TX__","tool_input":{"prompt":"x","model":"sonnet"}}

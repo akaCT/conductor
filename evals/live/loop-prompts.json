@@ -1,0 +1,102 @@
+[
+ {
+  "id": "L01",
+  "kind": "long",
+  "text": "/conductor I want to get a handle on my household budget and I keep starting and stopping. Here is what I have in mind. First, I would like a simple CSV template with the columns date, category, amount and note, plus a few made-up sample rows so I can see how it looks. Second, I want a small Python script that reads that CSV and prints the total for each category and the grand total, sorted from biggest to smallest. Third, I need a short README that explains how to add a row and how to run the script, written so that someone who has never used a terminal could follow it. Everything should stay in this folder, use only the standard library, and nothing should be sent anywhere or installed. I do not need charts, and I do not want it to touch any bank data. If you have to choose between simple and clever, pick simple, because I will be the one maintaining it on weekends."
+ },
+ {
+  "id": "L02",
+  "kind": "long",
+  "text": "/conductor I cook for a big family on Sundays and I always do the math wrong when I scale a recipe. Please help me with three things. One, write a tiny command line tool in Python that takes a recipe file where each line is an amount, a unit and an ingredient, plus a number to multiply by, and prints the scaled recipe with the amounts rounded sensibly to quarters. Two, put a sample recipe file in this folder for a pancake recipe so I can try the tool right away. Three, add a short note at the top of the script explaining what units it understands and what it does when it does not understand one. Keep it to the standard library, keep it all in this folder, and do not fetch anything from the internet. I would rather it tell me clearly that it could not read a line than silently guess."
+ },
+ {
+  "id": "L03",
+  "kind": "long",
+  "text": "/conductor I have a reading list that lives in my head and I want to get it out into something usable. Can you do the following. Create a plain text file called books.txt with 8 invented book titles and authors, each with a status of to-read, reading or done. Then write a small script that reads the file and prints three groups, one per status, each sorted alphabetically by title, with a count in each heading. Then write a few lines at the bottom of the script, as a comment, telling me how I would add a new book and change a status by hand. Everything stays in this folder, no network, no packages beyond what comes with Python. I also want the script to complain politely if a line in the file is malformed rather than crashing, because I know I will mistype something eventually."
+ },
+ {
+  "id": "L04",
+  "kind": "long",
+  "text": "/conductor I want to build a very small habit tracker that I can run from a terminal, and I want to get the shape right before I add any extras. Please do these things in order. Make a data file that stores, for each day, which of 3 habits I did, using a format that is easy to read by eye. Write a script with two commands, one to mark a habit done for today and one to print the last 7 days as a little table of check marks. Add a short usage section at the top of the script. Keep everything in this folder, use only the standard library, and make sure that running the mark command twice in one day does not double count. I do not want reminders, notifications or anything that runs in the background, and nothing should leave this machine."
+ },
+ {
+  "id": "L05",
+  "kind": "long",
+  "text": "/conductor After every team meeting I end up with a messy page of notes and I lose the action items. Here is what I would like. First, a template file for meeting notes with sections for date, attendees, decisions and action items, where each action item has an owner and a due date. Second, a script that reads a notes file written in that template and prints only the action items, grouped by owner, with the earliest due date first. Third, an example notes file with invented people and invented dates so I can check that the script works. Keep it all inside this folder, standard library only, no internet, no email, and do not try to read anything outside this folder. If an action item has no owner I want it listed under a heading called unassigned so it does not get lost."
+ },
+ {
+  "id": "L06",
+  "kind": "long",
+  "text": "/conductor My garden planning is a mess of sticky notes, so I would like something tidy. Please make me a small plan with the following parts. A text file listing 10 invented vegetables with the month to sow and the month to harvest for each. A script that, given a month name, prints what to sow that month and what is ready to harvest that month, in two short lists. A few sentences at the top of the script describing what the data file looks like so I can add my own plants. Everything must stay in this folder, use only the standard library, and not look anything up online. If I ask for a month that has nothing to sow or harvest, say so in a friendly sentence instead of printing an empty list, and handle upper and lower case month names."
+ },
+ {
+  "id": "L07",
+  "kind": "long",
+  "text": "/conductor I travel a lot for work and I keep forgetting things. I would like a packing list helper, and I would like you to think about the right order of doing it. The pieces are these. A file of packing rules, where each rule says which items to pack for a trip type such as beach, city or camping. A script that takes a trip type and a number of days and prints one combined packing list with quantities scaled by the days for clothing items only. A sample rules file with invented items for at least 3 trip types. Please keep everything in this folder, use only the standard library, and do not connect to the network or look at any real calendar. If I give a trip type that is not in the file, print the list of known trip types and stop."
+ },
+ {
+  "id": "L08",
+  "kind": "long",
+  "text": "/conductor I am preparing for a certification exam and I need a study schedule that I will actually follow. Can you help me with three pieces. A list of 6 invented topics with a rough number of hours each. A script that takes my exam date and the number of hours I can study per weekday and prints a day by day plan spreading the topics until the exam, leaving the last two days free for review. A short explanation at the top of the script of how the hours are spread, in plain words. Keep everything in this folder, standard library only, and nothing should be fetched or sent. If the hours do not fit before the exam date, I want a clear message telling me by how many hours I am short rather than a plan that quietly overflows."
+ },
+ {
+  "id": "L09",
+  "kind": "long",
+  "text": "/conductor I run a tiny web app and I want help reading its log files without a big tool. The three things I would like are these. A sample log file in this folder with about 30 invented lines, each with a time, a status code and a path. A script that prints how many requests there were per status code and the 5 most requested paths. A comment block at the top of the script explaining the log line format it expects and what it does with lines it cannot parse. All of this should be offline, use only the standard library and stay in this folder. The sample data must be invented, with no real addresses or names, and I want malformed lines counted and reported at the end instead of crashing the script."
+ },
+ {
+  "id": "L10",
+  "kind": "long",
+  "text": "/conductor I have a folder of photos with awful names and I want to design a renamer before I ever run it on the real thing, so nothing here should touch real photos. Please do the following. Make a folder of 12 empty placeholder files with names like IMG_0042.jpg so I have something safe to test on. Write a script that proposes new names in the form of a date, a counter and the original extension, and only prints the proposed renames by default, changing nothing. Add a flag that actually performs the renames, and make the script refuse to overwrite an existing file. Keep it all inside this folder, standard library only, no network. Please also write down, at the top of the script, how I would undo a rename by hand if I changed my mind."
+ },
+ {
+  "id": "L11",
+  "kind": "long",
+  "text": "/conductor I want to sketch a one page personal website and I am not ready to publish anything, so please keep it purely local. There are three things I would like. A single HTML file with a header, a short about section with placeholder text, a list of 3 invented projects and a footer. A small separate CSS file that gives it a calm look with generous spacing and a readable font size, and that works on a narrow phone screen as well as a wide desktop one. A short note in a README explaining how to open the page from the folder and where to change the text. Keep everything in this folder, no external fonts or scripts, no tracking of any kind, and nothing deployed. I would rather have fewer lines that I understand than a clever layout I cannot edit."
+ },
+ {
+  "id": "L12",
+  "kind": "long",
+  "text": "/conductor I am tired of looking up unit conversions, so I want a tiny converter that I can trust. Here is what I need. A Python script that converts between a handful of units: kilometres and miles, kilograms and pounds, and Celsius and Fahrenheit, taking a number and two unit names on the command line. A set of at least 6 quick self checks inside the script, run with a flag, that compare the results to known values and print pass or fail for each. A usage section at the top listing the supported unit names. Keep everything in this folder, use only the standard library, and do not use the network. If I ask for a conversion it does not know, say which units it supports rather than printing a wrong number."
+ },
+ {
+  "id": "O01",
+  "kind": "open",
+  "text": "/conductor I have been going back and forth on whether to learn Rust or Go next, and I honestly cannot tell which one I want or which one I should want. Can you think it through with me?"
+ },
+ {
+  "id": "O02",
+  "kind": "open",
+  "text": "/conductor My weeks feel scattered and I end each Friday sure that I did nothing that mattered. I do not know what is wrong. Help me think this through."
+ },
+ {
+  "id": "O03",
+  "kind": "open",
+  "text": "/conductor I have a half formed idea about a monthly newsletter for local hikers, with trail conditions, a small map and one short story from the trail. I am not sure whether it is a real thing or just a nice thought. I am not asking you to build anything or to write anything for it. I would like to think out loud about whether this is worth doing, who it would be for, what would make it feel alive instead of a chore, and what I might be afraid of here. I have been circling it for about 3 months without telling anyone, partly because I do not want to be told it is a bad idea and partly because I do not want to be told it is a great idea and then feel I have to do it. Let us just think it through together before I decide anything."
+ },
+ {
+  "id": "O04",
+  "kind": "open",
+  "text": "/conductor Should I split my side project into two smaller apps or keep it as one? I keep changing my mind and I would like to think it through before I touch any code."
+ },
+ {
+  "id": "O05",
+  "kind": "open",
+  "text": "/conductor I keep putting off documenting my code. It is not laziness exactly, it is something else, and I would like to understand it. I am not looking for a template or a tool or a plan today. I want to think about why I avoid it, what it says about how I work, and what a version of documenting that I would not dread might look like. Part of the problem is that nobody has ever read what I wrote, so it feels like talking to an empty room. Another part is that I finish a feature and my brain is already on the next one. I have tried writing docs first and docs last and neither stuck. Let us think this through, slowly, and not jump to a fix."
+ },
+ {
+  "id": "O06",
+  "kind": "open",
+  "text": "/conductor I am trying to decide between spending money on a standing desk or on a better chair. I do not need a recommendation yet. I would like to think it through with you."
+ },
+ {
+  "id": "O07",
+  "kind": "open",
+  "text": "/conductor I want to get better at speaking in front of people but I do not know where to even start, or whether I should start. Help me think it through."
+ },
+ {
+  "id": "O08",
+  "kind": "open",
+  "text": "/conductor The weekly meeting on my team feels pointless and I would like to think about what could change, without deciding anything or writing anything yet."
+ }
+]

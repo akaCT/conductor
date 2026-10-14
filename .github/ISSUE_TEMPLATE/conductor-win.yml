@@ -1,26 +1,21 @@
-name: ✦ Share a Conductor win
-description: Show us the usage split. The best ones get featured on conductorskill.com.
-title: "Conductor cut my burn: "
+name: Share a Conductor usage split
+description: Share the usage split from a hand-back.
+title: "Conductor usage split: "
 labels: ["win"]
 body:
   - type: markdown
     attributes:
-      value: "Tell us what you handed /conductor and paste the usage-split receipt from the hand-back line below, that's the whole submission. Thanks for sharing; this is how the routing gets trusted."
+      value: "Tell us what you handed /conductor and paste the line that starts with Usage split: from its hand-back. That is the whole submission."
   - type: textarea
     id: objective
     attributes:
       label: What did you hand /conductor?
-      placeholder: "The objective, one or two lines, e.g. add pagination to the users API and cover it with tests"
+      placeholder: "The objective, 1 or 2 lines, e.g. add pagination to the users API and cover it with tests"
   - type: textarea
     id: receipt
     attributes:
-      label: Your usage-split receipt
-      placeholder: "Paste the hand-back line, e.g. Dispatched: 3 builder (sonnet), 2 scout (haiku), 1 critic (sonnet). Judgment stayed on opus."
-  - type: input
-    id: savings
-    attributes:
-      label: Rough savings (optional)
-      placeholder: "e.g. usually 60-80% less plan usage, or a specific number if you tracked it"
+      label: Your usage split
+      placeholder: "Paste the hand-back line, e.g. Usage split: Conductor on opus; 3 builders on sonnet, 1 scout on haiku, 2 critics on sonnet. Token counts were not measured."
   - type: input
     id: who
     attributes:

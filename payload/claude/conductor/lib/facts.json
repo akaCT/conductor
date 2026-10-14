@@ -1,0 +1,57 @@
+{
+  "facts": {
+    "codex_map_checked_on": "2026-10-14",
+    "floor_fable": "2.1.257",
+    "floor_haiku55": "2.1.293",
+    "floor_opus_pin": "2.1.280",
+    "floor_per_call_effort": "2.1.292",
+    "floor_sonnet_pin": "2.1.284",
+    "provider_block_vars": [
+      "ANTHROPIC_BASE_URL",
+      "CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST"
+    ],
+    "provider_vars": [
+      "CLAUDE_CODE_USE_BEDROCK",
+      "CLAUDE_CODE_USE_VERTEX",
+      "CLAUDE_CODE_USE_FOUNDRY",
+      "CLAUDE_CODE_USE_ANTHROPIC_AWS",
+      "CLAUDE_CODE_USE_MANTLE"
+    ],
+    "vendor_alias_table": {
+      "anthropic-aws": {
+        "haiku": "Haiku 4.5",
+        "opus": "not stated",
+        "sonnet": "Sonnet 4.6"
+      },
+      "bedrock": {
+        "haiku": "Haiku 4.5",
+        "opus": "not stated",
+        "sonnet": "Sonnet 4.5"
+      },
+      "foundry": {
+        "haiku": "Haiku 4.5",
+        "opus": "Opus 4.6",
+        "sonnet": "Sonnet 4.5"
+      },
+      "mantle": {
+        "haiku": "not stated",
+        "opus": "not stated",
+        "sonnet": "not stated"
+      },
+      "read_on": "2026-10-12",
+      "vertex": {
+        "haiku": "Haiku 4.5",
+        "opus": "not stated",
+        "sonnet": "Sonnet 4.5"
+      }
+    }
+  },
+  "report": {
+    "repo": "akaCT/conductor"
+  },
+  "update": {
+    "host": "raw.githubusercontent.com",
+    "path": "/akaCT/conductor/main/install.sh"
+  },
+  "version": "0.4.0"
+}
